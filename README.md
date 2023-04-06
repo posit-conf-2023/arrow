@@ -1,4 +1,4 @@
-WORKSHOP_TITLE
+Big Data with Arrow
 ================
 
 ### posit::conf 2023
