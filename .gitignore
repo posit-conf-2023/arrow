@@ -5,7 +5,5 @@
 
 /.quarto/
 _site/
-
 /data
-README.html
 .DS_Store

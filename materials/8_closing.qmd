@@ -1,0 +1,49 @@
+---
+footer: "[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)"
+logo: "images/logo.png"
+execute:
+  echo: true
+format:
+  revealjs: 
+    theme: default
+engine: knitr
+---
+
+# Thank You! {#goodbye-arrow}
+
+::: notes
+-   first time taught at posit::conf, thank you participants!
+-   TAs
+-   authors of materials we drew upon, especially Danielle Navarro
+-   Mine Cetinkaya-Rundel and Posit organizing team
+:::
+
+## Feedback
+
+<br>
+
+**Please complete the post-workshop survey** 🙏
+
+Data from the survey informs curriculum and format decisions for future conf workshops and we really appreciate you taking the time to provide it.
+
+<br>
+
+[posit.io/conf-workshop-survey]()
+
+## Course Materials
+
+<br>
+
+-   <https://github.com/posit-conf-2023/arrow>
+-   materials open-licensed: [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/)
+-   Please open an [Issue](https://github.com/posit-conf-2023/arrow/issues) with any glitches, gotchas or comments!
+
+## Grab a sticker!
+
+<br>
+
+![](images/logo.png){.absolute top="0" left="250" width="600" height="800"}
+
+::: notes
+grab a hex sticker before you go!
+:::

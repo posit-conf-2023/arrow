@@ -1,0 +1,230 @@
+---
+title: "Data Engineering with Arrow Exercises"
+execute:
+  echo: true
+  messages: false
+  warning: false
+---
+
+# Schemas
+
+```{r}
+#| label: load-packages
+library(arrow)
+library(dplyr)
+```
+
+```{r}
+#| label: open-dataset-seattle-csv
+seattle_csv <- open_dataset(
+  sources = here::here("data/seattle-library-checkouts.csv"),
+  format = "csv"
+)
+```
+
+::: {#exercise-schema .callout-tip}
+# Data Types & Controlling the Schema
+
+::: panel-tabset
+## Problem
+
+1.  The first few thousand rows of `ISBN` are blank in the Seattle Checkouts CSV file. Read in the Seattle Checkouts CSV file with `open_dataset()` and ensure the correct data type for `ISBN` is `<string>` instead of the `<null>` interpreted by Arrow.
+
+2.  Once you have a `Dataset` object with the metadata you are after, count the number of `Checkouts` by `CheckoutYear` and arrange the result by `CheckoutYear`.
+
+## Solution 1
+
+```{r}
+#| label: seattle-csv-schema-1
+#| cache: true
+seattle_csv <- open_dataset(
+  sources = here::here("data/seattle-library-checkouts.csv"),
+  format = "csv",
+  skip = 1,
+  schema(
+    UsageClass = utf8(),
+    CheckoutType = utf8(),
+    MaterialType = utf8(),
+    CheckoutYear = int64(),
+    CheckoutMonth = int64(),
+    Checkouts = int64(),
+    Title = utf8(),
+    ISBN = string(),
+    Creator = utf8(),
+    Subjects = utf8(),
+    Publisher = utf8(),
+    PublicationYear = utf8()
+  )
+)
+```
+
+or
+
+```{r}
+#| label: seattle-csv-schema-2
+seattle_csv <- open_dataset(
+  sources = here::here("data/seattle-library-checkouts.csv"),
+  format = "csv",
+  skip = 1,
+ schema(
+    UsageClass = utf8(),
+    CheckoutType = utf8(),
+    MaterialType = utf8(),
+    CheckoutYear = int64(),
+    CheckoutMonth = int64(),
+    Checkouts = int64(),
+    Title = utf8(),
+    ISBN = utf8(),
+    Creator = utf8(),
+    Subjects = utf8(),
+    Publisher = utf8(),
+    PublicationYear = utf8()
+  )
+)
+```
+
+## Solution 2
+
+The number of `Checkouts` by `CheckoutYear` arranged by `CheckoutYear`:
+
+```{r}
+#| label: seattle-csv-dplyr-1
+#| cache: true
+seattle_csv |>
+  group_by(CheckoutYear) |>
+  summarise(sum(Checkouts)) |>
+  arrange(CheckoutYear) |> 
+  collect()
+```
+
+or
+
+```{r}
+#| label: seattle-csv-dplyr-2
+#| cache: true
+seattle_csv |> 
+  count(CheckoutYear, wt = Checkouts) |> 
+  arrange(CheckoutYear) |> 
+  collect()
+```
+
+Querying 42 million rows of data stored in a CSV on disk in \~10 seconds, not too bad.
+:::
+:::
+
+# Parquet
+
+```{r}
+#| label: write-dataset-seattle-parquet
+#| eval: false
+seattle_parquet <- here::here("data/seattle-library-checkouts-parquet")
+
+seattle_csv |>
+  write_dataset(path = seattle_parquet,
+                format = "parquet")
+```
+
+::: {#exercise-dataset .callout-tip}
+# Parquet
+
+::: panel-tabset
+## Problems
+
+1.  Re-run the query counting the number of `Checkouts` by `CheckoutYear` and arranging the result by `CheckoutYear`, this time using the Seattle Checkout data saved to disk as a single, Parquet file. Did you notice a difference in compute time?
+
+## Solution 1
+
+```{r}
+#| label: seattle-parquet-dplyr-1
+#| eval: false
+open_dataset(seattle_parquet, 
+             format = "parquet") |>
+  group_by(CheckoutYear) |>
+  summarise(sum(Checkouts)) |>
+  arrange(CheckoutYear) |> 
+  collect()
+```
+
+or
+
+```{r}
+#| label: seattle-parquet-dplyr-2
+#| eval: false
+open_dataset(seattle_parquet, 
+             format = "parquet") |>
+  count(CheckoutYear, wt = Checkouts) |> 
+  arrange(CheckoutYear) |> 
+  collect()
+```
+
+A *much* faster compute time for the query when the on-disk data is stored in the Parquet format.
+:::
+:::
+
+# Partitioning
+
+```{r}
+#| label: write-dataset-seattle-partitioned
+#| eval: false
+seattle_parquet_part <- here::here("data/seattle-library-checkouts")
+
+seattle_csv |>
+  group_by(CheckoutYear) |>
+  write_dataset(path = seattle_parquet_part,
+                format = "parquet")
+```
+
+::: {#exercise-dataset .callout-tip}
+# Partitioning
+
+::: panel-tabset
+## Problems
+
+1.  Let's write the Seattle Checkout CSV data to a multi-file dataset just one more time! This time, write the data partitioned by `CheckoutType` as Parquet files.
+
+2.  Now compare the compute time between our Parquet data partitioned by `CheckoutYear` and our Parquet data partitioned by `CheckoutType` with a query of the total number of checkouts in September of 2019. Did you find a difference in compute time?
+
+## Solution 1
+
+Writing the data:
+
+```{r}
+#| label: write-dataset-seattle-checkouttype
+#| eval: false
+seattle_checkouttype <- here::here("data/seattle-library-checkouts-type")
+
+seattle_csv |>
+  group_by(CheckoutType) |>
+  write_dataset(path = seattle_checkouttype,
+                format = "parquet")
+```
+
+## Solution 2
+
+Total number of Checkouts in September of 2019 using partitioned Parquet data by `CheckoutType`:
+
+```{r}
+#| label: seattle-partitioned-other-dplyr
+open_dataset(here::here("data/seattle-library-checkouts-type")) |> 
+  filter(CheckoutYear == 2019, CheckoutMonth == 9) |> 
+  group_by(CheckoutYear) |> 
+  summarise(TotalCheckouts = sum(Checkouts)) |>
+  collect() |> 
+  system.time()
+```
+
+Total number of Checkouts in September of 2019 using partitioned Parquet data by `CheckoutYear` and `CheckoutMonth`:
+
+```{r}
+#| label: seattle-partitioned-partitioned-filter-dplyr
+open_dataset(here::here("data/seattle-library-checkouts")) |> 
+  filter(CheckoutYear == 2019, CheckoutMonth == 9) |> 
+  group_by(CheckoutYear) |> 
+  summarise(TotalCheckouts = sum(Checkouts)) |>
+  collect() |> 
+  system.time()
+```
+
+\~10x faster compute time because the `filter()` call is based on the partitions.
+:::
+:::

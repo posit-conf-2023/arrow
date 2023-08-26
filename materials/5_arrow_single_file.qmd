@@ -1,0 +1,206 @@
+---
+footer: "[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)"
+logo: "images/logo.png"
+execute:
+  echo: true
+format:
+  revealjs: 
+    theme: default
+engine: knitr
+---
+
+# Arrow in R: In-Memory Workflows {#single-file-api}
+
+```{r}
+#| label: load-libraries
+#| message: false
+#| echo: false
+
+library(arrow)
+library(dplyr)
+```
+
+## arrow 📦
+
+![](images/arrow-read-write-updated.png)
+
+## Arrow & Single Files
+
+<br>
+
+`library(arrow)`
+
+-   `read_parquet()`
+-   `read_csv_arrow()`
+-   `read_feather()`
+-   `read_json_arrow()`
+
+**Value**: `tibble` (the default), or an Arrow Table if `as_data_frame = FALSE` --- both *in-memory*
+
+## Read a Parquet File (`tibble`)
+
+```{r}
+#| label: parquet-read-df
+#| message: false
+library(arrow)
+
+parquet_file <- here::here("data/nyc-taxi/year=2019/month=9/part-0.parquet")
+
+nyc_taxi_2019_09_df <- read_parquet(parquet_file)
+nyc_taxi_2019_09_df
+```
+
+## Read a Parquet File (`Table`)
+
+```{r}
+#| label: parquet-read-table
+nyc_taxi_2019_09_table <- read_parquet(parquet_file, as_data_frame = FALSE)
+nyc_taxi_2019_09_table
+```
+
+## Data frames in R
+
+![](images/tabular-structures-r.png)
+
+## Arrow Tables in R
+
+![](images/tabular-structures-arrow-1.png)
+
+::: notes
+Arrow Tables are collections of chunked arrays
+:::
+
+## `data.frame` \<-\> `Table` \<-\> `Tibble`
+
+```{r}
+#| label: table-to-df
+#| eval: false
+library(dplyr)
+
+mtcars_df <- mtcars
+
+mtcars_table <- arrow_table(mtcars_df)
+
+mtcars_tibble <- as_tibble(mtcars_table)
+```
+
+<br>
+
+-   `data.frame` & `tibble` are in R memory
+-   `Table` is in Arrow memory
+
+## Table \| Dataset: A `dplyr` pipeline
+
+```{r}
+#| label: arrow-table-dplyr
+parquet_file |>
+  read_parquet(as_data_frame = FALSE) |>
+  group_by(vendor_name) |>
+  summarise(all_trips = n(),
+            shared_trips = sum(passenger_count > 1, na.rm = TRUE)) |>
+  mutate(pct_shared = shared_trips / all_trips * 100) |>
+  collect()
+```
+
+<br>
+
+Functions available in Arrow dplyr queries: <https://arrow.apache.org/docs/r/reference/acero.html>
+
+::: notes
+All the same capabilities as you practiced with Arrow `Dataset`
+:::
+
+## Arrow for Efficient In-Memory Processing
+
+```{r}
+#| label: arrow-efficient-df-nrow
+parquet_file |>
+  read_parquet() |>
+  nrow()
+```
+
+<br>
+
+```{r}
+#| label: arrow-efficient-df-dplyr
+#| code-line-numbers: "|2,8"
+parquet_file |>
+  read_parquet() |>
+  group_by(vendor_name) |>
+  summarise(all_trips = n(),
+            shared_trips = sum(passenger_count > 1, na.rm = TRUE)) |>
+  mutate(pct_shared = shared_trips / all_trips * 100) |>
+  collect() |>
+  system.time()
+```
+
+## Arrow for Efficient In-Memory Processing
+
+```{r}
+#| label: arrow-efficient-table-nrow
+parquet_file |>
+  read_parquet(as_data_frame = FALSE) |>
+  nrow()
+```
+
+<br>
+
+```{r}
+#| label: arrow-efficient-table-dplyr
+#| code-line-numbers: "|2,8"
+parquet_file |>
+  read_parquet(as_data_frame = FALSE) |>
+  group_by(vendor_name) |>
+  summarise(all_trips = n(),
+            shared_trips = sum(passenger_count > 1, na.rm = TRUE)) |>
+  mutate(pct_shared = shared_trips / all_trips * 100) |>
+  collect() |>
+  system.time()
+```
+
+## Read a Parquet File Selectively
+
+```{r}
+#| label: parquet-read-col-select
+parquet_file |>
+  read_parquet(
+    col_select = c("vendor_name", "passenger_count"),
+    as_data_frame = FALSE
+  )
+```
+
+## Selective Reads Are Faster
+
+```{r}
+#| label: parquet-read-col-select-dplyr
+#| code-line-numbers: "|2,3,11"
+parquet_file |>
+  read_parquet(
+    col_select = c("vendor_name", "passenger_count"),
+    as_data_frame = FALSE
+  ) |> 
+  group_by(vendor_name) |>
+  summarise(all_trips = n(),
+            shared_trips = sum(passenger_count > 1, na.rm = TRUE)) |>
+  mutate(pct_shared = shared_trips / all_trips * 100) |>
+  collect() |>
+  system.time()
+```
+
+## Arrow for Improving Those Sluggish Worklows
+
+-   a "drop-in" for many `dplyr` workflows (`Table` or `Dataset`)
+-   works when your tabular data get too big for your RAM (`Dataset`)
+-   provides tools for re-engineering data storage for better performance (`arrow::write_dataset()`)
+
+::: notes
+Lot's of ways to speed up sluggish workflows e.g. [writing more performant tidyverse code](https://www.tidyverse.org/blog/2023/04/performant-packages/), use other data frame libraries like data.table or polars, use duckDB or other databases, Spark + splarklyr ... However, Arrow offers some attractive features for tackling this challenge, especially for dplyr users.
+:::
+
+## Arrow Table or Dataset?
+
+![](images/2022-09-decision-map.png){.absolute left="200" height="550"}
+
+::: {style="font-size: 60%; margin-top: 575px; margin-left: 250px;"}
+<https://francoismichonneau.net/2022/10/import-big-csv/>
+:::

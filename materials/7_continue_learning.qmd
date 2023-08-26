@@ -1,0 +1,58 @@
+---
+footer: "[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)"
+logo: "images/logo.png"
+execute:
+  echo: true
+format:
+  revealjs: 
+    theme: default
+engine: knitr
+---
+
+# Continue Your Arrow Learning Journey {#more-learning}
+
+## Docs
+
+::: {style="font-size: 80%;"}
+<https://arrow.apache.org/docs/r/>
+:::
+
+![](images/docs.png)
+
+## Cookbook
+
+<https://arrow.apache.org/cookbook/r/>
+
+![](images/cookbook.png)
+
+## Cheatsheet
+
+::: {style="font-size: 60%;"}
+<https://github.com/apache/arrow/blob/master/r/cheatsheet/arrow-cheatsheet.pdf>
+:::
+
+![](https://arrow.apache.org/img/20220427-arrow-r-cheatsheet-thumbnail.png){.absolute top="125" width="700"}
+
+## Awesome Arrow
+
+<https://github.com/thisisnic/awesome-arrow-r>
+
+![](images/awesomearrow.png)
+
+# How to Get Help
+
+## GitHub Issues
+
+<https://github.com/apache/arrow/issues>
+
+![](images/issues.png)
+
+## Community
+
+<https://arrow.apache.org/community/>
+
+![](images/mailing-list.png){.absolute width="600"}
+
+::: notes
+also Stack Overflow, Posit Community
+:::
