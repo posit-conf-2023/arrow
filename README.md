@@ -1,80 +1,48 @@
-Big Data with Arrow
-================
+# Big Data in R with Arrow
 
-### posit::conf 2023
+**posit::conf 2023**
 
-by INSTRUCTOR_NAME
+by Steph Hazlitt & Nic Crane
 
------
+------------------------------------------------------------------------
 
-INSTRUCTIONS FOR INSTRUCTORS: Please insert information about your
-workshop below. Then, add workshop content in the materials folder and
-link to each session’s materials from the schedule below. You are
-welcomed to add more rows to the schedule. We just ask that you take
-breaks at the specified times. Once you are done adding information, you
-can remove these instructions from the README.
+:spiral_calendar: September 17th, 2023\
+:alarm_clock: 09:00 - 17:00\
+:hotel: ROOM TBD\
+:writing_hand: [pos.it/conf](http://pos.it/conf)
 
-Alternatively, you can completely redo the organization of this repo 
-as a Quarto website or some other format you prefer to host your workshop
-materials. The only requirement is that your workshop materials are hosted 
-here.
+------------------------------------------------------------------------
 
------
+### Workshop Website
 
-:spiral_calendar: September 17 and 18, 2023  
-:alarm_clock:     09:00 - 17:00  
-:hotel:           ROOM TBD  
-:writing_hand:    [pos.it/conf](http://pos.it/conf)
+This repository contains materials for the 1-day **Big Data in R with Arrow** workshop at Posit::conf(2023). See <https://posit-conf-2023.github.io/arrow/> for rendered workshop materials, including slides and exercises.
 
------
+### Workshop Overview
 
-## Overview
+Data analysis pipelines with larger-than-memory data are becoming more and more commonplace. In this workshop you will learn how to use Apache Arrow, a multi-language toolbox for working with larger-than-memory tabular data, to create seamless "big" data analysis pipelines with R.
 
-ADD ABSTRACT
+The workshop will focus on using the the arrow R package---a mature R interface to Apache Arrow---to process larger-than-memory files and multi-file data sets with arrow using familiar dplyr syntax. You'll learn to create and use interoperable data file formats like Parquet for efficient data storage and access, with data stored both on disk and in the cloud, and also how to exercise fine control over data types to avoid common large data pipeline problems. This workshop will provide a foundation for using Arrow, giving you access to a powerful suite of tools for performant analysis of larger-than-memory data in R.
 
-**This workshop is for you if you...*
+*This course is for you if you:*
 
-ADD THREE POINTS
+-   want to learn how to work with tabular data that is too large to fit in memory using existing R and tidyverse syntax implemented in Arrow
+-   want to learn about Parquet and other file formats that are powerful alternatives to CSV files
+-   want to learn how to engineer your tabular data storage for more performant access and analysis with Apache Arrow
 
-## Prework
+### Instructors
 
-ADD INFORMATION YOU WANT LEARNERS TO HAVE / STEPS THEY WANT THEM TO
-COMPLETE PRIOR TO THE WORKSHOP. THIS COULD BE A LINK TO A THREAD ON
-RSTUDIO COMMUNITY, PACKAGE INSTALL INSTRUCTIONS, HOW TO GET AN
-RSTUDIO.CLOUD ACCOUNT, ETC.
+**Steph Hazlitt** is a data scientist, researcher and R enthusiast. She has spent the better part of her career wrangling data with R and supporting people and teams in learning, creating and sharing data science-related products and open source software.
 
-## Schedule
+**Nic Crane** is a software engineer with a background in data science, and has a lot of enthusiasm for open source and learning and teaching all things R. Nic is part of the core team who maintain the Arrow R package.
 
-### Day 1
+### Acknowledgements
 
-| Time          | Activity         |
-| :------------ | :--------------- |
-| 09:00 - 10:30 | Session 1        |
-| 10:30 - 11:00 | *Coffee break*   |
-| 11:00 - 12:30 | Session 2        |
-| 12:30 - 13:30 | *Lunch break*    |
-| 13:30 - 15:00 | Session 3        |
-| 15:00 - 15:30 | *Coffee break*   |
-| 15:30 - 17:00 | Session 4        |
+Some of the `Big Data in R with Arrow` workshop materials draw on other open-licensed teaching content which we would like to acknowledge:
 
-### Day 2
+-   [useR!2022 virtual Larger-Than-Memory Data Workflows with Apache Arrow tutorial](https://github.com/djnavarro/arrow-user2022) authored by Danielle Navarro
+-   [R for Data Science (2e)](https://r4ds.hadley.nz/) written by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund---with thanks to Danielle Navarro who contributed the initial version of the [Arrow chapter](https://r4ds.hadley.nz/arrow)
+-   [How to use Arrow to work with large CSV files? blog post](https://francoismichonneau.net/2022/10/import-big-csv/) by François Michonneau, which introduces the single vs multi-file API models for learning/teaching Arrow
 
-| Time          | Activity         |
-| :------------ | :--------------- |
-| 09:00 - 10:30 | Session 1        |
-| 10:30 - 11:00 | *Coffee break*   |
-| 11:00 - 12:30 | Session 2        |
-| 12:30 - 13:30 | *Lunch break*    |
-| 13:30 - 15:00 | Session 3        |
-| 15:00 - 15:30 | *Coffee break*   |
-| 15:30 - 17:00 | Session 4        |
+------------------------------------------------------------------------
 
-## Instructor
-
-ADD INSTRUCTOR BIO
-
------
-
-![](https://i.creativecommons.org/l/by/4.0/88x31.png) This work is
-licensed under a [Creative Commons Attribution 4.0 International
-License](https://creativecommons.org/licenses/by/4.0/).
+![](https://i.creativecommons.org/l/by/4.0/88x31.png) This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
