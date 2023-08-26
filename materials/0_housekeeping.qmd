@@ -1,0 +1,93 @@
+---
+title: "Big Data in R with Arrow"
+subtitle: "posit::conf(2023) 1-day workshop"
+author: "Nic Crane + Steph Hazlitt"
+footer: "[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)"
+logo: "images/logo.png"
+execute:
+  echo: true
+format:
+  revealjs: 
+    theme: default
+engine: knitr
+---
+
+# Welcome 👋
+
+## 
+
+### WiFi `r fontawesome::fa("wifi")`
+
+-   Username: `tbd`
+-   Password: `tbd`
+
+<br>
+
+### Workshop `r fontawesome::fa("github")`
+
+-   Website: [posit-conf-2023.github.io/arrow](https://posit-conf-2023.github.io/arrow)
+-   GitHub: [github.com/posit-conf-2023/arrow](https://github.com/posit-conf-2023/arrow)
+
+## Housekeeping
+
+<br>
+
+### Gender Neutral Bathrooms `r fontawesome::fa("person-half-dress")`
+
+-   insert location
+
+### Specialty Rooms `r fontawesome::fa("volume-low")`
+
+-   Quiet room <location>
+-   Lactation room <location>
+
+## Code of Conduct
+
+<br>
+
+### `r fontawesome::fa("link")` [posit.co/code-of-conduct/](https://posit.co/conference-archive/code-of-conduct/)
+
+-   Contact any posit::conf staff member, identifiable by their staff t-shirt shirt, or visit the conference general information desk.
+-   Send a message to conf\@posit.com; event organizers will respond promptly.
+-   Call +1-844-448-1212; this phone number will be monitored for the duration of the event.
+
+## Meet Your Teaching Team `r fontawesome::fa("people-group")`
+
+<br>
+
+### Co-Instructors
+
+-   Nic Crane
+-   Steph Hazlitt
+
+### Teaching Assistants
+
+-   Ian Lyttle
+-   Jonathan Keane
+
+## Meet Eachother `r fontawesome::fa("handshake")`
+
+<br>
+
+-   When did you use R for the first time?
+-   What is your favorite R package?
+-   Which package hex sticker would you like to find the most during posit::conf(2023)?
+
+## Getting Help Today `r fontawesome::fa("flag")`
+
+<br>
+
+[GREEN]{style="color:green;"} sticky note: I am OK / I am done
+
+[PINK]{style="color:pink;"} sticky note: I need support / I am working
+
+<br>
+
+`r fontawesome::fa("hand")` You can ask questions at any time during the workshop
+
+## We Assume
+
+-   You know `r fontawesome::fa("r-project")`
+-   You are familiar with the [`dplyr`](https://dplyr.tidyverse.org/) package for data manipulation `r fontawesome::fa("screwdriver-wrench")`
+-   You have data in your life that is too large to fit into memory or sluggish in memory
+-   You want to learn how to engineer your data storage for more performant access and analysis

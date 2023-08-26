@@ -1,0 +1,95 @@
+---
+footer: "[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)"
+logo: "images/logo.png"
+execute:
+  echo: true
+format:
+  revealjs: 
+    theme: default
+engine: knitr
+---
+
+# Wrapping Up: 'Big' Data Analysis Pipelines with R {#wrapping-up}
+
+## Arrow
+
+-   efficiently read + filter + join + summarise 1.15 billion rows
+
+```{r}
+#| label: need-arrow-example
+library(arrow)
+library(dplyr)
+library(janitor)
+
+nyc_taxi_zones <- read_csv_arrow(here::here("data/taxi_zone_lookup.csv"),
+                                 as_data_frame = FALSE) |>
+  clean_names()
+  
+airport_zones <- nyc_taxi_zones |>
+  filter(str_detect(zone, "Airport")) |>
+  pull(location_id)
+
+dropoff_zones <- nyc_taxi_zones |>
+  select(dropoff_location_id = location_id,
+         dropoff_zone = zone)
+
+airport_pickups <- open_dataset(here::here("data/nyc-taxi")) |>
+  filter(pickup_location_id %in% airport_zones) |>
+  select(
+    matches("datetime"),
+    matches("location_id")
+  ) |>
+  left_join(dropoff_zones) |>
+  count(dropoff_zone) |>
+  arrange(desc(n)) |>
+  collect()
+```
+
+## R
+
+-   read + wrangle spatial data + 🤩 graphics
+
+```{r}
+#| label: need-r-example
+library(sf)
+library(ggplot2)
+library(ggrepel)
+library(stringr)
+library(scales)
+
+map <- read_sf(here::here("data/taxi_zones/taxi_zones.shp")) |>
+  clean_names() |>
+  left_join(airport_pickups,
+            by = c("zone" = "dropoff_zone")) |>
+  arrange(desc(n))
+
+arrow_r_together <- ggplot(data = map, aes(fill = n)) +
+  geom_sf(size = .1) +
+  scale_fill_distiller(
+    name = "Number of trips",
+    labels = label_comma(),
+    palette = "Reds",
+    direction = 1
+  ) +
+  geom_label_repel(
+    stat = "sf_coordinates",
+    data = map |>
+      mutate(zone_label = case_when(
+        str_detect(zone, "Airport") ~ zone,
+        str_detect(zone, "Times") ~ zone,
+        .default = ""
+      )),
+    mapping = aes(label = zone_label, geometry = geometry),
+    max.overlaps = 60,
+    label.padding = .3,
+    fill = "white"
+  ) +
+  theme_void()
+```
+
+## Arrow + R Together: {arrow}
+
+```{r}
+#| label: arrow_r_together
+arrow_r_together
+```

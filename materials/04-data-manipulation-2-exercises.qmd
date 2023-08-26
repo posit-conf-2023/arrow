@@ -1,0 +1,99 @@
+---
+title: "Data Manipulation Part 2 - Exercises"
+execute:
+  echo: true
+  messages: false
+  warning: false
+---
+
+```{r}
+#| label: load-packages
+library(arrow)
+library(dplyr)
+library(duckdb)
+```
+
+```{r}
+#| label: open-dataset
+nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
+nyc_taxi
+```
+
+::: {#exercise-joins .callout-tip}
+# Joins
+
+::: panel-tabset
+## Problem
+
+1.  How many taxi pickups were recorded in 2019 from the three major airports covered by the NYC Taxis data set (JFK, LaGuardia, Newark)?
+
+## Solution 1
+
+```{r}
+#| label: airport-pickup
+pickup_location <- read_csv_arrow(here::here("data/taxi_zone_lookup.csv"))
+
+pickup_location <- pickup_location %>%
+  select(
+    pickup_location_id = LocationID,
+    borough = Borough,
+    pickup_zone = Zone
+  ) %>%
+  arrow_table(schema = schema(
+    pickup_location_id = int64(),
+    borough = utf8(),
+    pickup_zone = utf8()
+  ))
+
+nyc_taxi |>
+  filter(year == 2019) |>
+  left_join(pickup_location) |>
+  filter(str_detect(pickup_zone, "Airport")) |>
+  count(pickup_zone) |>
+  collect()
+```
+:::
+:::
+
+::: {#exercise-window .callout-tip}
+# Window functions
+
+::: panel-tabset
+## Problem
+
+1.  How many trips in 2019 had a longer than average distance for that year?
+
+## Solution 1
+
+### Option 1 - via DuckDB
+
+```{r}
+#| label: window-duckdb
+#| eval: false
+nyc_taxi %>%
+  filter(year == 2019) %>%
+  to_duckdb() %>%
+  mutate(mean_distance = mean(trip_distance)) %>%
+  to_arrow() %>%
+  filter(trip_distance < mean_distance) %>%
+  count() %>%
+  collect()
+```
+
+### Option 2 - via a join
+
+```{r}
+#| label: window-join
+nyc_taxi %>%
+  filter(year == 2019) %>%
+  left_join(
+    nyc_taxi %>%
+      group_by(year) %>%
+      summarise(mean_distance = mean(trip_distance))
+    ) %>%
+  filter(trip_distance < mean_distance) %>%
+  count() %>%
+  collect()
+```
+:::
+:::

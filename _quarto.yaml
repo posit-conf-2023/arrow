@@ -1,0 +1,58 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+    - "!materials/slides.qmd"
+
+website:
+  title: "Big Data in R with Arrow"
+  navbar:
+    background: dark
+    logo: "materials/images/logo.png"
+    left:
+      - href: index.qmd
+        text: Home
+      - href: setup.qmd
+        text: Packages & Data
+      - text: Slides
+        menu:
+        - text: "Welcome 👋"
+          href: materials/0_housekeeping.qmd
+        - text: "Hello Arrow"
+          href: materials/1_intro.qmd
+        - text: "Manipulating Data with Arrow (Part I)"
+          href: materials/2_data_manip1.qmd
+        - text: "Data Engineering with Arrow"
+          href: materials/3_eng_storage.qmd
+        - text: "Manipulating Data with Arrow (Part II)"
+          href: materials/4_data_manip2.qmd
+        - text: "Arrow In-Memory Workflows"
+          href: materials/5_arrow_single_file.qmd
+        - text: "Wrapping Up: Arrow & R Together"
+          href: materials/6_wrapping_up.qmd
+        - text: "Getting Help & More Resources"
+          href: materials/7_continue_learning.qmd
+        - text: "Thank you 👋"
+          href: materials/8_closing.qmd
+      - text: Exercises
+        menu:
+        - text: "Hello Arrow Exercises"
+          href: materials/01-hello-arrow-exercises.qmd
+        - text: "Data Manipulation Part I Exercises"
+          href: materials/02-data-manipulation-1-exercises.qmd
+        - text: "Data Engineering Exercises"
+          href: materials/03-data-engineering-exercises.qmd
+        - text: "Data Manipulation Part II Exercises"
+          href: materials/04-data-manipulation-2-exercises.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    link-external-newwindow: true
+
+editor: visual
+engine: knitr
+execute:
+  freeze: auto

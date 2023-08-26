@@ -1,0 +1,226 @@
+---
+footer: "[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)"
+logo: "images/logo.png"
+execute:
+  echo: true
+format:
+  revealjs: 
+    theme: default
+engine: knitr
+---
+
+# Hello Arrow {#hello-arrow}
+
+## Slido Poll: Arrow
+
+<br>
+
+Have you used or experimented with Arrow before today?
+
+-   A little
+-   A lot
+-   Not yet
+-   Not yet, but I have read about it!
+
+## Hello Arrow<br>Demo
+
+<br>
+
+![](images/logo.png){.absolute top="0" left="250" width="600" height="800"}
+
+## Some "Big" Data
+
+![](images/nyc-taxi-homepage.png){.absolute left="200" width="600"}
+
+::: {style="font-size: 60%; margin-top: 550px; margin-left: 200px;"}
+<https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page>
+:::
+
+## NYC Taxi Data
+
+-   *big* NYC Taxi data set (\~40GBs on disk)
+
+```{r}
+#| label: get-big-data
+#| eval: false
+open_dataset("s3://voltrondata-labs-datasets/nyc-taxi") |>
+  filter(year %in% 2012:2021) |>
+  write_dataset(here::here("data/nyc-taxi"), partitioning = c("year", "month"))
+```
+
+-   *tiny* NYC Taxi data set (\<1GB on disk)
+
+```{r}
+#| label: get-small-data
+#| eval: false
+download.file(url = "https://github.com/posit-conf-2023/arrow/releases/download/v0.1/nyc-taxi-tiny.zip",
+              destfile = here::here("data/nyc-taxi-tiny.zip"))
+
+unzip(
+  zipfile = here::here("data/nyc-taxi-tiny.zip"),
+  exdir = here::here("data/")
+)
+```
+
+## posit Cloud ☁️ 
+
+<br>
+
+[posit.io/arrow-conf23-cloud](https://posit.cloud/spaces/397258/content/all?sort=name_asc)
+
+<br>
+
+Once you have joined, navigate to Projects on the top menu.
+
+## Larger-Than-Memory Data
+
+<br>
+
+`arrow::open_dataset()`
+
+<br>
+
+`sources`: point to a string path or directory of data files (on disk or in a GCS/S3 bucket) and return an `Arrow Dataset`, then use `dplyr` methods to query it.
+
+::: notes
+Arrow Datasets allow you to query against data that has been split across multiple files. This sharding of data may indicate partitioning, which can accelerate queries that only touch some partitions (files). Call open_dataset() to point to a directory of data files and return a Dataset, then use dplyr methods to query it.
+:::
+
+<!-- ## NYC Taxi Dataset: A {dplyr} pipeline -->
+
+<!-- <br> -->
+
+<!-- -   use `filter()` to restrict data to 2014:2017 -->
+<!-- -   use `group_by()` to aggregate by `year` -->
+<!-- -   use `summarise()` to count total and shared trips -->
+<!-- -   use `mutate()` to compute percent of trips shared -->
+<!-- -   use `collect()` to trigger execution & pull result into R -->
+
+## NYC Taxi Dataset
+
+```{r}
+#| label: first-open_dataset
+library(arrow)
+
+nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
+nyc_taxi
+```
+
+## NYC Taxi Dataset
+
+```{r}
+#| label: first-taxi-data
+nyc_taxi |> 
+  nrow()
+```
+
+<br>
+
+1.15 billion rows 🤯
+
+## NYC Taxi Dataset: A {dplyr} pipeline
+
+```{r}
+#| label: first-collect
+library(dplyr)
+
+nyc_taxi |>
+  filter(year %in% 2014:2017) |>
+  group_by(year) |>
+  summarise(
+    all_trips = n(),
+    shared_trips = sum(passenger_count > 1, na.rm = TRUE)
+  ) |>
+  mutate(pct_shared = shared_trips / all_trips * 100) |>
+  collect()
+```
+
+## NYC Taxi Dataset: A {dplyr} pipeline
+
+```{r}
+#| label: first-timing
+#| code-line-numbers: "11,12"
+library(dplyr)
+
+nyc_taxi |>
+  filter(year %in% 2014:2017) |>
+  group_by(year) |>
+  summarise(
+    all_trips = n(),
+    shared_trips = sum(passenger_count > 1, na.rm = TRUE)
+  ) |>
+  mutate(pct_shared = shared_trips / all_trips * 100) |>
+  collect() |> 
+  system.time()
+```
+
+## Your Turn
+
+1.  Calculate total number of rides for each month in 2019
+
+2.  About how long did this query of 1.15 million rows take?
+
+➡️ [Hello Arrow Exercises Page](01-hello-arrow-exercises.html)
+
+## What is Apache Arrow?
+
+::: columns
+::: {.column width="50%"}
+> A multi-language toolbox for accelerated data interchange and in-memory processing
+:::
+
+::: {.column width="50%"}
+> Arrow is designed to both improve the performance of analytical algorithms and the efficiency of moving data from one system or programming language to another
+:::
+:::
+
+::: {style="font-size: 70%;"}
+<https://arrow.apache.org/overview/>
+:::
+
+## Apache Arrow Specification
+
+In-memory columnar format: a standardized, language-agnostic specification for representing structured, table-like data sets in-memory.
+
+<br>
+
+![](images/arrow-rectangle.png){.absolute left="200"}
+
+## A Multi-Language Toolbox
+
+![](images/arrow-libraries-structure.png)
+
+## Accelerated Data Interchange
+
+![](images/data-interchange-with-arrow.png)
+
+## Accelerated In-Memory Processing
+
+Arrow's Columnar Format is Fast
+
+![](images/columnar-fast.png){.absolute top="120" left="200" height="600"}
+
+::: notes
+The contiguous columnar layout enables vectorization using the latest SIMD (Single Instruction, Multiple Data) operations included in modern processors.
+:::
+
+## arrow 📦
+
+<br>
+
+![](images/arrow-r-pkg.png){.absolute top="0" left="300" width="700" height="900"}
+
+## arrow 📦
+
+![](images/arrow-read-write-updated.png)
+
+## Today
+
+-   Module 1: Larger-than-memory data manipulation with Arrow---Part I
+-   Module 2: Data engineering with Arrow
+-   Module 3: Larger-than-memory data manipulation with Arrow---Part II
+-   Module 4: In-memory workflows in R with Arrow
+
+<br>
+
+We will also talk about Arrow data types, file formats, controlling schemas & more fun stuff along the way!

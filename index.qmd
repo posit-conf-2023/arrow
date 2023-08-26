@@ -1,21 +1,18 @@
-# Big Data in R with Arrow
-
-**posit::conf 2023**
+---
+title: Big Data in R with Arrow
+subtitle: 1-Day Posit::Conf (2023) Workshop
+---
 
 by Steph Hazlitt & Nic Crane
 
 ------------------------------------------------------------------------
 
-:spiral_calendar: September 17th, 2023\
-:alarm_clock: 09:00 - 17:00\
-:hotel: ROOM TBD\
-:writing_hand: [pos.it/conf](http://pos.it/conf)
+🗓️ September 17th, 2023\
+⏰ 09:00 - 17:00\
+🏨 ROOM TBD\
+✍️ [pos.it/conf](http://pos.it/conf)
 
 ------------------------------------------------------------------------
-
-### Workshop Website
-
-This repository contains materials for the 1-day **Big Data in R with Arrow** workshop at Posit::conf(2023). See <https://posit-conf-2023.github.io/arrow/> for rendered workshop materials, including slides and exercises.
 
 ### Workshop Overview
 
@@ -28,6 +25,26 @@ The workshop will focus on using the the arrow R package---a mature R interface 
 -   want to learn how to work with tabular data that is too large to fit in memory using existing R and tidyverse syntax implemented in Arrow
 -   want to learn about Parquet and other file formats that are powerful alternatives to CSV files
 -   want to learn how to engineer your tabular data storage for more performant access and analysis with Apache Arrow
+
+### Workshop Prework
+
+Detailed instructions for software requirements and data sources are covered in [Packages & Data](setup.qmd).
+
+Please try your very best to arrive on the workshop day ready with the required software & packages installed and the data downloaded on to your laptop.
+
+### Workshop Schedule
+
+| Time          | Activity                                                |
+|:--------------|:--------------------------------------------------------|
+| 09:00 - 10:30 | Session 1: Hello Arrow + Data Manipulation with Arrow I |
+| 10:30 - 11:00 | *Coffee break*                                          |
+| 11:00 - 12:30 | Session 2: Data Engineering with Arrow                  |
+| 12:30 - 13:30 | *Lunch break*                                           |
+| 13:30 - 15:00 | Session 3: Data Manipulation with Arrow II              |
+| 15:00 - 15:30 | *Coffee break*                                          |
+| 15:30 - 17:00 | Session 4: Arrow In-Memory Workflows + Wrapping Up      |
+
+*"This schedule is more what you would call a 'guideline' than an actual schedule"* --- Barbossa, Pirates of the Caribbean
 
 ### Instructors
 

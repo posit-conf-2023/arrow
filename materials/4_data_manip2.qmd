@@ -1,0 +1,283 @@
+---
+footer: "[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)"
+logo: "images/logo.png"
+execute:
+  echo: true
+format:
+  revealjs: 
+    theme: default
+engine: knitr
+---
+
+# Data Manipulation---Part 2 {#data-manip-2}
+
+```{r}
+#| label: setup-data-manip-2
+#| message: false
+#| echo: false
+
+library(arrow)
+library(dplyr)
+library(duckdb)
+library(lubridate)
+library(stringr)
+library(tictoc)
+
+nyc_taxi <- open_dataset(here::here("data/nyc-taxi/"))
+```
+
+# Joins
+
+## Joining a reference table
+
+```{r}
+#| label: ref
+
+vendors <- tibble::tibble(
+  code = c("VTS", "CMT", "DDS"),
+  full_name = c(
+    "Verifone Transportation Systems",
+    "Creative Mobile Technologies",
+    "Digital Dispatch Systems"
+  )
+)
+
+nyc_taxi %>%
+  left_join(vendors, by = c("vendor_name" = "code")) %>%
+  select(vendor_name, full_name, pickup_datetime) %>%
+  head(3) %>%
+  collect()
+```
+
+## Traps for the unwary
+
+```{r}
+#| label: lookup
+
+nyc_taxi_zones <-
+  read_csv_arrow(here::here("data/taxi_zone_lookup.csv")) %>%
+  select(location_id = LocationID,
+         borough = Borough)
+
+nyc_taxi_zones
+```
+
+## Why didn't this work?
+
+```{r}
+#| label: join-fail
+#| error: true
+
+nyc_taxi |>
+  left_join(nyc_taxi_zones, by = c("pickup_location_id" = "location_id")) |>
+  collect()
+```
+
+## Schema for the `nyc_taxi` table
+
+```{r}
+#| label: get-schema
+
+nyc_taxi$schema
+```
+
+## Schema for the `nyc_taxi_zones` table
+
+```{r}
+#| label: schema-2
+
+arrow_table(nyc_taxi_zones)$schema
+```
+
+-   `pickup_location_id` is int64 in the `nyc_taxi` table
+-   `location_id` is int32 in the `nyc_taxi_zones` table
+
+## Take control of the schema
+
+```{r}
+#| label: zones-schema
+
+nyc_taxi_zones_arrow <- arrow_table(
+  nyc_taxi_zones, 
+  schema = schema(location_id = int64(), borough = utf8())
+)
+```
+
+-   `schema()` takes variable name / types as input
+-   {arrow} has various "type" functions: `int64()`, `utf8()`, `boolean()`, `date32()` etc
+
+## Take control of the schema
+
+```{r}
+#| label: zones-schema-2
+
+nyc_taxi_zones_arrow <- arrow_table(
+  nyc_taxi_zones, 
+  schema = schema(location_id = int64(), borough = utf8())
+)
+nyc_taxi_zones_arrow$schema
+```
+
+## Prepare the auxiliary tables
+
+```{r}
+#| label: auxillary
+
+pickup <- nyc_taxi_zones_arrow |>
+  select(pickup_location_id = location_id,
+         pickup_borough = borough)
+
+dropoff <- nyc_taxi_zones_arrow |>
+  select(dropoff_location_id = location_id,
+         dropoff_borough = borough)
+```
+
+-   Join separately for the pickup and dropoff zones
+
+```{=html}
+<!-- 
+    * simple example of a join
+    * show a join with unmatched schemas
+    * making the schemas match
+-->
+```
+## Join and cross-tabulate
+
+```{r}
+#| label: join-crosstab
+
+library(tictoc)
+
+tic()
+borough_counts <- nyc_taxi |> 
+  left_join(pickup) |>
+  left_join(dropoff) |>
+  count(pickup_borough, dropoff_borough) |>
+  arrange(desc(n)) |>
+  collect()
+toc()
+```
+
+<br>
+
+2-3 minutes to join twice and cross-tabulate on non-partition variables, with 1.15 billion rows of data 🙂
+
+## The results
+
+```{r}
+#| label: borough-counts
+
+borough_counts
+```
+
+## Your Turn
+
+1.  How many taxi pickups were recorded in 2019 from the three major airports covered by the NYC Taxis data set (JFK, LaGuardia, Newark)?
+
+➡️ [Data Manipulation Part I Exercises Page](04-data-manipulation-2-exercises.html)
+
+# Window functions
+
+## What are window functions?
+
+-   calculations within groups
+
+## Grouped summaries
+
+```{r}
+#| label: grouped-summaries
+
+fare_by_year <- nyc_taxi %>%
+  filter(year %in% 2021:2022) %>%
+  select(year, fare_amount)
+
+fare_by_year %>%
+  group_by(year) %>%
+  summarise(mean_fare = mean(fare_amount)) %>% 
+  collect()
+```
+
+## Window functions
+
+```{r}
+#| label: window-fail
+#| error: true
+
+fare_by_year %>%
+  group_by(year) %>%
+  mutate(mean_fare = mean(fare_amount)) %>% 
+  collect()
+```
+
+## Window functions - via joins
+
+```{r}
+#| label: window-join
+#| error: true
+
+fare_by_year %>%
+  left_join(
+    nyc_taxi %>%
+      group_by(year) %>%
+      summarise(mean_fare = mean(fare_amount))
+  ) %>% 
+  arrange(desc(fare_amount)) %>%
+  collect()
+```
+
+## Window functions - via duckdb
+
+```{r}
+#| label: window-duckdb
+#| eval: false
+
+fare_by_year %>%
+  group_by(year) %>%
+  to_duckdb() %>%
+  mutate(mean_fare = mean(fare_amount)) %>% 
+  to_arrow() %>%
+  arrange(desc(fare_amount)) %>%
+  collect()
+```
+
+## Your Turn
+
+1.  How many trips in 2019 had a longer than average distance for that year?
+
+➡️ [Data Manipulation Part I Exercises Page](04-data-manipulation-2-exercises.html)
+
+## Custom functions
+
+-   Not officially supported
+-   Works for simple operations but not with bindings
+
+## Custom functions - supported
+
+```{r}
+#| label: custom-1
+
+millions <- function(x) x / 10^6
+
+nyc_taxi |>
+  group_by(vendor_name) %>%
+  summarise(trips = n()) %>%
+  mutate(
+    trips_mil = millions(trips)
+  ) %>%
+  collect()
+```
+
+## Custom functions - not supported
+
+```{r}
+#| label: custom-fail
+#| error: true
+
+morning <- function(x) ifelse(lubridate::am(x), "morning", "afternoon")
+nyc_taxi |>
+  group_by(morning(pickup_datetime)) %>%
+  count() %>%
+  collect()
+```
+
+-   recommendation: write code as dplyr expressions instead of functions, or look up docs on user-defined functions for datasets (see `?register_scalar_function`)

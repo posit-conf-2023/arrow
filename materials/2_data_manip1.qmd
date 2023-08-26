@@ -1,0 +1,351 @@
+---
+footer: "[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)"
+logo: "images/logo.png"
+execute:
+  echo: true
+format:
+  revealjs: 
+    theme: default
+engine: knitr
+---
+
+# Data Manipulation---Part 1 {#data-manip-1}
+
+```{r}
+#| label: setup-data-manip
+#| message: false
+#| echo: false
+
+library(arrow)
+library(dplyr)
+library(duckdb)
+library(lubridate)
+library(stringr)
+```
+
+## dplyr API in arrow
+
+![](images/dplyr-backend.png)
+
+```{=html}
+<!-- 
+Here, we talk about the equivalents between dbplyr and dplyr
+-->
+```
+## The dataset
+
+```{r}
+#| label: setup-data-manip1-2
+
+library(arrow)
+
+nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
+nyc_taxi
+```
+
+## How many trips had more than 1 passenger?
+
+```{r}
+#| label: shared-rides
+
+library(dplyr)
+
+shared_rides <- nyc_taxi |>
+  filter(year %in% 2017:2021) |> 
+  group_by(year) |>
+  summarize(
+    all_trips = n(),
+    shared_trips = sum(passenger_count > 1, na.rm = TRUE)
+  ) |>
+  mutate(pct_shared = shared_trips / all_trips * 100) 
+
+class(shared_rides)
+```
+
+## arrow dplyr queries
+
+```{r}
+#| label: print-shared-rides
+
+shared_rides
+```
+
+## arrow dplyr queries
+
+-   query has been constructed but not evaluated
+-   nothing has been pulled into memory
+
+## To `collect()` or to `compute()`?
+
+-   `compute()` evaluates the query, in-memory output stays in Arrow
+-   `collect()` evaluates the query, in-memory output returns to R
+
+## compute
+
+```{r}
+#| label: compute
+
+compute(shared_rides)
+```
+
+## collect
+
+```{r}
+#| label: collect
+
+collect(shared_rides)
+```
+
+## calling `nrow()` to see how much data
+
+```{r}
+#| label: nrow
+
+nyc_taxi %>%
+  filter(year %in% 2017:2021) %>%
+  nrow()
+```
+
+```{=html}
+<!-- 
+* if we have transformations which don't have multiple stages of computation, we can call nrow on the query easily like this
+-->
+```
+## calling `nrow()` doesn't work with intermediate step
+
+```{r}
+#| label: nrow-intermed
+
+nyc_taxi %>%
+  filter(year %in% 2017:2021) %>%
+  group_by(year) |>
+  summarize(
+    all_trips = n(),
+    shared_trips = sum(passenger_count > 1, na.rm = TRUE)
+  ) |>
+  mutate(pct_shared = shared_trips / all_trips * 100) %>%
+  nrow()
+```
+
+## use `compute()` to execute intermediate steps
+
+```{r,`code-line-numbers`="9"}
+#| label: compute-intermed
+
+nyc_taxi %>%
+  filter(year %in% 2017:2021) %>%
+  group_by(year) |>
+  summarize(
+    all_trips = n(),
+    shared_trips = sum(passenger_count > 1, na.rm = TRUE)
+  ) |>
+  mutate(pct_shared = shared_trips / all_trips * 100) %>%
+  compute() %>%
+  nrow()
+```
+
+## Your Turn
+
+1.  How many taxi fares in the dataset had a total amount greater than \$100?
+2.  How many distinct pickup locations are in the dataset?
+
+➡️ [Data Manipulation Part I Exercises Page](02-data-manipulation-1-exercises.html)
+
+## use `glimpse()` to preview datasets
+
+```{r}
+#| label: glimpse
+#| eval: false
+
+nyc_taxi %>%
+  glimpse()
+```
+
+## use `head()` then `collect()` to preview output for large queries
+
+How much were fares in GBP (£)?
+
+```{r}
+#| label: fares-gbp
+
+fares_pounds <- nyc_taxi %>%
+  filter(year %in% 2012:2015) %>%
+  mutate(
+    fare_amount_pounds = fare_amount * 0.79
+  ) %>%
+  select(fare_amount, fare_amount_pounds)
+```
+
+How many rows?
+
+```{r}
+#| label: fares-pounds
+
+fares_pounds %>%
+  nrow()
+```
+
+## use `head()` then `collect()` to preview output
+
+```{r}
+#| label: head-collect
+
+fares_pounds %>%
+  head() %>%
+  collect()
+```
+
+## use `across()` to transform data in multiple columns
+
+```{r}
+#| label: across
+#| eval: false
+
+taxis_gbp <- nyc_taxi %>%
+  mutate(across(ends_with("amount"), list(pounds = ~.x * 0.79)))
+
+taxis_gbp
+```
+
+## use `across()` to transform data in multiple columns
+
+```{r}
+#| label: across-2
+#| eval: false
+
+taxis_gbp %>%
+  select(contains("amount")) %>%
+  head() %>%
+  collect()
+```
+
+# dplyr API in arrow - what is and isn't implemented?
+
+## example - `slice()`
+
+First three trips in the dataset in 2021 where distance \> 100 miles
+
+```{r}
+#| label: no-slice
+#| error: true
+
+long_rides_2021 <- nyc_taxi %>%
+  filter(year == 2021 & trip_distance > 100) %>%
+  select(pickup_datetime, year, trip_distance)
+
+long_rides_2021 %>%
+  slice(1:3)
+```
+
+## head to the docs!
+
+```{r}
+#| label: get-help
+#| eval: false
+
+?arrow-dplyr
+```
+
+## A different function
+
+```{r}
+#| label: slice-max
+
+long_rides_2021 %>%
+  slice_max(n = 3, order_by = trip_distance, with_ties = FALSE) %>%
+  collect()
+```
+
+## Or call `collect()` first
+
+```{r}
+#| label: collect-first
+
+long_rides_2021 %>%
+  collect() %>%
+  slice(1:3)
+```
+
+## tidyr functions - pivot
+
+```{r}
+#| label: pivot-fails
+#| error: true
+
+library(tidyr)
+
+nyc_taxi %>% 
+  group_by(vendor_name) %>%
+  summarise(max_fare = max(fare_amount), min_fare = min(fare_amount)) %>%
+  pivot_longer(!vendor_name, names_to = "metric") %>% 
+  collect()
+```
+
+## duckdb
+
+![](images/dplyr-arrow-duckdb.png)
+
+## tidyr functions - pivot with duckdb!
+
+```{r}
+#| label: pivot-duckdb
+#| eval: false
+
+library(duckdb)
+
+nyc_taxi %>% 
+  group_by(vendor_name) %>%
+  summarise(max_fare = max(fare_amount), min_fare = min(fare_amount)) %>%
+  to_duckdb() %>% # send data to duckdb
+  pivot_longer(!vendor_name, names_to = "metric") %>% 
+  to_arrow() %>% # return data back to arrow
+  collect()
+```
+
+# Using functions inside verbs
+
+## Using functions inside verbs
+
+-   lots of the lubridate and stringr APIs supported!
+-   base R and others too - always good to check the docs
+
+## Morning vs afternoon with namespacing
+
+```{r, `code-line-numbers`="2"}
+#| label: namespacing
+
+nyc_taxi %>%
+  group_by(time_of_day = ifelse(lubridate::am(pickup_datetime), "morning", "afternoon")) %>%
+  count() %>%
+  collect()
+```
+
+## Morning vs afternoon - without namespacing
+
+```{r, `code-line-numbers`="2"}
+#| label: no-namespacing
+
+library(lubridate)
+
+nyc_taxi %>%
+  group_by(time_of_day = ifelse(am(pickup_datetime), "morning", "afternoon")) %>%
+  count() %>%
+  collect()
+```
+
+## Head to the docs again to see what's implemented!
+
+```{r}
+#| label: get-help-funcs
+#| eval: false
+
+?arrow-dplyr
+```
+
+## Your Turn
+
+1.  Use the `dplyr::filter()` and `stringr::str_ends()` to return a subset of the data which is a) from September 2020, and b) the value in `vendor_name` ends with the letter "S".
+2.  Try to use the `stringr` function `str_replace_na()` to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead. What happens, and why?
+3.  Bonus question: see if you can find a different way of completing the task in question 2.
+
+➡️ [Data Manipulation Part I Exercises Page](02-data-manipulation-1-exercises.html)
