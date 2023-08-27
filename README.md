@@ -21,7 +21,7 @@ This repository contains materials for the 1-day **Big Data in R with Arrow** wo
 
 Data analysis pipelines with larger-than-memory data are becoming more and more commonplace. In this workshop you will learn how to use Apache Arrow, a multi-language toolbox for working with larger-than-memory tabular data, to create seamless "big" data analysis pipelines with R.
 
-The workshop will focus on using the the arrow R package---a mature R interface to Apache Arrow---to process larger-than-memory files and multi-file data sets with arrow using familiar dplyr syntax. You'll learn to create and use interoperable data file formats like Parquet for efficient data storage and access, with data stored both on disk and in the cloud, and also how to exercise fine control over data types to avoid common large data pipeline problems. This workshop will provide a foundation for using Arrow, giving you access to a powerful suite of tools for performant analysis of larger-than-memory data in R.
+The workshop will focus on using the the arrow R package&mdash;a mature R interface to Apache Arrow&mdash;to process larger-than-memory files and multi-file data sets with arrow using familiar dplyr syntax. You'll learn to create and use interoperable data file formats like Parquet for efficient data storage and access, with data stored both on disk and in the cloud, and also how to exercise fine control over data types to avoid common large data pipeline problems. This workshop will provide a foundation for using Arrow, giving you access to a powerful suite of tools for performant analysis of larger-than-memory data in R.
 
 *This course is for you if you:*
 
