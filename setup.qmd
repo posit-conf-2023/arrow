@@ -230,14 +230,14 @@ We've created a "tiny" NYC Taxi data set which contains only 1 in 1000 rows from
 #| message: false
 #| eval: false
 download.file(
-  url = "https://github.com/posit-conf-2023/arrow/releases/download/wkshop-data/nyc-taxi-tiny.zip",
+  url = "https://github.com/posit-conf-2023/arrow/releases/download/v0.1.0/nyc-taxi-tiny.zip",
   destfile = here::here("data/nyc-taxi-tiny.zip")
 )
 
 # Extract the partitioned parquet files from the zip folder:
 unzip(
   zipfile = here::here("data/nyc-taxi-tiny.zip"), 
-  exdir = here::here("data/nyc-taxi-tiny")
+  exdir = here::here("data/")
 )
 ```
 
@@ -251,7 +251,7 @@ We've created a "tiny" Seattle Checkouts by Title data set which contains only 1
 #| eval: false
 
 download.file(
-  url = "https://github.com/posit-conf-2023/arrow/releases/download/wkshop-data/seattle-library-checkouts-tiny.csv",
+  url = "https://github.com/posit-conf-2023/arrow/releases/download/v0.1.0/seattle-library-checkouts-tiny.csv",
   destfile = here::here("data/seattle-library-checkouts-tiny.csv")
 )
 ```
@@ -266,12 +266,12 @@ You can download the two NYC Taxi trip ancillary data files directly from this r
 #| label: get-taxi-shape-again
 #| eval: false
 download.file(
-  url = "https://github.com/posit-conf-2023/arrow/releases/download/wkshop-data/taxi_zone_lookup.csv",
+  url = "https://github.com/posit-conf-2023/arrow/releases/download/v0.1.0/taxi_zone_lookup.csv",
   destfile = here::here("data/taxi_zone_lookup.csv")
 )
 
 download.file(
-  url = "https://github.com/posit-conf-2023/arrow/releases/download/wkshop-data/taxi_zones.zip",
+  url = "https://github.com/posit-conf-2023/arrow/releases/download/v0.1.0/taxi_zones.zip",
   destfile = here::here("data/taxi_zones.zip")
 )
 
