@@ -508,14 +508,14 @@
     "href": "materials/1_intro.html#nyc-taxi-dataset-a-dplyr-pipeline-1",
     "title": "Big Data in R with Arrow",
     "section": "NYC Taxi Dataset: A {dplyr} pipeline",
-    "text": "NYC Taxi Dataset: A {dplyr} pipeline\n\nlibrary(dplyr)\n\nnyc_taxi |&gt;\n  filter(year %in% 2014:2017) |&gt;\n  group_by(year) |&gt;\n  summarise(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt; \n  system.time()\n\n   user  system elapsed \n 17.722   1.446   2.585"
+    "text": "NYC Taxi Dataset: A {dplyr} pipeline\n\nlibrary(dplyr)\n\nnyc_taxi |&gt;\n  filter(year %in% 2014:2017) |&gt;\n  group_by(year) |&gt;\n  summarise(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt; \n  system.time()\n\n   user  system elapsed \n 17.720   1.473   2.599"
   },
   {
     "objectID": "materials/1_intro.html#your-turn",
     "href": "materials/1_intro.html#your-turn",
     "title": "Big Data in R with Arrow",
     "section": "Your Turn",
-    "text": "Your Turn\n\nCalculate total number of rides for each month in 2019\nAbout how long did this query of 1.15 million rows take?\n\n➡️ Hello Arrow Exercises Page"
+    "text": "Your Turn\n\nCalculate total number of rides for each month in 2019\nAbout how long did this query of 1.15 billion rows take?\n\n➡️ Hello Arrow Exercises Page"
   },
   {
     "objectID": "materials/1_intro.html#what-is-apache-arrow",
