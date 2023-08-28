@@ -1,1 +1,1 @@
-Sitemap: https://posit-conf-2023.github.io/arrow/sitemap.xml
+Sitemap: https://github.com/posit-conf-2023/arrow/sitemap.xml

@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/index.html</loc>
-    <lastmod>2023-08-27T16:00:12.697Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/setup.html</loc>
+    <lastmod>2023-08-28T00:24:33.421Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/01-hello-arrow-exercises.html</loc>
-    <lastmod>2023-08-27T16:00:13.275Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/7_continue_learning.html</loc>
+    <lastmod>2023-08-28T00:24:32.001Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/02-data-manipulation-1-exercises.html</loc>
-    <lastmod>2023-08-27T16:00:13.822Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/5_arrow_single_file.html</loc>
+    <lastmod>2023-08-28T00:24:31.233Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/03-data-engineering-exercises.html</loc>
-    <lastmod>2023-08-27T16:00:14.464Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/3_eng_storage.html</loc>
+    <lastmod>2023-08-28T00:24:30.021Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/04-data-manipulation-2-exercises.html</loc>
-    <lastmod>2023-08-27T16:00:15.011Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/1_intro.html</loc>
+    <lastmod>2023-08-28T00:24:28.557Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/0_housekeeping.html</loc>
-    <lastmod>2023-08-27T16:00:15.348Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/04-data-manipulation-2-exercises.html</loc>
+    <lastmod>2023-08-28T00:24:26.449Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/1_intro.html</loc>
-    <lastmod>2023-08-27T16:00:15.884Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/02-data-manipulation-1-exercises.html</loc>
+    <lastmod>2023-08-28T00:24:25.065Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/2_data_manip1.html</loc>
-    <lastmod>2023-08-27T16:00:16.479Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/index.html</loc>
+    <lastmod>2023-08-28T00:24:23.425Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/3_eng_storage.html</loc>
-    <lastmod>2023-08-27T16:00:17.163Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/01-hello-arrow-exercises.html</loc>
+    <lastmod>2023-08-28T00:24:24.417Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/4_data_manip2.html</loc>
-    <lastmod>2023-08-27T16:00:17.666Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/03-data-engineering-exercises.html</loc>
+    <lastmod>2023-08-28T00:24:25.837Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/5_arrow_single_file.html</loc>
-    <lastmod>2023-08-27T16:00:18.215Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/0_housekeeping.html</loc>
+    <lastmod>2023-08-28T00:24:26.889Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/6_wrapping_up.html</loc>
-    <lastmod>2023-08-27T16:00:18.659Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/2_data_manip1.html</loc>
+    <lastmod>2023-08-28T00:24:29.209Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/7_continue_learning.html</loc>
-    <lastmod>2023-08-27T16:00:18.923Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/4_data_manip2.html</loc>
+    <lastmod>2023-08-28T00:24:30.605Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/materials/8_closing.html</loc>
-    <lastmod>2023-08-27T16:00:19.189Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/6_wrapping_up.html</loc>
+    <lastmod>2023-08-28T00:24:31.733Z</lastmod>
   </url>
   <url>
-    <loc>https://posit-conf-2023.github.io/arrow/setup.html</loc>
-    <lastmod>2023-08-27T16:00:19.849Z</lastmod>
+    <loc>https://github.com/posit-conf-2023/arrow/materials/8_closing.html</loc>
+    <lastmod>2023-08-28T00:24:32.281Z</lastmod>
   </url>
 </urlset>
