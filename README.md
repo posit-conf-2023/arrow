@@ -40,7 +40,7 @@ The workshop will focus on using the the arrow R package&mdash;a mature R interf
 Some of the `Big Data in R with Arrow` workshop materials draw on other open-licensed teaching content which we would like to acknowledge:
 
 -   [useR!2022 virtual Larger-Than-Memory Data Workflows with Apache Arrow tutorial](https://github.com/djnavarro/arrow-user2022) authored by Danielle Navarro
--   [R for Data Science (2e)](https://r4ds.hadley.nz/) written by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund---with thanks to Danielle Navarro who contributed the initial version of the [Arrow chapter](https://r4ds.hadley.nz/arrow)
+-   [R for Data Science (2e)](https://r4ds.hadley.nz/) written by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund&mdash;with thanks to Danielle Navarro who contributed the initial version of the [Arrow chapter](https://r4ds.hadley.nz/arrow)
 -   [How to use Arrow to work with large CSV files? blog post](https://francoismichonneau.net/2022/10/import-big-csv/) by François Michonneau, which introduces the single vs multi-file API models for learning/teaching Arrow
 
 ------------------------------------------------------------------------
