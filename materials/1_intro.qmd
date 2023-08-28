@@ -62,7 +62,7 @@ unzip(
 )
 ```
 
-## posit Cloud ☁️ 
+## posit Cloud ☁️
 
 <br>
 
@@ -91,9 +91,13 @@ Arrow Datasets allow you to query against data that has been split across multip
 <!-- <br> -->
 
 <!-- -   use `filter()` to restrict data to 2014:2017 -->
+
 <!-- -   use `group_by()` to aggregate by `year` -->
+
 <!-- -   use `summarise()` to count total and shared trips -->
+
 <!-- -   use `mutate()` to compute percent of trips shared -->
+
 <!-- -   use `collect()` to trigger execution & pull result into R -->
 
 ## NYC Taxi Dataset
@@ -158,7 +162,7 @@ nyc_taxi |>
 
 1.  Calculate total number of rides for each month in 2019
 
-2.  About how long did this query of 1.15 million rows take?
+2.  About how long did this query of 1.15 billion rows take?
 
 ➡️ [Hello Arrow Exercises Page](01-hello-arrow-exercises.html)
 
