@@ -19,7 +19,7 @@ To install the required core packages for the day, run the following:
 #| message: false
 #| eval: false
 install.packages(c(
-  "arrow", "dplyr", "duckdb", "dbplyr", "stringr", "lubridate", "tictoc"
+  "here", "arrow", "dplyr", "duckdb", "dbplyr", "stringr", "lubridate", "tictoc"
 ))
 ```
 
@@ -28,6 +28,7 @@ And to load them:
 ```{r}
 #| label: load-core-packages
 #| message: false
+library(here)
 library(arrow)
 library(dplyr)
 library(duckdb)
@@ -85,6 +86,7 @@ After installing arrow, run the following code:
 #| message: false
 #| eval: false
 library(arrow)
+library(dplyr)
 
 data_path <- here::here("data/nyc-taxi") # Or set your own preferred path
 
