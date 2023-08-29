@@ -19,7 +19,7 @@ To install the required core packages for the day, run the following:
 #| message: false
 #| eval: false
 install.packages(c(
-  "arrow", "dplyr", "duckdb", "dbplyr", "stringr", "lubridate", "tictoc"
+  "here", "arrow", "dplyr", "duckdb", "dbplyr", "stringr", "lubridate", "tictoc"
 ))
 ```
 
@@ -28,6 +28,7 @@ And to load them:
 ```{r}
 #| label: load-core-packages
 #| message: false
+library(here)
 library(arrow)
 library(dplyr)
 library(duckdb)
@@ -64,9 +65,9 @@ library(janitor)
 
 During the 1-day workshop, you will need the following data sets:
 
-1.  *NYC Yellow Taxi Trip Record Data*: Partitioned parquet files released as open data from the [NYC Taxi & Limousine Commission (TLC)](https://www.nyc.gov/site/tlc/about/raw-data.page) with a pre-tidied subset (\~40GB) downloaded from an AWS S3 bucket
-2.  *Seattle Public Library Checkouts by Title*: A single CSV file (9GB) from the [Seattle Open Data portal](https://data.seattle.gov/Community/Checkouts-by-Title/tmmm-ytt6) downloaded from an AWS S3 bucket
-3.  *Taxi Zone Lookup CSV Table & Taxi Zone Shapefile*: two NYC Taxi trip ancillary data files from the [TLC open platform](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) downloaded directly from this repository
+1.  *NYC Yellow Taxi Trip Record Data*: Partitioned parquet files released as open data from the [NYC Taxi & Limousine Commission (TLC)](https://www.nyc.gov/site/tlc/about/raw-data.page) with a pre-tidied subset (\~40GB) downloaded with either `arrow` or via https from an AWS S3 bucket
+2.  *Seattle Public Library Checkouts by Title*: A single CSV file (9GB) from the [Seattle Open Data portal](https://data.seattle.gov/Community/Checkouts-by-Title/tmmm-ytt6) downloaded via https from an AWS S3 bucket
+3.  *Taxi Zone Lookup CSV Table & Taxi Zone Shapefile*: two NYC Taxi trip ancillary data files from the [TLC open platform](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) downloaded via https directly from this repository
 
 ## Larger-Than-Memory Data Option
 
@@ -85,6 +86,7 @@ After installing arrow, run the following code:
 #| message: false
 #| eval: false
 library(arrow)
+library(dplyr)
 
 data_path <- here::here("data/nyc-taxi") # Or set your own preferred path
 
@@ -115,7 +117,7 @@ If you get an error message, your download may have been interrupted at some poi
 
 If you have a slower internet connection or are further away from the data S3 bucket location, it's probably going to be simpler to download the data file-by-file. Or, if you had any interruptions to your download process in the previous step, you can either try instead with this method, or delete the files which weren't downloaded properly, and use this method to just download the files you need.
 
-We've created a script for you which downloads the data one file at a time. The script also checks for previously downloaded data, so if you encounter problems downloading any files, just delete the partially downloaded file and run again---the script will only download files which are missing.
+We've created a script for you which downloads the data one file at a time via https. The script also checks for previously downloaded data, so if you encounter problems downloading any files, just delete the partially downloaded file and run again---the script will only download files which are missing.
 
 ```{r}
 #| label: download-taxi-curl
@@ -205,15 +207,14 @@ If you get an error message, your download may have been interrupted at some poi
 
 ### 2. Seattle Checkouts by Title Data
 
-This is the data we will use to explore some data storage and engineering options. It's a good sized, single CSV file---*9GB* on-disk in total, which can be downloaded via https:
+This is the data we will use to explore some data storage and engineering options. It's a good sized, single CSV file---*9GB* on-disk in total, which can be downloaded from the an AWS S3 bucket via https:
 
 ```{r}
 #| label: get-seattle-csv
 #| eval: false
-curl::multi_download(
-  "https://r4ds.s3.us-west-2.amazonaws.com/seattle-library-checkouts.csv",
-  here::here("data/seattle-library-checkouts.csv"),
-  resume = TRUE
+download.file(
+  url = "https://r4ds.s3.us-west-2.amazonaws.com/seattle-library-checkouts.csv",
+  destfile = here::here("data/seattle-library-checkouts.csv")
 )
 ```
 
@@ -223,7 +224,7 @@ If you don't have time or disk space to download the larger-than-memory data set
 
 ### 1. Tiny NYC Taxi Data
 
-We've created a "tiny" NYC Taxi data set which contains only 1 in 1000 rows from the original data set. So instead of working with 1.15 billion rows of data and about 40GB of files, the tiny taxi data set is 1.15 million rows and about 50MB of files. You can download the tiny NYC Taxi data directly from this repo:
+We've created a "tiny" NYC Taxi data set which contains only 1 in 1000 rows from the original data set. So instead of working with 1.15 billion rows of data and about 40GB of files, the tiny taxi data set is 1.15 million rows and about 50MB of files. You can download the tiny NYC Taxi data directly from this repo via https:
 
 ```{r}
 #| label: download-tiny-taxi
@@ -243,13 +244,12 @@ unzip(
 
 ### 2. Tiny Seattle Checkouts by Title Data
 
-We've created a "tiny" Seattle Checkouts by Title data set which contains only 1 in 100 rows from the original data set. So instead of working with \~41 million rows of data in a 9GB file, the tiny Seattle checkouts data set is \~410 thousand rows and in an 90MB file. You can download the tiny Seattle Checkouts by Title data directly from this repo:
+We've created a "tiny" Seattle Checkouts by Title data set which contains only 1 in 100 rows from the original data set. So instead of working with \~41 million rows of data in a 9GB file, the tiny Seattle checkouts data set is \~410 thousand rows and in an 90MB file. You can download the tiny Seattle Checkouts by Title data directly from this repo via https:
 
 ```{r}
 #| label: download-tiny-seattle
 #| message: false
 #| eval: false
-
 download.file(
   url = "https://github.com/posit-conf-2023/arrow/releases/download/v0.1.0/seattle-library-checkouts-tiny.csv",
   destfile = here::here("data/seattle-library-checkouts-tiny.csv")
@@ -260,7 +260,7 @@ download.file(
 
 ### 3. Taxi Zone Lookup CSV Table & Taxi Zone Shapefile
 
-You can download the two NYC Taxi trip ancillary data files directly from this repo:
+You can download the two NYC Taxi trip ancillary data files directly from this repo via https:
 
 ```{r}
 #| label: get-taxi-shape-again
