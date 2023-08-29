@@ -59,7 +59,7 @@ There are lots of big data/columnar formats (not all supported by Arrow we are o
 
 ![](images/arrow-read-write-updated.png)
 
-## Slido Poll: Formats
+## Poll: Formats
 
 <br>
 
@@ -329,7 +329,7 @@ Dividing data into smaller pieces, making it more easily accessible and manageab
 also called multi-files or sometimes shards
 :::
 
-## Slido Poll: Partitioning?
+## Poll: Partitioning?
 
 Have you partitioned your data or used partitioned data before today?
 
