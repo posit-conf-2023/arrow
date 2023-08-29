@@ -46,48 +46,52 @@ library(arrow)
 
 parquet_file <- here::here("data/nyc-taxi/year=2019/month=9/part-0.parquet")
 
-nyc_taxi_2019_09_df <- read_parquet(parquet_file)
-nyc_taxi_2019_09_df
+taxi_df <- read_parquet(parquet_file)
+taxi_df
 ```
 
 ## Read a Parquet File (`Table`)
 
 ```{r}
 #| label: parquet-read-table
-nyc_taxi_2019_09_table <- read_parquet(parquet_file, as_data_frame = FALSE)
-nyc_taxi_2019_09_table
+taxi_table <- read_parquet(parquet_file, as_data_frame = FALSE)
+taxi_table
 ```
 
-## Data frames in R
-
-![](images/tabular-structures-r.png)
-
-## Arrow Tables in R
-
-![](images/tabular-structures-arrow-1.png)
-
-::: notes
-Arrow Tables are collections of chunked arrays
-:::
-
-## `data.frame` \<-\> `Table` \<-\> `Tibble`
+## `data.frame` \<-\> `Table`
 
 ```{r}
 #| label: table-to-df
 #| eval: false
 library(dplyr)
 
-mtcars_df <- mtcars
+#change a df to a table
+arrow_table(taxi_df)
 
-mtcars_table <- arrow_table(mtcars_df)
+#change a table to a df
+taxi_table |> collect()
 
-mtcars_tibble <- as_tibble(mtcars_table)
+as.data.frame(taxi_table)
+
+as_tibble(taxi_table)
 ```
 
 <br>
 
 -   `data.frame` & `tibble` are in R memory
 -   `Table` is in Arrow memory
+
+## Data frames
+
+![](images/tabular-structures-r.png)
+
+## Arrow Tables
+
+![](images/tabular-structures-arrow-1.png)
+
+::: notes
+Arrow Tables are collections of chunked arrays
+:::
 
 ## Table \| Dataset: A `dplyr` pipeline
 
@@ -187,6 +191,14 @@ parquet_file |>
   system.time()
 ```
 
+## Arrow Table or Dataset?
+
+![](images/2022-09-decision-map.png){.absolute left="200" height="550"}
+
+::: {style="font-size: 60%; margin-top: 575px; margin-left: 250px;"}
+<https://francoismichonneau.net/2022/10/import-big-csv/>
+:::
+
 ## Arrow for Improving Those Sluggish Worklows
 
 -   a "drop-in" for many `dplyr` workflows (`Table` or `Dataset`)
@@ -197,10 +209,4 @@ parquet_file |>
 Lot's of ways to speed up sluggish workflows e.g. [writing more performant tidyverse code](https://www.tidyverse.org/blog/2023/04/performant-packages/), use other data frame libraries like data.table or polars, use duckDB or other databases, Spark + splarklyr ... However, Arrow offers some attractive features for tackling this challenge, especially for dplyr users.
 :::
 
-## Arrow Table or Dataset?
 
-![](images/2022-09-decision-map.png){.absolute left="200" height="550"}
-
-::: {style="font-size: 60%; margin-top: 575px; margin-left: 250px;"}
-<https://francoismichonneau.net/2022/10/import-big-csv/>
-:::
