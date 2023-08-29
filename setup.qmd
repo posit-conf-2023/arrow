@@ -38,7 +38,7 @@ library(lubridate)
 library(tictoc)
 ```
 
-Please come with the *latest CRAN versions* of the core packages installed on your laptops. For `arrow`, we will be working with `v13.0.0`, which was released just a couple of weeks ago!
+Please come with the *latest CRAN versions* of the core packages installed on your laptops.
 
 While the core workshop doesn't focus on spatial data, the "wrapping up" section near the end of day results in a ggplot map. If you want to run the "wrapping up" workflow code you will need to install the following spatial and plotting packages:
 
