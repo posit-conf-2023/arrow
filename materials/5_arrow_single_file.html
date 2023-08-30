@@ -410,6 +410,13 @@
 </ul>
 <p><strong>Value</strong>: <code>tibble</code> (the default), or an Arrow Table if <code>as_data_frame = FALSE</code> — both <em>in-memory</em></p>
 </section>
+<section id="your-turn" class="slide level2">
+<h2>Your Turn</h2>
+<ol type="1">
+<li>Read in a single NYC Taxi parquet file using <code>read_parquet()</code> as an Arrow Table</li>
+<li>Convert your Arrow Table object to a <code>data.frame</code> or a <code>tibble</code></li>
+</ol>
+</section>
 <section id="read-a-parquet-file-tibble" class="slide level2">
 <h2>Read a Parquet File (<code>tibble</code>)</h2>
 <div class="cell">
@@ -417,8 +424,8 @@
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a>parquet_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/nyc-taxi/year=2019/month=9/part-0.parquet"</span>)</span>
 <span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>nyc_taxi_2019_09_df <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(parquet_file)</span>
-<span id="cb1-6"><a href="#cb1-6"></a>nyc_taxi_2019_09_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5"></a>taxi_df <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(parquet_file)</span>
+<span id="cb1-6"><a href="#cb1-6"></a>taxi_df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6,567,396 × 22
    vendor_name pickup_datetime     dropoff_datetime    passenger_count
@@ -446,8 +453,8 @@
 <section id="read-a-parquet-file-table" class="slide level2">
 <h2>Read a Parquet File (<code>Table</code>)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>nyc_taxi_2019_09_table <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(parquet_file, <span class="at">as_data_frame =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>nyc_taxi_2019_09_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>taxi_table <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(parquet_file, <span class="at">as_data_frame =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>taxi_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Table
 6567396 rows x 22 columns
@@ -476,12 +483,33 @@ $dropoff_location_id &lt;int64&gt;</code></pre>
 </div>
 </div>
 </section>
-<section id="data-frames-in-r" class="slide level2">
-<h2>Data frames in R</h2>
+<section id="tibble---table---data.frame" class="slide level2">
+<h2><code>tibble</code> &lt;-&gt; <code>Table</code> &lt;-&gt; <code>data.frame</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#change a df to a table</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="fu">arrow_table</span>(taxi_df)</span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#change a table to a df</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a>taxi_table <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span>
+<span id="cb5-8"><a href="#cb5-8"></a></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="fu">as.data.frame</span>(taxi_table)</span>
+<span id="cb5-10"><a href="#cb5-10"></a></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="fu">as_tibble</span>(taxi_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<ul>
+<li><code>data.frame</code> &amp; <code>tibble</code> are in R memory</li>
+<li><code>Table</code> is in Arrow memory</li>
+</ul>
+</section>
+<section id="data-frames" class="slide level2">
+<h2>Data frames</h2>
 
 <img data-src="images/tabular-structures-r.png" class="r-stretch"></section>
-<section id="arrow-tables-in-r" class="slide level2">
-<h2>Arrow Tables in R</h2>
+<section id="arrow-tables" class="slide level2">
+<h2>Arrow Tables</h2>
 
 <img data-src="images/tabular-structures-arrow-1.png" class="r-stretch"><aside class="notes">
 <p>Arrow Tables are collections of chunked arrays</p>
@@ -497,23 +525,6 @@ $dropoff_location_id &lt;int64&gt;</code></pre>
           display:block!important;
       }</style></aside>
 </section>
-<section id="data.frame---table---tibble" class="slide level2">
-<h2><code>data.frame</code> &lt;-&gt; <code>Table</code> &lt;-&gt; <code>Tibble</code></h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>mtcars_df <span class="ot">&lt;-</span> mtcars</span>
-<span id="cb5-4"><a href="#cb5-4"></a></span>
-<span id="cb5-5"><a href="#cb5-5"></a>mtcars_table <span class="ot">&lt;-</span> <span class="fu">arrow_table</span>(mtcars_df)</span>
-<span id="cb5-6"><a href="#cb5-6"></a></span>
-<span id="cb5-7"><a href="#cb5-7"></a>mtcars_tibble <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(mtcars_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><br></p>
-<ul>
-<li><code>data.frame</code> &amp; <code>tibble</code> are in R memory</li>
-<li><code>Table</code> is in Arrow memory</li>
-</ul>
-</section>
 <section id="table-dataset-a-dplyr-pipeline" class="slide level2">
 <h2>Table | Dataset: A <code>dplyr</code> pipeline</h2>
 <div class="cell">
@@ -528,8 +539,8 @@ $dropoff_location_id &lt;int64&gt;</code></pre>
 <pre><code># A tibble: 3 × 4
   vendor_name all_trips shared_trips pct_shared
   &lt;chr&gt;           &lt;int&gt;        &lt;int&gt;      &lt;dbl&gt;
-1 CMT           2294473       470344       20.5
-2 VTS           4238808      1339478       31.6
+1 VTS           4238808      1339478       31.6
+2 CMT           2294473       470344       20.5
 3 &lt;NA&gt;            34115            0        0  </code></pre>
 </div>
 </div>
@@ -571,7 +582,7 @@ $dropoff_location_id &lt;int64&gt;</code></pre>
 <span id="cb10-8"><a href="#cb10-8"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.527   0.234   0.547 </code></pre>
+  1.548   0.241   0.545 </code></pre>
 </div>
 </div>
 </section>
@@ -597,7 +608,7 @@ $dropoff_location_id &lt;int64&gt;</code></pre>
 <span id="cb14-8"><a href="#cb14-8"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.384   0.189   0.263 </code></pre>
+  1.396   0.200   0.252 </code></pre>
 </div>
 </div>
 </section>
@@ -633,8 +644,15 @@ $passenger_count &lt;int64&gt;</code></pre>
 <span id="cb18-11"><a href="#cb18-11"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.272   0.011   0.137 </code></pre>
+  0.268   0.013   0.137 </code></pre>
 </div>
+</div>
+</section>
+<section id="arrow-table-or-dataset" class="slide level2">
+<h2>Arrow Table or Dataset?</h2>
+<p><img data-src="images/2022-09-decision-map.png" class="absolute" style="left: 200px; height: 550px; "></p>
+<div style="font-size: 60%; margin-top: 575px; margin-left: 250px;">
+<p><a href="https://francoismichonneau.net/2022/10/import-big-csv/" class="uri">https://francoismichonneau.net/2022/10/import-big-csv/</a></p>
 </div>
 </section>
 <section id="arrow-for-improving-those-sluggish-worklows" class="slide level2">
@@ -657,16 +675,9 @@ $passenger_count &lt;int64&gt;</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section>
-<section id="arrow-table-or-dataset" class="slide level2">
-<h2>Arrow Table or Dataset?</h2>
-<p><img data-src="images/2022-09-decision-map.png" class="absolute" style="left: 200px; height: 550px; "></p>
-<div style="font-size: 60%; margin-top: 575px; margin-left: 250px;">
-<p><a href="https://francoismichonneau.net/2022/10/import-big-csv/" class="uri">https://francoismichonneau.net/2022/10/import-big-csv/</a></p>
-</div>
 
-<p><img src="images/logo.png" class="slide-logo"></p>
-<div class="footer footer-default">
+
+<img src="images/logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
 <p><a href="https://posit-conf-2023.github.io/arrow">🔗 posit.io/arrow</a></p>
 </div>
 </section></section>

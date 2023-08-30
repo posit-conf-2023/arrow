@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Big Data in R with Arrow</title>
+<title>Big Data in R with Arrow - Arrow In-Memory Exercise</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,25 +20,59 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -61,7 +95,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -71,10 +105,10 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./materials/images/logo.png" alt="" class="navbar-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../materials/images/logo.png" alt="" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Big Data in R with Arrow</span>
     </a>
   </div>
@@ -85,11 +119,11 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="../index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./setup.html" rel="" target="">
+    <a class="nav-link" href="../setup.html" rel="" target="">
  <span class="menu-text">Packages &amp; Data</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -98,39 +132,39 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-slides">    
         <li>
-    <a class="dropdown-item" href="./materials/0_housekeeping.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/0_housekeeping.html" rel="" target="">
  <span class="dropdown-text">Welcome 👋</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/1_intro.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/1_intro.html" rel="" target="">
  <span class="dropdown-text">Hello Arrow</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/2_data_manip1.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/2_data_manip1.html" rel="" target="">
  <span class="dropdown-text">Manipulating Data with Arrow (Part I)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/3_eng_storage.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/3_eng_storage.html" rel="" target="">
  <span class="dropdown-text">Data Engineering with Arrow</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/4_data_manip2.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/4_data_manip2.html" rel="" target="">
  <span class="dropdown-text">Manipulating Data with Arrow (Part II)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/5_arrow_single_file.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/5_arrow_single_file.html" rel="" target="">
  <span class="dropdown-text">Arrow In-Memory Workflows</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/6_wrapping_up.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/6_wrapping_up.html" rel="" target="">
  <span class="dropdown-text">Wrapping Up: Arrow &amp; R Together</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/7_continue_learning.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/7_continue_learning.html" rel="" target="">
  <span class="dropdown-text">Getting Help &amp; More Resources</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/8_closing.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/8_closing.html" rel="" target="">
  <span class="dropdown-text">Thank you 👋</span></a>
   </li>  
     </ul>
@@ -141,23 +175,23 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-exercises">    
         <li>
-    <a class="dropdown-item" href="./materials/01-hello-arrow-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/01-hello-arrow-exercises.html" rel="" target="">
  <span class="dropdown-text">Hello Arrow Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/02-data-manipulation-1-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/02-data-manipulation-1-exercises.html" rel="" target="">
  <span class="dropdown-text">Data Manipulation Part I Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/03-data-engineering-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/03-data-engineering-exercises.html" rel="" target="">
  <span class="dropdown-text">Data Engineering Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/04-data-manipulation-2-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/04-data-manipulation-2-exercises.html" rel="" target="">
  <span class="dropdown-text">Data Manipulation Part II Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/05-arrow-in-memory-exercise.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/05-arrow-in-memory-exercise.html" rel="" target="">
  <span class="dropdown-text">Arrow In-Memory Workflow Exercise</span></a>
   </li>  
     </ul>
@@ -174,25 +208,14 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#workshop-overview" id="toc-workshop-overview" class="nav-link active" data-scroll-target="#workshop-overview">Workshop Overview</a></li>
-  <li><a href="#workshop-prework" id="toc-workshop-prework" class="nav-link" data-scroll-target="#workshop-prework">Workshop Prework</a></li>
-  <li><a href="#workshop-schedule" id="toc-workshop-schedule" class="nav-link" data-scroll-target="#workshop-schedule">Workshop Schedule</a></li>
-  <li><a href="#instructors" id="toc-instructors" class="nav-link" data-scroll-target="#instructors">Instructors</a></li>
-  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Big Data in R with Arrow</h1>
-<p class="subtitle lead">1-Day Posit::Conf (2023) Workshop</p>
+<h1 class="title">Arrow In-Memory Exercise</h1>
 </div>
 
 
@@ -207,93 +230,148 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>by Steph Hazlitt &amp; Nic Crane</p>
-<hr>
-<p>🗓️ September 17th, 2023<br>
-⏰ 09:00 - 17:00<br>
-🏨 ROOM TBD<br>
-✍️ <a href="http://pos.it/conf">pos.it/conf</a></p>
-<hr>
-<section id="workshop-overview" class="level3">
-<h3 class="anchored" data-anchor-id="workshop-overview">Workshop Overview</h3>
-<p>Data analysis pipelines with larger-than-memory data are becoming more and more commonplace. In this workshop you will learn how to use Apache Arrow, a multi-language toolbox for working with larger-than-memory tabular data, to create seamless “big” data analysis pipelines with R.</p>
-<p>The workshop will focus on using the the arrow R package—a mature R interface to Apache Arrow—to process larger-than-memory files and multi-file data sets with arrow using familiar dplyr syntax. You’ll learn to create and use interoperable data file formats like Parquet for efficient data storage and access, with data stored both on disk and in the cloud, and also how to exercise fine control over data types to avoid common large data pipeline problems. This workshop will provide a foundation for using Arrow, giving you access to a powerful suite of tools for performant analysis of larger-than-memory data in R.</p>
-<p><em>This course is for you if you:</em></p>
-<ul>
-<li>want to learn how to work with tabular data that is too large to fit in memory using existing R and tidyverse syntax implemented in Arrow</li>
-<li>want to learn about Parquet and other file formats that are powerful alternatives to CSV files</li>
-<li>want to learn how to engineer your tabular data storage for more performant access and analysis with Apache Arrow</li>
-</ul>
-</section>
-<section id="workshop-prework" class="level3">
-<h3 class="anchored" data-anchor-id="workshop-prework">Workshop Prework</h3>
-<p>Detailed instructions for software requirements and data sources are covered in <a href="./setup.html">Packages &amp; Data</a>.</p>
-<p>Please try your very best to arrive on the workshop day ready with the required software &amp; packages installed and the data downloaded on to your laptop.</p>
-</section>
-<section id="workshop-schedule" class="level3">
-<h3 class="anchored" data-anchor-id="workshop-schedule">Workshop Schedule</h3>
-<table class="table">
-<colgroup>
-<col style="width: 20%">
-<col style="width: 79%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Time</th>
-<th style="text-align: left;">Activity</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">09:00 - 10:30</td>
-<td style="text-align: left;">Session 1: Hello Arrow + Data Manipulation with Arrow I</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">10:30 - 11:00</td>
-<td style="text-align: left;"><em>Coffee break</em></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">11:00 - 12:30</td>
-<td style="text-align: left;">Session 2: Data Engineering with Arrow</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">12:30 - 13:30</td>
-<td style="text-align: left;"><em>Lunch break</em></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">13:30 - 15:00</td>
-<td style="text-align: left;">Session 3: Data Manipulation with Arrow II</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">15:00 - 15:30</td>
-<td style="text-align: left;"><em>Coffee break</em></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">15:30 - 17:00</td>
-<td style="text-align: left;">Session 4: Arrow In-Memory Workflows + Wrapping Up</td>
-</tr>
-</tbody>
-</table>
-<p><em>“This schedule is more what you would call a ‘guideline’ than an actual schedule”</em> — Barbossa, Pirates of the Caribbean</p>
-</section>
-<section id="instructors" class="level3">
-<h3 class="anchored" data-anchor-id="instructors">Instructors</h3>
-<p><strong>Steph Hazlitt</strong> is a data scientist, researcher and R enthusiast. She has spent the better part of her career wrangling data with R and supporting people and teams in learning, creating and sharing data science-related products and open source software.</p>
-<p><strong>Nic Crane</strong> is a software engineer with a background in data science, and has a lot of enthusiasm for open source and learning and teaching all things R. Nic is part of the core team who maintain the Arrow R package.</p>
-</section>
-<section id="acknowledgements" class="level3">
-<h3 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h3>
-<p>Some of the <code>Big Data in R with Arrow</code> workshop materials draw on other open-licensed teaching content which we would like to acknowledge:</p>
-<ul>
-<li><a href="https://github.com/djnavarro/arrow-user2022">useR!2022 virtual Larger-Than-Memory Data Workflows with Apache Arrow tutorial</a> authored by Danielle Navarro</li>
-<li><a href="https://r4ds.hadley.nz/">R for Data Science (2e)</a> written by Hadley Wickham, Mine Çetinkaya-Rundel, and Garrett Grolemund—with thanks to Danielle Navarro who contributed the initial version of the <a href="https://r4ds.hadley.nz/arrow">Arrow chapter</a></li>
-<li><a href="https://francoismichonneau.net/2022/10/import-big-csv/">How to use Arrow to work with large CSV files? blog post</a> by François Michonneau, which introduces the single vs multi-file API models for learning/teaching Arrow</li>
-</ul>
-<hr>
-<p><img src="https://i.creativecommons.org/l/by/4.0/88x31.png" class="img-fluid"> This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="exercise-hello-nyc-taxi" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercises: Arrow Table
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Problems</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Solution 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false">Solution 2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<ol type="1">
+<li>Read in a single NYC Taxi parquet file using <code>read_parquet()</code> as an Arrow Table</li>
+<li>Convert your Arrow Table object to a <code>data.frame</code> or a <code>tibble</code></li>
+</ol>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>parquet_file <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/nyc-taxi/year=2019/month=9/part-0.parquet"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>taxi_table <span class="ot">&lt;-</span> <span class="fu">read_parquet</span>(parquet_file, <span class="at">as_data_frame =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>taxi_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Table
+6567396 rows x 22 columns
+$vendor_name &lt;string&gt;
+$pickup_datetime &lt;timestamp[ms]&gt;
+$dropoff_datetime &lt;timestamp[ms]&gt;
+$passenger_count &lt;int64&gt;
+$trip_distance &lt;double&gt;
+$pickup_longitude &lt;double&gt;
+$pickup_latitude &lt;double&gt;
+$rate_code &lt;string&gt;
+$store_and_fwd &lt;string&gt;
+$dropoff_longitude &lt;double&gt;
+$dropoff_latitude &lt;double&gt;
+$payment_type &lt;string&gt;
+$fare_amount &lt;double&gt;
+$extra &lt;double&gt;
+$mta_tax &lt;double&gt;
+$tip_amount &lt;double&gt;
+$tolls_amount &lt;double&gt;
+$total_amount &lt;double&gt;
+$improvement_surcharge &lt;double&gt;
+$congestion_surcharge &lt;double&gt;
+$pickup_location_id &lt;int64&gt;
+$dropoff_location_id &lt;int64&gt;</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>taxi_table <span class="sc">|&gt;</span> <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,567,396 × 22
+   vendor_name pickup_datetime     dropoff_datetime    passenger_count
+   &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;
+ 1 CMT         2019-08-31 18:09:30 2019-08-31 18:15:42               1
+ 2 CMT         2019-08-31 18:26:30 2019-08-31 18:44:31               1
+ 3 CMT         2019-08-31 18:39:35 2019-08-31 19:15:55               2
+ 4 VTS         2019-08-31 18:12:26 2019-08-31 18:15:17               4
+ 5 VTS         2019-08-31 18:43:16 2019-08-31 18:53:50               1
+ 6 VTS         2019-08-31 18:26:13 2019-08-31 18:45:35               1
+ 7 CMT         2019-08-31 18:34:52 2019-08-31 18:42:03               1
+ 8 CMT         2019-08-31 18:50:02 2019-08-31 18:58:16               1
+ 9 CMT         2019-08-31 18:08:02 2019-08-31 18:14:44               0
+10 VTS         2019-08-31 18:11:38 2019-08-31 18:26:47               1
+# ℹ 6,567,386 more rows
+# ℹ 18 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,
+#   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,
+#   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,
+#   fare_amount &lt;dbl&gt;, extra &lt;dbl&gt;, mta_tax &lt;dbl&gt;, tip_amount &lt;dbl&gt;,
+#   tolls_amount &lt;dbl&gt;, total_amount &lt;dbl&gt;, improvement_surcharge &lt;dbl&gt;,
+#   congestion_surcharge &lt;dbl&gt;, pickup_location_id &lt;int&gt;, …</code></pre>
+</div>
+</div>
+<p>or</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(taxi_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,567,396 × 22
+   vendor_name pickup_datetime     dropoff_datetime    passenger_count
+   &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;
+ 1 CMT         2019-08-31 18:09:30 2019-08-31 18:15:42               1
+ 2 CMT         2019-08-31 18:26:30 2019-08-31 18:44:31               1
+ 3 CMT         2019-08-31 18:39:35 2019-08-31 19:15:55               2
+ 4 VTS         2019-08-31 18:12:26 2019-08-31 18:15:17               4
+ 5 VTS         2019-08-31 18:43:16 2019-08-31 18:53:50               1
+ 6 VTS         2019-08-31 18:26:13 2019-08-31 18:45:35               1
+ 7 CMT         2019-08-31 18:34:52 2019-08-31 18:42:03               1
+ 8 CMT         2019-08-31 18:50:02 2019-08-31 18:58:16               1
+ 9 CMT         2019-08-31 18:08:02 2019-08-31 18:14:44               0
+10 VTS         2019-08-31 18:11:38 2019-08-31 18:26:47               1
+# ℹ 6,567,386 more rows
+# ℹ 18 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,
+#   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,
+#   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,
+#   fare_amount &lt;dbl&gt;, extra &lt;dbl&gt;, mta_tax &lt;dbl&gt;, tip_amount &lt;dbl&gt;,
+#   tolls_amount &lt;dbl&gt;, total_amount &lt;dbl&gt;, improvement_surcharge &lt;dbl&gt;,
+#   congestion_surcharge &lt;dbl&gt;, pickup_location_id &lt;int&gt;, …</code></pre>
+</div>
+</div>
+<p>or</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(taxi_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,567,396 × 22
+   vendor_name pickup_datetime     dropoff_datetime    passenger_count
+   &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;
+ 1 CMT         2019-08-31 18:09:30 2019-08-31 18:15:42               1
+ 2 CMT         2019-08-31 18:26:30 2019-08-31 18:44:31               1
+ 3 CMT         2019-08-31 18:39:35 2019-08-31 19:15:55               2
+ 4 VTS         2019-08-31 18:12:26 2019-08-31 18:15:17               4
+ 5 VTS         2019-08-31 18:43:16 2019-08-31 18:53:50               1
+ 6 VTS         2019-08-31 18:26:13 2019-08-31 18:45:35               1
+ 7 CMT         2019-08-31 18:34:52 2019-08-31 18:42:03               1
+ 8 CMT         2019-08-31 18:50:02 2019-08-31 18:58:16               1
+ 9 CMT         2019-08-31 18:08:02 2019-08-31 18:14:44               0
+10 VTS         2019-08-31 18:11:38 2019-08-31 18:26:47               1
+# ℹ 6,567,386 more rows
+# ℹ 18 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,
+#   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,
+#   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,
+#   fare_amount &lt;dbl&gt;, extra &lt;dbl&gt;, mta_tax &lt;dbl&gt;, tip_amount &lt;dbl&gt;,
+#   tolls_amount &lt;dbl&gt;, total_amount &lt;dbl&gt;, improvement_surcharge &lt;dbl&gt;,
+#   congestion_surcharge &lt;dbl&gt;, pickup_location_id &lt;int&gt;, …</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

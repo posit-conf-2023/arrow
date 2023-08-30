@@ -403,29 +403,31 @@
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(arrow)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>nyc_taxi_zones <span class="ot">&lt;-</span> <span class="fu">read_csv_arrow</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/taxi_zone_lookup.csv"</span>),</span>
-<span id="cb1-6"><a href="#cb1-6"></a>                                 <span class="at">as_data_frame =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>  <span class="fu">clean_names</span>()</span>
-<span id="cb1-8"><a href="#cb1-8"></a>  </span>
-<span id="cb1-9"><a href="#cb1-9"></a>airport_zones <span class="ot">&lt;-</span> nyc_taxi_zones <span class="sc">|&gt;</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(zone, <span class="st">"Airport"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>  <span class="fu">pull</span>(location_id)</span>
-<span id="cb1-12"><a href="#cb1-12"></a></span>
-<span id="cb1-13"><a href="#cb1-13"></a>dropoff_zones <span class="ot">&lt;-</span> nyc_taxi_zones <span class="sc">|&gt;</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a>  <span class="fu">select</span>(<span class="at">dropoff_location_id =</span> location_id,</span>
-<span id="cb1-15"><a href="#cb1-15"></a>         <span class="at">dropoff_zone =</span> zone)</span>
-<span id="cb1-16"><a href="#cb1-16"></a></span>
-<span id="cb1-17"><a href="#cb1-17"></a>airport_pickups <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/nyc-taxi"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a>  <span class="fu">filter</span>(pickup_location_id <span class="sc">%in%</span> airport_zones) <span class="sc">|&gt;</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a>  <span class="fu">select</span>(</span>
-<span id="cb1-20"><a href="#cb1-20"></a>    <span class="fu">matches</span>(<span class="st">"datetime"</span>),</span>
-<span id="cb1-21"><a href="#cb1-21"></a>    <span class="fu">matches</span>(<span class="st">"location_id"</span>)</span>
-<span id="cb1-22"><a href="#cb1-22"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb1-23"><a href="#cb1-23"></a>  <span class="fu">left_join</span>(dropoff_zones) <span class="sc">|&gt;</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a>  <span class="fu">count</span>(dropoff_zone) <span class="sc">|&gt;</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">|&gt;</span></span>
-<span id="cb1-26"><a href="#cb1-26"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a>nyc_taxi_zones <span class="ot">&lt;-</span> <span class="fu">read_csv_arrow</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/taxi_zone_lookup.csv"</span>),</span>
+<span id="cb1-7"><a href="#cb1-7"></a>                                 <span class="at">as_data_frame =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="fu">clean_names</span>()</span>
+<span id="cb1-9"><a href="#cb1-9"></a>  </span>
+<span id="cb1-10"><a href="#cb1-10"></a>airport_zones <span class="ot">&lt;-</span> nyc_taxi_zones <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(zone, <span class="st">"Airport"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a>  <span class="fu">pull</span>(location_id, <span class="at">as_vector =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-13"><a href="#cb1-13"></a></span>
+<span id="cb1-14"><a href="#cb1-14"></a>dropoff_zones <span class="ot">&lt;-</span> nyc_taxi_zones <span class="sc">|&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a>  <span class="fu">select</span>(<span class="at">dropoff_location_id =</span> location_id,</span>
+<span id="cb1-16"><a href="#cb1-16"></a>         <span class="at">dropoff_zone =</span> zone) <span class="sc">|&gt;</span> </span>
+<span id="cb1-17"><a href="#cb1-17"></a>  <span class="fu">compute</span>()</span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a>airport_pickups <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/nyc-taxi"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a>  <span class="fu">filter</span>(pickup_location_id <span class="sc">%in%</span> airport_zones) <span class="sc">|&gt;</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a>  <span class="fu">select</span>(</span>
+<span id="cb1-22"><a href="#cb1-22"></a>    <span class="fu">matches</span>(<span class="st">"datetime"</span>),</span>
+<span id="cb1-23"><a href="#cb1-23"></a>    <span class="fu">matches</span>(<span class="st">"location_id"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb1-25"><a href="#cb1-25"></a>  <span class="fu">left_join</span>(dropoff_zones) <span class="sc">|&gt;</span></span>
+<span id="cb1-26"><a href="#cb1-26"></a>  <span class="fu">count</span>(dropoff_zone) <span class="sc">|&gt;</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">|&gt;</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="r" class="slide level2">
