@@ -78,21 +78,6 @@ Which file formats do you use most often?
 <https://data.seattle.gov/Community/Checkouts-by-Title/tmmm-ytt6>
 :::
 
-## Download the 9GB CSV file
-
-<br>
-
-```{r}
-#| label: get-seattle-csv
-#| eval: false
-
-curl::multi_download(
-  "https://r4ds.s3.us-west-2.amazonaws.com/seattle-library-checkouts.csv",
-  here::here("data/seattle-library-checkouts.csv"),
-  resume = TRUE
-)
-```
-
 ## arrow::open_dataset() with a CSV
 
 ```{r}
