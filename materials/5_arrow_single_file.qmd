@@ -63,7 +63,7 @@ taxi_table <- read_parquet(parquet_file, as_data_frame = FALSE)
 taxi_table
 ```
 
-## `data.frame` \<-\> `Table`
+## `tibble` \<-\> `Table` \<-\> `data.frame`
 
 ```{r}
 #| label: table-to-df
