@@ -122,6 +122,10 @@ nyc_taxi |>
 
 1.15 billion rows 🤯
 
+## NYC Taxi Dataset: A question
+
+What percentage of taxi rides each year had more than 1 passenger?
+
 ## NYC Taxi Dataset: A {dplyr} pipeline
 
 ```{r}
