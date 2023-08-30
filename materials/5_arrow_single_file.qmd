@@ -37,6 +37,11 @@ library(dplyr)
 
 **Value**: `tibble` (the default), or an Arrow Table if `as_data_frame = FALSE` --- both *in-memory*
 
+## Your Turn
+
+1.  Read in a single NYC Taxi parquet file using `read_parquet()` as an Arrow Table
+2.  Convert your Arrow Table object to a `data.frame` or a `tibble`
+
 ## Read a Parquet File (`tibble`)
 
 ```{r}
