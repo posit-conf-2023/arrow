@@ -174,7 +174,7 @@ borough_counts
 
 1.  How many taxi pickups were recorded in 2019 from the three major airports covered by the NYC Taxis data set (JFK, LaGuardia, Newark)?
 
-➡️ [Data Manipulation Part I Exercises Page](4_data_manip2-exercises.html)
+➡️ [Data Manipulation Part I Exercises Page](4_data_manipulation_2-exercises.html)
 
 # Window functions
 
@@ -244,7 +244,7 @@ fare_by_year %>%
 
 1.  How many trips in 2019 had a longer than average distance for that year?
 
-➡️ [Data Manipulation Part I Exercises Page](04-data-manipulation-2-exercises.html)
+➡️ [Data Manipulation Part I Exercises Page](4_data_manipulation_2-exercises.html)
 
 ## Custom functions
 

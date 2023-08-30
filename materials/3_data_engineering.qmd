@@ -212,7 +212,7 @@ seattle_csv
 1.  The first few thousand rows of `ISBN` are blank in the Seattle Checkouts CSV file. Read in the Seattle Checkouts CSV file with `open_dataset()` and ensure the correct data type for `ISBN` is `<string>` instead of the `<null>` interpreted by Arrow.
 2.  Once you have a `Dataset` object with the metadata you are after, count the number of `Checkouts` by `CheckoutYear` and arrange the result by `CheckoutYear`.
 
-➡️ [Data Storage Engineering Exercises Page](3_eng_storage-exercises.html)
+➡️ [Data Storage Engineering Exercises Page](3_data_engineering-exercises.html)
 
 ## 9GB CSV file + arrow + dplyr
 
@@ -294,7 +294,7 @@ Parquet about half the size of the CSV file on-disk 💾
 
 1.  Re-run the query counting the number of `Checkouts` by `CheckoutYear` and arranging the result by `CheckoutYear`, this time using the Seattle Checkout data saved to disk as a single, Parquet file. Did you notice a difference in compute time?
 
-➡️ [Data Storage Engineering Exercises Page](03-data-storage-exercises.html)
+➡️ [Data Storage Engineering Exercises Page](3_data_engineering-exercises.html)
 
 ## 4.5GB Parquet file + arrow + dplyr
 
@@ -404,7 +404,7 @@ open_dataset(seattle_parquet_part,
 
 2.  Now compare the compute time between our Parquet data partitioned by `CheckoutYear` and our Parquet data partitioned by `ChekcoutType` with a query of the total number of checkouts in September of 2019. Did you find a difference in compute time?
 
-➡️ [Data Storage Engineering Exercises Page](03-data-storage-exercises.html)
+➡️ [Data Storage Engineering Exercises Page](3_data_engineering-exercises.html)
 
 ## Partition Design
 

@@ -164,7 +164,7 @@ nyc_taxi |>
 
 2.  About how long did this query of 1.15 billion rows take?
 
-➡️ [Hello Arrow Exercises Page](1_intro-exercises.html)
+➡️ [Hello Arrow Exercises Page](1_hello_arrow-exercises.html)
 
 ## What is Apache Arrow?
 
