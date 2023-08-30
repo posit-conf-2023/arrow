@@ -20,6 +20,7 @@ engine: knitr
 library(arrow)
 library(dplyr)
 library(janitor)
+library(stringr)
 
 nyc_taxi_zones <- read_csv_arrow(here::here("data/taxi_zone_lookup.csv"),
                                  as_data_frame = FALSE) |>
@@ -27,11 +28,12 @@ nyc_taxi_zones <- read_csv_arrow(here::here("data/taxi_zone_lookup.csv"),
   
 airport_zones <- nyc_taxi_zones |>
   filter(str_detect(zone, "Airport")) |>
-  pull(location_id)
+  pull(location_id, as_vector = TRUE)
 
 dropoff_zones <- nyc_taxi_zones |>
   select(dropoff_location_id = location_id,
-         dropoff_zone = zone)
+         dropoff_zone = zone) |> 
+  compute()
 
 airport_pickups <- open_dataset(here::here("data/nyc-taxi")) |>
   filter(pickup_location_id %in% airport_zones) |>

@@ -11,7 +11,7 @@ engine: knitr
 
 # Hello Arrow {#hello-arrow}
 
-## Slido Poll: Arrow
+## Poll: Arrow
 
 <br>
 
