@@ -212,7 +212,7 @@ seattle_csv
 1.  The first few thousand rows of `ISBN` are blank in the Seattle Checkouts CSV file. Read in the Seattle Checkouts CSV file with `open_dataset()` and ensure the correct data type for `ISBN` is `<string>` instead of the `<null>` interpreted by Arrow.
 2.  Once you have a `Dataset` object with the metadata you are after, count the number of `Checkouts` by `CheckoutYear` and arrange the result by `CheckoutYear`.
 
-➡️ [Data Storage Engineering Exercises Page](03-data-storage-exercises.html)
+➡️ [Data Storage Engineering Exercises Page](3_eng_storage-exercises.html)
 
 ## 9GB CSV file + arrow + dplyr
 

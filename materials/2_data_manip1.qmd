@@ -348,4 +348,4 @@ nyc_taxi %>%
 2.  Try to use the `stringr` function `str_replace_na()` to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead. What happens, and why?
 3.  Bonus question: see if you can find a different way of completing the task in question 2.
 
-➡️ [Data Manipulation Part I Exercises Page](02-data-manipulation-1-exercises.html)
+➡️ [Data Manipulation Part I Exercises Page](02_data_manip1-exercises.html)
