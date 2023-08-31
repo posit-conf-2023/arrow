@@ -107,13 +107,6 @@ seattle_csv |> glimpse()
 seattle_csv$schema
 ```
 
-```{r}
-#| label: seattle-schema-new
-#| echo: false
-#| eval: false
-schema(seattle_csv)
-```
-
 ## Parsing the Metadata
 
 <br>
@@ -156,13 +149,6 @@ Arrow has a rich data type system, including direct analogs of many R data types
 ```{r}
 #| label: seattle-schema-code
 seattle_csv$schema$code() 
-```
-
-```{r}
-#| label: seattle-schema-code-new
-#| echo: false
-#| eval: false
-schema(seattle_csv)
 ```
 
 ## Let's Control the Schema
