@@ -15,6 +15,7 @@ library(stringr)
 
 ```{r}
 #| label: open-dataset
+
 nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
 nyc_taxi
 ```
@@ -27,7 +28,7 @@ nyc_taxi
 
 1.  How many taxi fares in the dataset had a total amount greater than \$100?
 
-2.  How many distinct pickup locations are in the dataset?
+2.  How many distinct pickup locations are in the dataset since 2016?
 
 ## Solution 1
 
@@ -44,8 +45,8 @@ nyc_taxi %>%
 ```{r}
 #| label: compute-collect-2
 #| cache: true
-#| eval: false
 nyc_taxi %>%
+  filter(year >= 2016) %>%
   distinct(pickup_longitude, pickup_latitude) %>%
   compute() %>%
   nrow()
@@ -81,6 +82,7 @@ nyc_taxi %>%
 #| error: true
 nyc_taxi %>%
   mutate(vendor_name = stringr::str_replace_na(vendor_name, "No vendor")) %>%
+  head() %>%
   collect()
 ```
 
@@ -91,6 +93,7 @@ This won't work as `stringr::str_replace_na()` hasn't been implemented in Arrow.
 #| eval: false
 nyc_taxi %>%
   mutate(vendor_name = ifelse(is.na(vendor_name), "No vendor", vendor_name)) %>%
+  head() %>%
   collect()
 ```
 
