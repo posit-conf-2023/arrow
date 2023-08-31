@@ -149,7 +149,7 @@ nyc_taxi %>%
 1.  How many taxi fares in the dataset had a total amount greater than \$100?
 2.  How many distinct pickup locations are in the dataset?
 
-➡️ [Data Manipulation Part I Exercises Page](02-data-manipulation-1-exercises.html)
+➡️ [Data Manipulation Part I Exercises Page](2_data_manipulation_1-exercises.html)
 
 ## use `glimpse()` to preview datasets
 
@@ -348,4 +348,4 @@ nyc_taxi %>%
 2.  Try to use the `stringr` function `str_replace_na()` to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead. What happens, and why?
 3.  Bonus question: see if you can find a different way of completing the task in question 2.
 
-➡️ [Data Manipulation Part I Exercises Page](02-data-manipulation-1-exercises.html)
+➡️ [Data Manipulation Part I Exercises Page](2_data_manipulation_1-exercises.html)
