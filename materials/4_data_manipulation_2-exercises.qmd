@@ -84,9 +84,10 @@ nyc_taxi %>%
 ```{r}
 #| label: window-join
 nyc_taxi %>%
-  filter(year == 2019) %>%
+  filter(year == 2019, month == 9) %>%
   left_join(
     nyc_taxi %>%
+      filter(year == 2019, month == 9) %>%
       group_by(year) %>%
       summarise(mean_distance = mean(trip_distance))
     ) %>%
