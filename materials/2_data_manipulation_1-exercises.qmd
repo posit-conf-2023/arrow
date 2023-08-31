@@ -70,6 +70,7 @@ nyc_taxi %>%
 
 ```{r}
 #| label: compute-collect-sol1
+#| eval: false
 nyc_taxi %>%
   filter(str_ends(vendor_name, "S"), year == 2020,  month == 9) %>%
   collect()
@@ -80,6 +81,7 @@ nyc_taxi %>%
 ```{r}
 #| label: compute-collect-sol2
 #| error: true
+#| eval: false
 nyc_taxi %>%
   mutate(vendor_name = stringr::str_replace_na(vendor_name, "No vendor")) %>%
   head() %>%
@@ -101,6 +103,7 @@ Or, if you only needed a subset of the data, you could apply the function after 
 
 ```{r}
 #| label: compute-collect-sol4
+#| eval: false
 nyc_taxi %>%
   filter(year == 2019, month == 10) %>% # smaller subset of the data
   collect() %>%
