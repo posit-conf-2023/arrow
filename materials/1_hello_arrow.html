@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.450">
 
-  <title>Big Data in R with Arrow – intro</title>
+  <title>Big Data in R with Arrow – hello_arrow</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -482,7 +482,7 @@
 <span id="cb3-3"><a href="#cb3-3"></a>nyc_taxi <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/nyc-taxi"</span>))</span>
 <span id="cb3-4"><a href="#cb3-4"></a>nyc_taxi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>FileSystemDataset with 120 Parquet files
+<pre><code>FileSystemDataset with 122 Parquet files
 vendor_name: string
 pickup_datetime: timestamp[ms]
 dropoff_datetime: timestamp[ms]
@@ -516,7 +516,7 @@ month: int32</code></pre>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>nyc_taxi <span class="sc">|&gt;</span> </span>
 <span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1150352666</code></pre>
+<pre><code>[1] 1155795912</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -564,7 +564,7 @@ month: int32</code></pre>
 <span id="cb9-12"><a href="#cb9-12"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
- 17.433   1.580   2.944 </code></pre>
+ 22.638   0.787   2.359 </code></pre>
 </div>
 </div>
 </section>
@@ -574,7 +574,7 @@ month: int32</code></pre>
 <li><p>Calculate total number of rides for each month in 2019</p></li>
 <li><p>About how long did this query of 1.15 billion rows take?</p></li>
 </ol>
-<p>➡️ <a href="01-hello-arrow-exercises.html">Hello Arrow Exercises Page</a></p>
+<p>➡️ <a href="1_hello_arrow-exercises.html">Hello Arrow Exercises Page</a></p>
 </section>
 <section id="what-is-apache-arrow" class="slide level2">
 <h2>What is Apache Arrow?</h2>

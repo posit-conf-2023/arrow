@@ -136,19 +136,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Welcome 👋</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../materials/1_intro.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/1_hello_arrow.html" rel="" target="">
  <span class="dropdown-text">Hello Arrow</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../materials/2_data_manip1.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/2_data_manipulation_1.html" rel="" target="">
  <span class="dropdown-text">Manipulating Data with Arrow (Part I)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../materials/3_eng_storage.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/3_data_engineering.html" rel="" target="">
  <span class="dropdown-text">Data Engineering with Arrow</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../materials/4_data_manip2.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/4_data_manipulation_2.html" rel="" target="">
  <span class="dropdown-text">Manipulating Data with Arrow (Part II)</span></a>
   </li>  
         <li>
@@ -175,24 +175,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-exercises">    
         <li>
-    <a class="dropdown-item" href="../materials/01-hello-arrow-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/1_hello_arrow-exercises.html" rel="" target="">
  <span class="dropdown-text">Hello Arrow Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../materials/02-data-manipulation-1-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/2_data_manipulation_1-exercises.html" rel="" target="">
  <span class="dropdown-text">Data Manipulation Part I Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../materials/03-data-engineering-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/3_data_engineering-exercises.html" rel="" target="">
  <span class="dropdown-text">Data Engineering Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../materials/04-data-manipulation-2-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="../materials/4_data_manipulation_2-exercises.html" rel="" target="">
  <span class="dropdown-text">Data Manipulation Part II Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../materials/05-arrow-in-memory-exercise.html" rel="" target="">
- <span class="dropdown-text">Arrow In-Memory Workflow Exercise</span></a>
+    <a class="dropdown-item" href="../materials/5_arrow_single_file-exercises.html" rel="" target="">
+ <span class="dropdown-text">Single File API Exercises</span></a>
   </li>  
     </ul>
   </li>
@@ -239,7 +239,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>nyc_taxi <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/nyc-taxi"</span>))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>nyc_taxi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>FileSystemDataset with 120 Parquet files
+<pre><code>FileSystemDataset with 122 Parquet files
 vendor_name: string
 pickup_datetime: timestamp[ms]
 dropoff_datetime: timestamp[ms]
@@ -282,25 +282,29 @@ Using <code>compute()</code> and <code>collect()</code>
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <ol type="1">
 <li><p>How many taxi fares in the dataset had a total amount greater than $100?</p></li>
-<li><p>How many distinct pickup locations are in the dataset?</p></li>
+<li><p>How many distinct pickup locations are in the dataset since 2016?</p></li>
 </ol>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="cell" data-hash="02-data-manipulation-1-exercises_cache/html/compute-collect-1_9bc20910222bba20b6903b8608d803b4">
+<div class="cell" data-hash="2_data_manipulation_1-exercises_cache/html/compute-collect-1_6f0b91138fe8ef9057e815121068628b">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nyc_taxi <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(total_amount <span class="sc">&gt;</span> <span class="dv">100</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1518869</code></pre>
+<pre><code>[1] 1529191</code></pre>
 </div>
 </div>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<div class="cell" data-hash="02-data-manipulation-1-exercises_cache/html/compute-collect-2_ebe790d6dccb3b995417c7f7ae8f63f9">
+<div class="cell" data-hash="2_data_manipulation_1-exercises_cache/html/compute-collect-2_31838425beb6cb58051570c1c799a7ff">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nyc_taxi <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(pickup_longitude, pickup_latitude) <span class="sc">%&gt;%</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2016</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(pickup_longitude, pickup_latitude) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 29105801</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -329,77 +333,31 @@ Using the dplyr API in arrow
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>nyc_taxi <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_ends</span>(vendor_name, <span class="st">"S"</span>), year <span class="sc">==</span> <span class="dv">2020</span>,  month <span class="sc">==</span> <span class="dv">9</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 847,149 × 24
-   vendor_name pickup_datetime     dropoff_datetime    passenger_count
-   &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;
- 1 VTS         2020-09-03 01:27:09 2020-09-03 01:36:37               1
- 2 VTS         2020-09-03 01:50:56 2020-09-03 02:09:16               1
- 3 VTS         2020-09-03 01:00:21 2020-09-03 01:04:18               2
- 4 VTS         2020-09-03 01:48:16 2020-09-03 02:06:04               2
- 5 VTS         2020-09-03 01:37:23 2020-09-03 01:48:16               1
- 6 VTS         2020-09-03 01:05:52 2020-09-03 01:13:17               1
- 7 VTS         2020-09-03 01:26:54 2020-09-03 01:31:10               1
- 8 VTS         2020-09-03 01:08:05 2020-09-03 01:12:33               1
- 9 VTS         2020-09-03 01:24:36 2020-09-03 01:37:46               1
-10 VTS         2020-09-03 01:49:32 2020-09-03 01:55:51               1
-# ℹ 847,139 more rows
-# ℹ 20 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,
-#   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,
-#   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,
-#   fare_amount &lt;dbl&gt;, extra &lt;dbl&gt;, mta_tax &lt;dbl&gt;, tip_amount &lt;dbl&gt;,
-#   tolls_amount &lt;dbl&gt;, total_amount &lt;dbl&gt;, improvement_surcharge &lt;dbl&gt;,
-#   congestion_surcharge &lt;dbl&gt;, pickup_location_id &lt;int&gt;, …</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nyc_taxi <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_ends</span>(vendor_name, <span class="st">"S"</span>), year <span class="sc">==</span> <span class="dv">2020</span>,  month <span class="sc">==</span> <span class="dv">9</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nyc_taxi <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vendor_name =</span> stringr<span class="sc">::</span><span class="fu">str_replace_na</span>(vendor_name, <span class="st">"No vendor"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-error">
-<pre><code>Error: Expression stringr::str_replace_na(vendor_name, "No vendor") not supported in Arrow
-Call collect() first to pull data into R.</code></pre>
-</div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This won’t work as <code>stringr::str_replace_na()</code> hasn’t been implemented in Arrow. You could try using <code>mutate()</code> and <code>ifelse()</code> here instead.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nyc_taxi <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vendor_name =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(vendor_name), <span class="st">"No vendor"</span>, vendor_name)) <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>nyc_taxi <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vendor_name =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(vendor_name), <span class="st">"No vendor"</span>, vendor_name)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Or, if you only needed a subset of the data, you could apply the function after collecting it into R memory.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nyc_taxi <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2019</span>, month <span class="sc">==</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="co"># smaller subset of the data</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vendor_name =</span> stringr<span class="sc">::</span><span class="fu">str_replace_na</span>(vendor_name, <span class="st">"No vendor"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 7,213,588 × 24
-   vendor_name pickup_datetime     dropoff_datetime    passenger_count
-   &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;
- 1 VTS         2019-10-01 05:25:25 2019-10-01 05:42:23               2
- 2 VTS         2019-10-01 05:19:14 2019-10-01 05:39:20               1
- 3 VTS         2019-10-01 05:42:19 2019-10-01 05:49:06               2
- 4 VTS         2019-10-01 05:46:56 2019-10-01 05:58:38               5
- 5 CMT         2019-10-01 05:05:24 2019-10-01 05:15:05               1
- 6 CMT         2019-10-01 05:39:12 2019-10-01 05:55:03               3
- 7 CMT         2019-10-01 05:58:11 2019-10-01 06:02:56               2
- 8 CMT         2019-10-01 05:07:30 2019-10-01 05:18:38               1
- 9 CMT         2019-10-01 05:23:52 2019-10-01 05:25:52               3
-10 CMT         2019-10-01 05:42:31 2019-10-01 05:56:08               1
-# ℹ 7,213,578 more rows
-# ℹ 20 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,
-#   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,
-#   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,
-#   fare_amount &lt;dbl&gt;, extra &lt;dbl&gt;, mta_tax &lt;dbl&gt;, tip_amount &lt;dbl&gt;,
-#   tolls_amount &lt;dbl&gt;, total_amount &lt;dbl&gt;, improvement_surcharge &lt;dbl&gt;,
-#   congestion_surcharge &lt;dbl&gt;, pickup_location_id &lt;int&gt;, …</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nyc_taxi <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2019</span>, month <span class="sc">==</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> <span class="co"># smaller subset of the data</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">vendor_name =</span> stringr<span class="sc">::</span><span class="fu">str_replace_na</span>(vendor_name, <span class="st">"No vendor"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>

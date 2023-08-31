@@ -136,19 +136,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Welcome 👋</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/1_intro.html" rel="" target="">
+    <a class="dropdown-item" href="./materials/1_hello_arrow.html" rel="" target="">
  <span class="dropdown-text">Hello Arrow</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/2_data_manip1.html" rel="" target="">
+    <a class="dropdown-item" href="./materials/2_data_manipulation_1.html" rel="" target="">
  <span class="dropdown-text">Manipulating Data with Arrow (Part I)</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/3_eng_storage.html" rel="" target="">
+    <a class="dropdown-item" href="./materials/3_data_engineering.html" rel="" target="">
  <span class="dropdown-text">Data Engineering with Arrow</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/4_data_manip2.html" rel="" target="">
+    <a class="dropdown-item" href="./materials/4_data_manipulation_2.html" rel="" target="">
  <span class="dropdown-text">Manipulating Data with Arrow (Part II)</span></a>
   </li>  
         <li>
@@ -175,24 +175,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-exercises">    
         <li>
-    <a class="dropdown-item" href="./materials/01-hello-arrow-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="./materials/1_hello_arrow-exercises.html" rel="" target="">
  <span class="dropdown-text">Hello Arrow Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/02-data-manipulation-1-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="./materials/2_data_manipulation_1-exercises.html" rel="" target="">
  <span class="dropdown-text">Data Manipulation Part I Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/03-data-engineering-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="./materials/3_data_engineering-exercises.html" rel="" target="">
  <span class="dropdown-text">Data Engineering Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/04-data-manipulation-2-exercises.html" rel="" target="">
+    <a class="dropdown-item" href="./materials/4_data_manipulation_2-exercises.html" rel="" target="">
  <span class="dropdown-text">Data Manipulation Part II Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./materials/05-arrow-in-memory-exercise.html" rel="" target="">
- <span class="dropdown-text">Arrow In-Memory Workflow Exercise</span></a>
+    <a class="dropdown-item" href="./materials/5_arrow_single_file-exercises.html" rel="" target="">
+ <span class="dropdown-text">Single File API Exercises</span></a>
   </li>  
     </ul>
   </li>
@@ -279,7 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tictoc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Please come with the <em>latest CRAN versions</em> of the core packages installed on your laptops.</p>
+<p>Please come with the <em>latest CRAN versions</em> of the core packages installed on your laptops. <strong>You will need the latest version of the arrow package installed, which is 13.0.0</strong>. A small amount of the code in the workshop relies on functions introduced in arrow 13.0.0; let us know if for any reason you are unable to install this version, and we’ll flag up any modifications you’ll need to make to the code to run with earlier versions of arrow.</p>
 <p>While the core workshop doesn’t focus on spatial data, the “wrapping up” section near the end of day results in a ggplot map. If you want to run the “wrapping up” workflow code you will need to install the following spatial and plotting packages:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ggplot2"</span>, <span class="st">"ggrepel"</span>, <span class="st">"sf"</span>, <span class="st">"scales"</span>, <span class="st">"janitor"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
