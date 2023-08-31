@@ -34,8 +34,8 @@ nyc_taxi
 ```{r}
 #| label: compute-collect-1
 #| cache: true
-nyc_taxi %>%
-  filter(total_amount > 100) %>%
+nyc_taxi |>
+  filter(total_amount > 100) |>
   nrow()
 ```
 
@@ -44,10 +44,10 @@ nyc_taxi %>%
 ```{r}
 #| label: compute-collect-2
 #| cache: true
-nyc_taxi %>%
-  filter(year >= 2016) %>%
-  distinct(pickup_longitude, pickup_latitude) %>%
-  compute() %>%
+nyc_taxi |>
+  filter(year >= 2016) |>
+  distinct(pickup_longitude, pickup_latitude) |>
+  compute() |>
   nrow()
 ```
 :::
@@ -70,8 +70,8 @@ nyc_taxi %>%
 ```{r}
 #| label: compute-collect-sol1
 #| eval: false
-nyc_taxi %>%
-  filter(str_ends(vendor_name, "S"), year == 2020,  month == 9) %>%
+nyc_taxi |>
+  filter(str_ends(vendor_name, "S"), year == 2020,  month == 9) |>
   collect()
 ```
 
@@ -81,9 +81,9 @@ nyc_taxi %>%
 #| label: compute-collect-sol2
 #| error: true
 #| eval: false
-nyc_taxi %>%
-  mutate(vendor_name = stringr::str_replace_na(vendor_name, "No vendor")) %>%
-  head() %>%
+nyc_taxi |>
+  mutate(vendor_name = stringr::str_replace_na(vendor_name, "No vendor")) |>
+  head() |>
   collect()
 ```
 
@@ -92,9 +92,9 @@ This won't work as `stringr::str_replace_na()` hasn't been implemented in Arrow.
 ```{r}
 #| label: compute-collect-sol3
 #| eval: false
-nyc_taxi %>%
-  mutate(vendor_name = ifelse(is.na(vendor_name), "No vendor", vendor_name)) %>%
-  head() %>%
+nyc_taxi |>
+  mutate(vendor_name = ifelse(is.na(vendor_name), "No vendor", vendor_name)) |>
+  head() |>
   collect()
 ```
 
@@ -103,9 +103,9 @@ Or, if you only needed a subset of the data, you could apply the function after 
 ```{r}
 #| label: compute-collect-sol4
 #| eval: false
-nyc_taxi %>%
-  filter(year == 2019, month == 10) %>% # smaller subset of the data
-  collect() %>%
+nyc_taxi |>
+  filter(year == 2019, month == 10) |> # smaller subset of the data
+  collect() |>
   mutate(vendor_name = stringr::str_replace_na(vendor_name, "No vendor"))
 ```
 :::

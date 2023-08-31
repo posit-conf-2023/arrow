@@ -42,10 +42,10 @@ vendors <- tibble::tibble(
   )
 )
 
-nyc_taxi %>%
-  left_join(vendors, by = c("vendor_name" = "code")) %>%
-  select(vendor_name, full_name, pickup_datetime) %>%
-  head(3) %>%
+nyc_taxi |>
+  left_join(vendors, by = c("vendor_name" = "code")) |>
+  select(vendor_name, full_name, pickup_datetime) |>
+  head(3) |>
   collect()
 ```
 
@@ -55,7 +55,7 @@ nyc_taxi %>%
 #| label: lookup
 
 nyc_taxi_zones <-
-  read_csv_arrow(here::here("data/taxi_zone_lookup.csv")) %>%
+  read_csv_arrow(here::here("data/taxi_zone_lookup.csv")) |>
   select(location_id = LocationID,
          borough = Borough)
 
@@ -187,13 +187,13 @@ borough_counts
 ```{r}
 #| label: grouped-summaries
 
-fare_by_year <- nyc_taxi %>%
-  filter(year %in% 2021:2022) %>%
+fare_by_year <- nyc_taxi |>
+  filter(year %in% 2021:2022) |>
   select(year, fare_amount)
 
-fare_by_year %>%
-  group_by(year) %>%
-  summarise(mean_fare = mean(fare_amount)) %>% 
+fare_by_year |>
+  group_by(year) |>
+  summarise(mean_fare = mean(fare_amount)) |> 
   collect()
 ```
 
@@ -203,9 +203,9 @@ fare_by_year %>%
 #| label: window-fail
 #| error: true
 
-fare_by_year %>%
-  group_by(year) %>%
-  mutate(mean_fare = mean(fare_amount)) %>% 
+fare_by_year |>
+  group_by(year) |>
+  mutate(mean_fare = mean(fare_amount)) |> 
   collect()
 ```
 
@@ -215,14 +215,14 @@ fare_by_year %>%
 #| label: window-join
 #| error: true
 
-fare_by_year %>%
+fare_by_year |>
   left_join(
-    nyc_taxi %>%
-      filter(year %in% 2021:2022) %>%
-      group_by(year) %>%
+    nyc_taxi |>
+      filter(year %in% 2021:2022) |>
+      group_by(year) |>
       summarise(mean_fare = mean(fare_amount))
-  ) %>% 
-  arrange(desc(fare_amount)) %>%
+  ) |> 
+  arrange(desc(fare_amount)) |>
   collect()
 ```
 
@@ -231,12 +231,12 @@ fare_by_year %>%
 ```{r}
 #| label: window-duckdb
 
-fare_by_year %>%
-  group_by(year) %>%
-  to_duckdb() %>%
-  mutate(mean_fare = mean(fare_amount)) %>% 
-  to_arrow() %>%
-  arrange(desc(fare_amount)) %>%
+fare_by_year |>
+  group_by(year) |>
+  to_duckdb() |>
+  mutate(mean_fare = mean(fare_amount)) |> 
+  to_arrow() |>
+  arrange(desc(fare_amount)) |>
   collect()
 ```
 
@@ -259,11 +259,11 @@ fare_by_year %>%
 millions <- function(x) x / 10^6
 
 nyc_taxi |>
-  group_by(vendor_name) %>%
-  summarise(trips = n()) %>%
+  group_by(vendor_name) |>
+  summarise(trips = n()) |>
   mutate(
     trips_mil = millions(trips)
-  ) %>%
+  ) |>
   collect()
 ```
 
@@ -275,8 +275,8 @@ nyc_taxi |>
 
 morning <- function(x) ifelse(lubridate::am(x), "morning", "afternoon")
 nyc_taxi |>
-  group_by(morning(pickup_datetime)) %>%
-  count() %>%
+  group_by(morning(pickup_datetime)) |>
+  count() |>
   collect()
 ```
 

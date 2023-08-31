@@ -33,12 +33,12 @@ nyc_taxi
 #| label: airport-pickup
 pickup_location <- read_csv_arrow(here::here("data/taxi_zone_lookup.csv"))
 
-pickup_location <- pickup_location %>%
+pickup_location <- pickup_location |>
   select(
     pickup_location_id = LocationID,
     borough = Borough,
     pickup_zone = Zone
-  ) %>%
+  ) |>
   arrow_table(schema = schema(
     pickup_location_id = int64(),
     borough = utf8(),
@@ -69,13 +69,13 @@ nyc_taxi |>
 
 ```{r}
 #| label: window-duckdb
-nyc_taxi %>%
-  filter(year == 2019, month == 9) %>%
-  to_duckdb() %>%
-  mutate(mean_distance = mean(trip_distance)) %>%
-  to_arrow() %>%
-  filter(trip_distance < mean_distance) %>%
-  count() %>%
+nyc_taxi |>
+  filter(year == 2019, month == 9) |>
+  to_duckdb() |>
+  mutate(mean_distance = mean(trip_distance)) |>
+  to_arrow() |>
+  filter(trip_distance < mean_distance) |>
+  count() |>
   collect()
 ```
 
@@ -83,16 +83,16 @@ nyc_taxi %>%
 
 ```{r}
 #| label: window-join
-nyc_taxi %>%
-  filter(year == 2019, month == 9) %>%
+nyc_taxi |>
+  filter(year == 2019, month == 9) |>
   left_join(
-    nyc_taxi %>%
-      filter(year == 2019, month == 9) %>%
-      group_by(year) %>%
+    nyc_taxi |>
+      filter(year == 2019, month == 9) |>
+      group_by(year) |>
       summarise(mean_distance = mean(trip_distance))
-    ) %>%
-  filter(trip_distance < mean_distance) %>%
-  count() %>%
+    ) |>
+  filter(trip_distance < mean_distance) |>
+  count() |>
   collect()
 ```
 :::
