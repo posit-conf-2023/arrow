@@ -23,15 +23,14 @@ library(lubridate)
 library(stringr)
 ```
 
+## Arrow Datasets
+
+![Image source: Navarro, Danielle. 2022. “Unpacking Arrow Datasets.” November 30, 2022. https://blog.djnavarro.net/posts/2022-11-30_unpacking-arrow-datasets.](images/datasets.png)
+
 ## dplyr API in arrow
 
 ![](images/dplyr-backend.png)
 
-```{=html}
-<!-- 
-Here, we talk about the equivalents between dbplyr and dplyr
--->
-```
 ## The dataset
 
 ```{r}
@@ -106,11 +105,7 @@ nyc_taxi |>
   nrow()
 ```
 
-```{=html}
-<!-- 
-* if we have transformations which don't have multiple stages of computation, we can call nrow on the query easily like this
--->
-```
+
 ## calling `nrow()` doesn't work with intermediate step
 
 ```{r}
@@ -233,6 +228,8 @@ long_rides_2021 |>
 ?`arrow-dplyr`
 ```
 
+or view them at [https://arrow.apache.org/docs/r/reference/acero.html](https://arrow.apache.org/docs/r/reference/acero.html)
+
 ## A different function
 
 ```{r}
@@ -331,6 +328,8 @@ nyc_taxi |>
 ?`arrow-dplyr`
 ```
 
+or view them at [https://arrow.apache.org/docs/r/reference/acero.html](https://arrow.apache.org/docs/r/reference/acero.html)
+
 ## Your Turn
 
 1.  Use the `dplyr::filter()` and `stringr::str_ends()` to return a subset of the data which is a) from September 2020, and b) the value in `vendor_name` ends with the letter "S".
@@ -338,3 +337,9 @@ nyc_taxi |>
 3.  Bonus question: see if you can find a different way of completing the task in question 2.
 
 ➡️ [Data Manipulation Part I Exercises Page](2_data_manipulation_1-exercises.html)
+
+## Summary
+
+* Working with Arrow datasets allow you to manipulate data which is larger-than-memory
+* You can use many dplyr functions with arrow - run `?\`arrow-dplyr\`` to view the docs
+* You can pass data to duckdb to use functions implemented in dbplyr and duckdb but not arrow
