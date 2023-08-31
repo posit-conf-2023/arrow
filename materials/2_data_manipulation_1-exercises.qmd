@@ -15,7 +15,6 @@ library(stringr)
 
 ```{r}
 #| label: open-dataset
-
 nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
 nyc_taxi
 ```
