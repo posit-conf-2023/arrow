@@ -61,7 +61,7 @@ nyc_taxi |>
 ::: panel-tabset
 ## Problem
 
-1.  How many trips in 2019 had a longer than average distance for that year?
+1.  How many trips in September 2019 had a longer than average distance for that month?
 
 ## Solution 1
 
@@ -69,9 +69,8 @@ nyc_taxi |>
 
 ```{r}
 #| label: window-duckdb
-#| eval: false
 nyc_taxi %>%
-  filter(year == 2019) %>%
+  filter(year == 2019, month == 9) %>%
   to_duckdb() %>%
   mutate(mean_distance = mean(trip_distance)) %>%
   to_arrow() %>%
@@ -85,9 +84,10 @@ nyc_taxi %>%
 ```{r}
 #| label: window-join
 nyc_taxi %>%
-  filter(year == 2019) %>%
+  filter(year == 2019, month == 9) %>%
   left_join(
     nyc_taxi %>%
+      filter(year == 2019, month == 9) %>%
       group_by(year) %>%
       summarise(mean_distance = mean(trip_distance))
     ) %>%

@@ -218,6 +218,7 @@ fare_by_year %>%
 fare_by_year %>%
   left_join(
     nyc_taxi %>%
+      filter(year %in% 2021:2022) %>%
       group_by(year) %>%
       summarise(mean_fare = mean(fare_amount))
   ) %>% 
@@ -229,7 +230,6 @@ fare_by_year %>%
 
 ```{r}
 #| label: window-duckdb
-#| eval: false
 
 fare_by_year %>%
   group_by(year) %>%

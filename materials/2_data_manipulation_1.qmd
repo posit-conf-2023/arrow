@@ -151,16 +151,6 @@ nyc_taxi %>%
 
 ➡️ [Data Manipulation Part I Exercises Page](2_data_manipulation_1-exercises.html)
 
-## use `glimpse()` to preview datasets
-
-```{r}
-#| label: glimpse
-#| eval: false
-
-nyc_taxi %>%
-  glimpse()
-```
-
 ## use `head()` then `collect()` to preview output for large queries
 
 How much were fares in GBP (£)?
@@ -199,7 +189,6 @@ fares_pounds %>%
 
 ```{r}
 #| label: across
-#| eval: false
 
 taxis_gbp <- nyc_taxi %>%
   mutate(across(ends_with("amount"), list(pounds = ~.x * 0.79)))
@@ -211,7 +200,6 @@ taxis_gbp
 
 ```{r}
 #| label: across-2
-#| eval: false
 
 taxis_gbp %>%
   select(contains("amount")) %>%
@@ -241,9 +229,8 @@ long_rides_2021 %>%
 
 ```{r}
 #| label: get-help
-#| eval: false
 
-?arrow-dplyr
+?`arrow-dplyr`
 ```
 
 ## A different function
@@ -289,7 +276,6 @@ nyc_taxi %>%
 
 ```{r}
 #| label: pivot-duckdb
-#| eval: false
 
 library(duckdb)
 
@@ -301,6 +287,10 @@ nyc_taxi %>%
   to_arrow() %>% # return data back to arrow
   collect()
 ```
+::: {.callout-caution collapse="true"}
+## Requires arrow 13.0.0
+This code requires arrow 13.0.0 or above to run, due to a bug which was fixed in this version
+:::
 
 # Using functions inside verbs
 
@@ -337,9 +327,8 @@ nyc_taxi %>%
 
 ```{r}
 #| label: get-help-funcs
-#| eval: false
 
-?arrow-dplyr
+?`arrow-dplyr`
 ```
 
 ## Your Turn

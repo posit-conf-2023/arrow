@@ -23,7 +23,6 @@ taxi_size <- tibble(
 taxi_size
 
 taxi_size |> summarise(total_GB = sum(size_GB))
-## or demo/show data size interactively using Finder
 ```
 
 ```{r}

@@ -27,7 +27,7 @@ nyc_taxi
 
 1.  How many taxi fares in the dataset had a total amount greater than \$100?
 
-2.  How many distinct pickup locations are in the dataset?
+2.  How many distinct pickup locations are in the dataset since 2016?
 
 ## Solution 1
 
@@ -44,8 +44,8 @@ nyc_taxi %>%
 ```{r}
 #| label: compute-collect-2
 #| cache: true
-#| eval: false
 nyc_taxi %>%
+  filter(year >= 2016) %>%
   distinct(pickup_longitude, pickup_latitude) %>%
   compute() %>%
   nrow()
@@ -69,6 +69,7 @@ nyc_taxi %>%
 
 ```{r}
 #| label: compute-collect-sol1
+#| eval: false
 nyc_taxi %>%
   filter(str_ends(vendor_name, "S"), year == 2020,  month == 9) %>%
   collect()
@@ -79,8 +80,10 @@ nyc_taxi %>%
 ```{r}
 #| label: compute-collect-sol2
 #| error: true
+#| eval: false
 nyc_taxi %>%
   mutate(vendor_name = stringr::str_replace_na(vendor_name, "No vendor")) %>%
+  head() %>%
   collect()
 ```
 
@@ -91,6 +94,7 @@ This won't work as `stringr::str_replace_na()` hasn't been implemented in Arrow.
 #| eval: false
 nyc_taxi %>%
   mutate(vendor_name = ifelse(is.na(vendor_name), "No vendor", vendor_name)) %>%
+  head() %>%
   collect()
 ```
 
@@ -98,6 +102,7 @@ Or, if you only needed a subset of the data, you could apply the function after 
 
 ```{r}
 #| label: compute-collect-sol4
+#| eval: false
 nyc_taxi %>%
   filter(year == 2019, month == 10) %>% # smaller subset of the data
   collect() %>%
