@@ -7,3 +7,4 @@
 _site/
 /data
 .DS_Store
+/materials/**_cache
