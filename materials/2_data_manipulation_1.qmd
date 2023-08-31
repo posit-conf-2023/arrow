@@ -276,7 +276,6 @@ nyc_taxi %>%
 
 ```{r}
 #| label: pivot-duckdb
-#| eval: false
 
 library(duckdb)
 
