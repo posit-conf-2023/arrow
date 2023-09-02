@@ -466,76 +466,45 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<!-- ## NYC Taxi Dataset: A {dplyr} pipeline -->
-<!-- <br> -->
-<!-- -   use `filter()` to restrict data to 2014:2017 -->
-<!-- -   use `group_by()` to aggregate by `year` -->
-<!-- -   use `summarise()` to count total and shared trips -->
-<!-- -   use `mutate()` to compute percent of trips shared -->
-<!-- -   use `collect()` to trigger execution & pull result into R -->
 </section>
 <section id="nyc-taxi-dataset" class="slide level2">
 <h2>NYC Taxi Dataset</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(arrow)</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>nyc_taxi <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/nyc-taxi"</span>))</span>
-<span id="cb3-4"><a href="#cb3-4"></a>nyc_taxi</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>FileSystemDataset with 122 Parquet files
-vendor_name: string
-pickup_datetime: timestamp[ms]
-dropoff_datetime: timestamp[ms]
-passenger_count: int64
-trip_distance: double
-pickup_longitude: double
-pickup_latitude: double
-rate_code: string
-store_and_fwd: string
-dropoff_longitude: double
-dropoff_latitude: double
-payment_type: string
-fare_amount: double
-extra: double
-mta_tax: double
-tip_amount: double
-tolls_amount: double
-total_amount: double
-improvement_surcharge: double
-congestion_surcharge: double
-pickup_location_id: int64
-dropoff_location_id: int64
-year: int32
-month: int32</code></pre>
-</div>
+<span id="cb3-3"><a href="#cb3-3"></a>nyc_taxi <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/nyc-taxi"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="nyc-taxi-dataset-1" class="slide level2">
 <h2>NYC Taxi Dataset</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>nyc_taxi <span class="sc">|&gt;</span> </span>
-<span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>nyc_taxi <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1155795912</code></pre>
+<pre><code>[1] 1150352666</code></pre>
 </div>
 </div>
 <p><br></p>
 <p>1.15 billion rows 🤯</p>
 </section>
+<section id="nyc-taxi-dataset-a-question" class="slide level2">
+<h2>NYC Taxi Dataset: A question</h2>
+<p>What percentage of taxi rides each year had more than 1 passenger?</p>
+</section>
 <section id="nyc-taxi-dataset-a-dplyr-pipeline" class="slide level2">
 <h2>NYC Taxi Dataset: A {dplyr} pipeline</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a>nyc_taxi <span class="sc">|&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2014</span><span class="sc">:</span><span class="dv">2017</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb7-7"><a href="#cb7-7"></a>    <span class="at">all_trips =</span> <span class="fu">n</span>(),</span>
-<span id="cb7-8"><a href="#cb7-8"></a>    <span class="at">shared_trips =</span> <span class="fu">sum</span>(passenger_count <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb7-9"><a href="#cb7-9"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a>  <span class="fu">mutate</span>(<span class="at">pct_shared =</span> shared_trips <span class="sc">/</span> all_trips <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a>nyc_taxi <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2014</span><span class="sc">:</span><span class="dv">2017</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb6-7"><a href="#cb6-7"></a>    <span class="at">all_trips =</span> <span class="fu">n</span>(),</span>
+<span id="cb6-8"><a href="#cb6-8"></a>    <span class="at">shared_trips =</span> <span class="fu">sum</span>(passenger_count <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-9"><a href="#cb6-9"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a>  <span class="fu">mutate</span>(<span class="at">pct_shared =</span> shared_trips <span class="sc">/</span> all_trips <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 4
    year all_trips shared_trips pct_shared
@@ -550,21 +519,21 @@ month: int32</code></pre>
 <section id="nyc-taxi-dataset-a-dplyr-pipeline-1" class="slide level2">
 <h2>NYC Taxi Dataset: A {dplyr} pipeline</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="11,12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb9-2"><a href="#cb9-2"></a></span>
-<span id="cb9-3"><a href="#cb9-3"></a>nyc_taxi <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2014</span><span class="sc">:</span><span class="dv">2017</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb9-7"><a href="#cb9-7"></a>    <span class="at">all_trips =</span> <span class="fu">n</span>(),</span>
-<span id="cb9-8"><a href="#cb9-8"></a>    <span class="at">shared_trips =</span> <span class="fu">sum</span>(passenger_count <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-9"><a href="#cb9-9"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a>  <span class="fu">mutate</span>(<span class="at">pct_shared =</span> shared_trips <span class="sc">/</span> all_trips <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb9-12"><a href="#cb9-12"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8" data-code-line-numbers="11,12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a>nyc_taxi <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2014</span><span class="sc">:</span><span class="dv">2017</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb8-7"><a href="#cb8-7"></a>    <span class="at">all_trips =</span> <span class="fu">n</span>(),</span>
+<span id="cb8-8"><a href="#cb8-8"></a>    <span class="at">shared_trips =</span> <span class="fu">sum</span>(passenger_count <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-9"><a href="#cb8-9"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a>  <span class="fu">mutate</span>(<span class="at">pct_shared =</span> shared_trips <span class="sc">/</span> all_trips <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb8-12"><a href="#cb8-12"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
- 22.638   0.787   2.359 </code></pre>
+ 19.201   0.564   1.880 </code></pre>
 </div>
 </div>
 </section>

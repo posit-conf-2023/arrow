@@ -411,18 +411,18 @@
 <span id="cb1-7"><a href="#cb1-7"></a>  )</span>
 <span id="cb1-8"><a href="#cb1-8"></a>)</span>
 <span id="cb1-9"><a href="#cb1-9"></a></span>
-<span id="cb1-10"><a href="#cb1-10"></a>nyc_taxi <span class="sc">%&gt;%</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>  <span class="fu">left_join</span>(vendors, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"vendor_name"</span> <span class="ot">=</span> <span class="st">"code"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a>  <span class="fu">select</span>(vendor_name, full_name, pickup_datetime) <span class="sc">%&gt;%</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>  <span class="fu">head</span>(<span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>nyc_taxi <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>  <span class="fu">left_join</span>(vendors, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"vendor_name"</span> <span class="ot">=</span> <span class="st">"code"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a>  <span class="fu">select</span>(vendor_name, full_name, pickup_datetime) <span class="sc">|&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>  <span class="fu">head</span>(<span class="dv">3</span>) <span class="sc">|&gt;</span></span>
 <span id="cb1-14"><a href="#cb1-14"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   vendor_name full_name                    pickup_datetime    
   &lt;chr&gt;       &lt;chr&gt;                        &lt;dttm&gt;             
-1 CMT         Creative Mobile Technologies 2012-11-01 01:18:26
-2 CMT         Creative Mobile Technologies 2012-11-01 01:18:27
-3 CMT         Creative Mobile Technologies 2012-11-01 01:18:45</code></pre>
+1 CMT         Creative Mobile Technologies 2012-11-03 10:08:31
+2 CMT         Creative Mobile Technologies 2012-11-03 10:08:35
+3 CMT         Creative Mobile Technologies 2012-11-03 10:08:35</code></pre>
 </div>
 </div>
 </section>
@@ -430,7 +430,7 @@
 <h2>Traps for the unwary</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>nyc_taxi_zones <span class="ot">&lt;-</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">read_csv_arrow</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/taxi_zone_lookup.csv"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">read_csv_arrow</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/taxi_zone_lookup.csv"</span>)) <span class="sc">|&gt;</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a>  <span class="fu">select</span>(<span class="at">location_id =</span> LocationID,</span>
 <span id="cb3-4"><a href="#cb3-4"></a>         <span class="at">borough =</span> Borough)</span>
 <span id="cb3-5"><a href="#cb3-5"></a></span>
@@ -575,7 +575,7 @@ borough: string</code></pre>
 <span id="cb15-9"><a href="#cb15-9"></a>  <span class="fu">collect</span>()</span>
 <span id="cb15-10"><a href="#cb15-10"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>138.677 sec elapsed</code></pre>
+<pre><code>133.705 sec elapsed</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -590,15 +590,15 @@ borough: string</code></pre>
    pickup_borough dropoff_borough         n
    &lt;chr&gt;          &lt;chr&gt;               &lt;int&gt;
  1 &lt;NA&gt;           &lt;NA&gt;            732357953
- 2 Manhattan      Manhattan       355850092
- 3 Queens         Manhattan        14648891
- 4 Manhattan      Queens           13186443
- 5 Manhattan      Brooklyn         11294128
- 6 Queens         Queens            7537042
- 7 Unknown        Unknown           4519763
- 8 Queens         Brooklyn          3727686
- 9 Brooklyn       Brooklyn          3566671
-10 Manhattan      Bronx             2091627
+ 2 Manhattan      Manhattan       351198872
+ 3 Queens         Manhattan        14440705
+ 4 Manhattan      Queens           13052517
+ 5 Manhattan      Brooklyn         11180867
+ 6 Queens         Queens            7440356
+ 7 Unknown        Unknown           4491811
+ 8 Queens         Brooklyn          3662324
+ 9 Brooklyn       Brooklyn          3550480
+10 Manhattan      Bronx             2071830
 # ℹ 40 more rows</code></pre>
 </div>
 </div>
@@ -624,29 +624,28 @@ borough: string</code></pre>
 <section id="grouped-summaries" class="slide level2">
 <h2>Grouped summaries</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>fare_by_year <span class="ot">&lt;-</span> nyc_taxi <span class="sc">%&gt;%</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2021</span><span class="sc">:</span><span class="dv">2022</span>) <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>fare_by_year <span class="ot">&lt;-</span> nyc_taxi <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2021</span><span class="sc">:</span><span class="dv">2022</span>) <span class="sc">|&gt;</span></span>
 <span id="cb19-3"><a href="#cb19-3"></a>  <span class="fu">select</span>(year, fare_amount)</span>
 <span id="cb19-4"><a href="#cb19-4"></a></span>
-<span id="cb19-5"><a href="#cb19-5"></a>fare_by_year <span class="sc">%&gt;%</span></span>
-<span id="cb19-6"><a href="#cb19-6"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
-<span id="cb19-7"><a href="#cb19-7"></a>  <span class="fu">summarise</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount)) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-5"><a href="#cb19-5"></a>fare_by_year <span class="sc">|&gt;</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a>  <span class="fu">summarise</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount)) <span class="sc">|&gt;</span> </span>
 <span id="cb19-8"><a href="#cb19-8"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 2 × 2
+<pre><code># A tibble: 1 × 2
    year mean_fare
   &lt;int&gt;     &lt;dbl&gt;
-1  2021      13.5
-2  2022      13.0</code></pre>
+1  2021      13.5</code></pre>
 </div>
 </div>
 </section>
 <section id="window-functions-1" class="slide level2">
 <h2>Window functions</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>fare_by_year <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a>  <span class="fu">mutate</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount)) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>fare_by_year <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a>  <span class="fu">mutate</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount)) <span class="sc">|&gt;</span> </span>
 <span id="cb21-4"><a href="#cb21-4"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error: window functions not currently supported in Arrow
@@ -657,65 +656,65 @@ Call collect() first to pull data into R.</code></pre>
 <section id="window-functions---via-joins" class="slide level2">
 <h2>Window functions - via joins</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>fare_by_year <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>fare_by_year <span class="sc">|&gt;</span></span>
 <span id="cb23-2"><a href="#cb23-2"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb23-3"><a href="#cb23-3"></a>    nyc_taxi <span class="sc">%&gt;%</span></span>
-<span id="cb23-4"><a href="#cb23-4"></a>      <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2021</span><span class="sc">:</span><span class="dv">2022</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb23-5"><a href="#cb23-5"></a>      <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a>    nyc_taxi <span class="sc">|&gt;</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a>      <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2021</span><span class="sc">:</span><span class="dv">2022</span>) <span class="sc">|&gt;</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a>      <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
 <span id="cb23-6"><a href="#cb23-6"></a>      <span class="fu">summarise</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount))</span>
-<span id="cb23-7"><a href="#cb23-7"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-8"><a href="#cb23-8"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(fare_amount)) <span class="sc">%&gt;%</span></span>
+<span id="cb23-7"><a href="#cb23-7"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb23-8"><a href="#cb23-8"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(fare_amount)) <span class="sc">|&gt;</span></span>
 <span id="cb23-9"><a href="#cb23-9"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 36,345,864 × 3
+<pre><code># A tibble: 30,902,618 × 3
     year fare_amount mean_fare
    &lt;int&gt;       &lt;dbl&gt;     &lt;dbl&gt;
  1  2021     818283.      13.5
- 2  2022     401092.      13.0
- 3  2021     398466.      13.5
- 4  2021     395854.      13.5
- 5  2021       6965       13.5
- 6  2021       6960.      13.5
- 7  2021       6010       13.5
- 8  2021       5954       13.5
- 9  2021       4969       13.5
-10  2021       3555.      13.5
-# ℹ 36,345,854 more rows</code></pre>
+ 2  2021     398466.      13.5
+ 3  2021     395854.      13.5
+ 4  2021       6965       13.5
+ 5  2021       6960.      13.5
+ 6  2021       6010       13.5
+ 7  2021       5954       13.5
+ 8  2021       4969       13.5
+ 9  2021       3555.      13.5
+10  2021       3009       13.5
+# ℹ 30,902,608 more rows</code></pre>
 </div>
 </div>
 </section>
 <section id="window-functions---via-duckdb" class="slide level2">
 <h2>Window functions - via duckdb</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>fare_by_year <span class="sc">%&gt;%</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a>  <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span></span>
-<span id="cb25-3"><a href="#cb25-3"></a>  <span class="fu">to_duckdb</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a>  <span class="fu">mutate</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount)) <span class="sc">%&gt;%</span> </span>
-<span id="cb25-5"><a href="#cb25-5"></a>  <span class="fu">to_arrow</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb25-6"><a href="#cb25-6"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(fare_amount)) <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a>fare_by_year <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a>  <span class="fu">to_duckdb</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a>  <span class="fu">mutate</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount)) <span class="sc">|&gt;</span> </span>
+<span id="cb25-5"><a href="#cb25-5"></a>  <span class="fu">to_arrow</span>() <span class="sc">|&gt;</span></span>
+<span id="cb25-6"><a href="#cb25-6"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(fare_amount)) <span class="sc">|&gt;</span></span>
 <span id="cb25-7"><a href="#cb25-7"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 36,345,864 × 3
+<pre><code># A tibble: 30,902,618 × 3
     year fare_amount mean_fare
    &lt;int&gt;       &lt;dbl&gt;     &lt;dbl&gt;
  1  2021     818283.      13.5
- 2  2022     401092.      13.0
- 3  2021     398466.      13.5
- 4  2021     395854.      13.5
- 5  2021       6965       13.5
- 6  2021       6960.      13.5
- 7  2021       6010       13.5
- 8  2021       5954       13.5
- 9  2021       4969       13.5
-10  2021       3555.      13.5
-# ℹ 36,345,854 more rows</code></pre>
+ 2  2021     398466.      13.5
+ 3  2021     395854.      13.5
+ 4  2021       6965       13.5
+ 5  2021       6960.      13.5
+ 6  2021       6010       13.5
+ 7  2021       5954       13.5
+ 8  2021       4969       13.5
+ 9  2021       3555.      13.5
+10  2021       3009       13.5
+# ℹ 30,902,608 more rows</code></pre>
 </div>
 </div>
 </section>
 <section id="your-turn-1" class="slide level2">
 <h2>Your Turn</h2>
 <ol type="1">
-<li>How many trips in 2019 had a longer than average distance for that year?</li>
+<li>How many trips in September 2019 had a longer than average distance for that month?</li>
 </ol>
 <p>➡️ <a href="4_data_manipulation_2-exercises.html">Data Manipulation Part I Exercises Page</a></p>
 </section>
@@ -732,19 +731,19 @@ Call collect() first to pull data into R.</code></pre>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>millions <span class="ot">&lt;-</span> <span class="cf">function</span>(x) x <span class="sc">/</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">6</span></span>
 <span id="cb27-2"><a href="#cb27-2"></a></span>
 <span id="cb27-3"><a href="#cb27-3"></a>nyc_taxi <span class="sc">|&gt;</span></span>
-<span id="cb27-4"><a href="#cb27-4"></a>  <span class="fu">group_by</span>(vendor_name) <span class="sc">%&gt;%</span></span>
-<span id="cb27-5"><a href="#cb27-5"></a>  <span class="fu">summarise</span>(<span class="at">trips =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb27-4"><a href="#cb27-4"></a>  <span class="fu">group_by</span>(vendor_name) <span class="sc">|&gt;</span></span>
+<span id="cb27-5"><a href="#cb27-5"></a>  <span class="fu">summarise</span>(<span class="at">trips =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
 <span id="cb27-6"><a href="#cb27-6"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb27-7"><a href="#cb27-7"></a>    <span class="at">trips_mil =</span> <span class="fu">millions</span>(trips)</span>
-<span id="cb27-8"><a href="#cb27-8"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb27-8"><a href="#cb27-8"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb27-9"><a href="#cb27-9"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   vendor_name     trips trips_mil
   &lt;chr&gt;           &lt;int&gt;     &lt;dbl&gt;
-1 CMT         531806845    532.  
-2 VTS         621279093    621.  
-3 &lt;NA&gt;          2709974      2.71</code></pre>
+1 CMT         530173884    530.  
+2 VTS         617481207    617.  
+3 &lt;NA&gt;          2697575      2.70</code></pre>
 </div>
 </div>
 </section>
@@ -753,8 +752,8 @@ Call collect() first to pull data into R.</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>morning <span class="ot">&lt;-</span> <span class="cf">function</span>(x) <span class="fu">ifelse</span>(lubridate<span class="sc">::</span><span class="fu">am</span>(x), <span class="st">"morning"</span>, <span class="st">"afternoon"</span>)</span>
 <span id="cb29-2"><a href="#cb29-2"></a>nyc_taxi <span class="sc">|&gt;</span></span>
-<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">group_by</span>(<span class="fu">morning</span>(pickup_datetime)) <span class="sc">%&gt;%</span></span>
-<span id="cb29-4"><a href="#cb29-4"></a>  <span class="fu">count</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a>  <span class="fu">group_by</span>(<span class="fu">morning</span>(pickup_datetime)) <span class="sc">|&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a>  <span class="fu">count</span>() <span class="sc">|&gt;</span></span>
 <span id="cb29-5"><a href="#cb29-5"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error: Expression morning(pickup_datetime) not supported in Arrow
