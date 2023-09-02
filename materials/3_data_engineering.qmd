@@ -14,6 +14,7 @@ engine: knitr
 #| echo: false
 library(arrow)
 library(dplyr)
+library(tictoc)
 
 seattle_parquet <- here::here("data/seattle-library-checkouts-parquet")
 seattle_parquet_part <- here::here("data/seattle-library-checkouts")
@@ -43,6 +44,17 @@ seattle_parquet_part <- here::here("data/seattle-library-checkouts")
 <https://xkcd.com/2116/>
 :::
 
+## Poll: Formats
+
+<br>
+
+Which file formats do you use most often?
+
+-   CSV (.csv)
+-   MS Excel (.xls and .xlsx)
+-   Parquet (.parquet)
+-   Something else
+
 ## Formats
 
 ![](images/big-data-formats-luminousman.png){.absolute top="0" left="250"}
@@ -58,17 +70,6 @@ There are lots of big data/columnar formats (not all supported by Arrow we are o
 ## Arrow & File Formats
 
 ![](images/arrow-read-write-updated.png)
-
-## Poll: Formats
-
-<br>
-
-Which file formats do you use most often?
-
--   CSV (.csv)
--   MS Excel (.xls and .xlsx)
--   Parquet (.parquet)
--   Something else
 
 ## Seattle<br>Checkouts<br>Big CSV
 
@@ -97,14 +98,16 @@ seattle_csv
 
 ```{r}
 #| label: seattle-glimpse
-seattle_csv |> glimpse()
+seattle_csv |> 
+  head() |> 
+  glimpse()
 ```
 
 ## Parsing the Metadata
 
 ```{r}
 #| label: seattle-schema
-seattle_csv$schema
+schema(seattle_csv)
 ```
 
 ## Parsing the Metadata
@@ -121,7 +124,7 @@ Arrow scans 👀 a few thousand rows of the file(s) to impute or "guess" the dat
 
 ```{r}
 #| label: seattle-schema-again
-seattle_csv$schema
+schema(seattle_csv)
 ```
 
 ::: notes
@@ -142,7 +145,7 @@ Arrow has a rich data type system, including direct analogs of many R data types
 
 <https://arrow.apache.org/docs/r/articles/data_types.html>
 
-## Arrow's schema()
+## Let's Control the Schema
 
 <br>
 
