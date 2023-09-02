@@ -142,7 +142,8 @@ nyc_taxi |>
 ## Your Turn
 
 1.  How many taxi fares in the dataset had a total amount greater than \$100?
-2.  How many distinct pickup locations are in the dataset?
+
+2.  How many distinct pickup locations (distinct combinations of the `pickup_latitude` and `pickup_longitude` columns) are in the dataset since 2016? Use `nrow()` to work this out.
 
 ➡️ [Data Manipulation Part I Exercises Page](2_data_manipulation_1-exercises.html)
 
@@ -332,8 +333,10 @@ or view them at [https://arrow.apache.org/docs/r/reference/acero.html](https://a
 
 ## Your Turn
 
-1.  Use the `dplyr::filter()` and `stringr::str_ends()` to return a subset of the data which is a) from September 2020, and b) the value in `vendor_name` ends with the letter "S".
+1.  Use the `dplyr::filter()` and `stringr::str_ends()` functions to return a subset of the data which is a) from September 2020, and b) the value in `vendor_name` ends with the letter "S".
+
 2.  Try to use the `stringr` function `str_replace_na()` to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead. What happens, and why?
+
 3.  Bonus question: see if you can find a different way of completing the task in question 2.
 
 ➡️ [Data Manipulation Part I Exercises Page](2_data_manipulation_1-exercises.html)

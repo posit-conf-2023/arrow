@@ -242,7 +242,7 @@ fare_by_year |>
 
 ## Your Turn
 
-1.  How many trips in 2019 had a longer than average distance for that year?
+1.  How many trips in September 2019 had a longer than average distance for that month?
 
 ➡️ [Data Manipulation Part I Exercises Page](4_data_manipulation_2-exercises.html)
 
