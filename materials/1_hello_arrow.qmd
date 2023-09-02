@@ -133,10 +133,12 @@ nyc_taxi |>
 
 ```{r}
 #| label: first-timing
-#| code-line-numbers: "11,12"
+#| code-line-numbers: "4,13,14"
 library(dplyr)
+library(tictoc)
 
-nyc_taxi |>
+tic()
+shared_rides <- nyc_taxi |>
   filter(year %in% 2014:2017) |>
   group_by(year) |>
   summarise(
@@ -144,8 +146,8 @@ nyc_taxi |>
     shared_trips = sum(passenger_count > 1, na.rm = TRUE)
   ) |>
   mutate(pct_shared = shared_trips / all_trips * 100) |>
-  collect() |> 
-  system.time()
+  collect()
+toc()
 ```
 
 ## Your Turn

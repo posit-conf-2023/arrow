@@ -132,15 +132,17 @@ parquet_file |>
 
 ```{r}
 #| label: arrow-efficient-df-dplyr
-#| code-line-numbers: "|2,8"
-parquet_file |>
+#| code-line-numbers: "2,4,10"
+library(tictoc)
+tic()
+shared_trips <- parquet_file |>
   read_parquet() |>
   group_by(vendor_name) |>
   summarise(all_trips = n(),
             shared_trips = sum(passenger_count > 1, na.rm = TRUE)) |>
   mutate(pct_shared = shared_trips / all_trips * 100) |>
-  collect() |>
-  system.time()
+  collect() 
+toc()
 ```
 
 ## Arrow for Efficient In-Memory Processing
@@ -156,15 +158,16 @@ parquet_file |>
 
 ```{r}
 #| label: arrow-efficient-table-dplyr
-#| code-line-numbers: "|2,8"
-parquet_file |>
+#| code-line-numbers: "1,3,9"
+tic()
+shared_trips <- parquet_file |>
   read_parquet(as_data_frame = FALSE) |>
   group_by(vendor_name) |>
   summarise(all_trips = n(),
             shared_trips = sum(passenger_count > 1, na.rm = TRUE)) |>
   mutate(pct_shared = shared_trips / all_trips * 100) |>
-  collect() |>
-  system.time()
+  collect()
+toc()
 ```
 
 ## Read a Parquet File Selectively
@@ -182,8 +185,9 @@ parquet_file |>
 
 ```{r}
 #| label: parquet-read-col-select-dplyr
-#| code-line-numbers: "|2,3,11"
-parquet_file |>
+#| code-line-numbers: "1,3,4,12"
+tic()
+shared_rides <- parquet_file |>
   read_parquet(
     col_select = c("vendor_name", "passenger_count"),
     as_data_frame = FALSE
@@ -192,8 +196,8 @@ parquet_file |>
   summarise(all_trips = n(),
             shared_trips = sum(passenger_count > 1, na.rm = TRUE)) |>
   mutate(pct_shared = shared_trips / all_trips * 100) |>
-  collect() |>
-  system.time()
+  collect()
+toc()
 ```
 
 ## Arrow Table or Dataset?

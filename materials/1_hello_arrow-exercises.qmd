@@ -76,19 +76,6 @@ nyc_taxi |>
 Compute time for querying the 1.15 billion rows:
 
 ```{r}
-#| label: first-dplyr-exercise2
-nyc_taxi |> 
-  filter(year == 2019) |>
-  group_by(month) |>
-  summarize(longest_trip = max(trip_distance, na.rm = TRUE)) |>
-  arrange(month) |> 
-  collect() |> 
-  system.time()
-```
-
-or
-
-```{r}
 #| label: first-dplyr-exercise2alt
 library(tictoc)
 

@@ -199,12 +199,14 @@ seattle_csv |>
 
 ```{r}
 #| label: seattle-dplyr-timed
-#| code-line-numbers: "5"
+#| code-line-numbers: "2,7"
+library(tictoc)
+tic()
 seattle_csv |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
-  collect() |>
-  system.time()
+  collect()
+toc()
 ```
 
 42 million rows -- not bad, but could be faster....
@@ -271,13 +273,14 @@ Parquet about half the size of the CSV file on-disk 💾
 
 ```{r}
 #| label: seattle-single-parquet-dplyr-timed
+tic()
 open_dataset(seattle_parquet, 
              format = "parquet") |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
   arrange(CheckoutYear) |> 
-  collect() |>
-  system.time()
+  collect() 
+toc()
 ```
 
 42 million rows -- much better! But could be *even* faster....
@@ -357,12 +360,13 @@ sizes
 #| label: seattle-partitioned-dplyr-timed
 seattle_parquet_part <- here::here("data/seattle-library-checkouts")
 
+tic()
 open_dataset(seattle_parquet_part,
              format = "parquet") |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
-  collect() |>
-  system.time()
+  collect() 
+toc()
 ```
 
 <br>
@@ -398,6 +402,7 @@ How long does it take to calculate the number of books checked out in each month
 
 ```{r}
 #| label: seattle-single-csv-dplyr-timed
+tic()
 open_dataset(
   sources = here::here("data/seattle-library-checkouts.csv"), 
   format = "csv"
@@ -406,8 +411,8 @@ open_dataset(
   group_by(CheckoutMonth) |>
   summarize(TotalCheckouts = sum(Checkouts)) |>
   arrange(desc(CheckoutMonth)) |>
-  collect() |>
-  system.time()
+  collect()
+toc()
 ```
 
 ## Performance Review: Partitioned Parquet
@@ -418,14 +423,15 @@ How long does it take to calculate the number of books checked out in each month
 
 ```{r}
 #| label: seattle-parquet-partitioned-dplyr-timed
+tic()
 open_dataset(here::here("data/seattle-library-checkouts"),
              format = "parquet") |> 
   filter(CheckoutYear == 2021, MaterialType == "BOOK") |>
   group_by(CheckoutMonth) |>
   summarize(TotalCheckouts = sum(Checkouts)) |>
   arrange(desc(CheckoutMonth)) |>
-  collect() |> 
-  system.time()
+  collect() 
+toc()
 ```
 
 ## Engineering Data Tips for Improved Storage & Performance
