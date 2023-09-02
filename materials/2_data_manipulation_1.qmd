@@ -23,15 +23,14 @@ library(lubridate)
 library(stringr)
 ```
 
+## Arrow Datasets
+
+![Image source: Navarro, Danielle. 2022. “Unpacking Arrow Datasets.” November 30, 2022. https://blog.djnavarro.net/posts/2022-11-30_unpacking-arrow-datasets.](images/datasets.png)
+
 ## dplyr API in arrow
 
 ![](images/dplyr-backend.png)
 
-```{=html}
-<!-- 
-Here, we talk about the equivalents between dbplyr and dplyr
--->
-```
 ## The dataset
 
 ```{r}
@@ -101,29 +100,25 @@ collect(shared_rides)
 ```{r}
 #| label: nrow
 
-nyc_taxi %>%
-  filter(year %in% 2017:2021) %>%
+nyc_taxi |>
+  filter(year %in% 2017:2021) |>
   nrow()
 ```
 
-```{=html}
-<!-- 
-* if we have transformations which don't have multiple stages of computation, we can call nrow on the query easily like this
--->
-```
+
 ## calling `nrow()` doesn't work with intermediate step
 
 ```{r}
 #| label: nrow-intermed
 
-nyc_taxi %>%
-  filter(year %in% 2017:2021) %>%
+nyc_taxi |>
+  filter(year %in% 2017:2021) |>
   group_by(year) |>
   summarize(
     all_trips = n(),
     shared_trips = sum(passenger_count > 1, na.rm = TRUE)
   ) |>
-  mutate(pct_shared = shared_trips / all_trips * 100) %>%
+  mutate(pct_shared = shared_trips / all_trips * 100) |>
   nrow()
 ```
 
@@ -132,22 +127,23 @@ nyc_taxi %>%
 ```{r,`code-line-numbers`="9"}
 #| label: compute-intermed
 
-nyc_taxi %>%
-  filter(year %in% 2017:2021) %>%
+nyc_taxi |>
+  filter(year %in% 2017:2021) |>
   group_by(year) |>
   summarize(
     all_trips = n(),
     shared_trips = sum(passenger_count > 1, na.rm = TRUE)
   ) |>
-  mutate(pct_shared = shared_trips / all_trips * 100) %>%
-  compute() %>%
+  mutate(pct_shared = shared_trips / all_trips * 100) |>
+  compute() |>
   nrow()
 ```
 
 ## Your Turn
 
 1.  How many taxi fares in the dataset had a total amount greater than \$100?
-2.  How many distinct pickup locations are in the dataset?
+
+2.  How many distinct pickup locations (distinct combinations of the `pickup_latitude` and `pickup_longitude` columns) are in the dataset since 2016? Use `nrow()` to work this out.
 
 ➡️ [Data Manipulation Part I Exercises Page](2_data_manipulation_1-exercises.html)
 
@@ -158,11 +154,11 @@ How much were fares in GBP (£)?
 ```{r}
 #| label: fares-gbp
 
-fares_pounds <- nyc_taxi %>%
-  filter(year %in% 2012:2015) %>%
+fares_pounds <- nyc_taxi |>
+  filter(year %in% 2012:2015) |>
   mutate(
     fare_amount_pounds = fare_amount * 0.79
-  ) %>%
+  ) |>
   select(fare_amount, fare_amount_pounds)
 ```
 
@@ -171,7 +167,7 @@ How many rows?
 ```{r}
 #| label: fares-pounds
 
-fares_pounds %>%
+fares_pounds |>
   nrow()
 ```
 
@@ -180,8 +176,8 @@ fares_pounds %>%
 ```{r}
 #| label: head-collect
 
-fares_pounds %>%
-  head() %>%
+fares_pounds |>
+  head() |>
   collect()
 ```
 
@@ -190,7 +186,7 @@ fares_pounds %>%
 ```{r}
 #| label: across
 
-taxis_gbp <- nyc_taxi %>%
+taxis_gbp <- nyc_taxi |>
   mutate(across(ends_with("amount"), list(pounds = ~.x * 0.79)))
 
 taxis_gbp
@@ -201,9 +197,9 @@ taxis_gbp
 ```{r}
 #| label: across-2
 
-taxis_gbp %>%
-  select(contains("amount")) %>%
-  head() %>%
+taxis_gbp |>
+  select(contains("amount")) |>
+  head() |>
   collect()
 ```
 
@@ -217,11 +213,11 @@ First three trips in the dataset in 2021 where distance \> 100 miles
 #| label: no-slice
 #| error: true
 
-long_rides_2021 <- nyc_taxi %>%
-  filter(year == 2021 & trip_distance > 100) %>%
+long_rides_2021 <- nyc_taxi |>
+  filter(year == 2021 & trip_distance > 100) |>
   select(pickup_datetime, year, trip_distance)
 
-long_rides_2021 %>%
+long_rides_2021 |>
   slice(1:3)
 ```
 
@@ -233,13 +229,15 @@ long_rides_2021 %>%
 ?`arrow-dplyr`
 ```
 
+or view them at [https://arrow.apache.org/docs/r/reference/acero.html](https://arrow.apache.org/docs/r/reference/acero.html)
+
 ## A different function
 
 ```{r}
 #| label: slice-max
 
-long_rides_2021 %>%
-  slice_max(n = 3, order_by = trip_distance, with_ties = FALSE) %>%
+long_rides_2021 |>
+  slice_max(n = 3, order_by = trip_distance, with_ties = FALSE) |>
   collect()
 ```
 
@@ -248,8 +246,8 @@ long_rides_2021 %>%
 ```{r}
 #| label: collect-first
 
-long_rides_2021 %>%
-  collect() %>%
+long_rides_2021 |>
+  collect() |>
   slice(1:3)
 ```
 
@@ -261,10 +259,10 @@ long_rides_2021 %>%
 
 library(tidyr)
 
-nyc_taxi %>% 
-  group_by(vendor_name) %>%
-  summarise(max_fare = max(fare_amount), min_fare = min(fare_amount)) %>%
-  pivot_longer(!vendor_name, names_to = "metric") %>% 
+nyc_taxi |> 
+  group_by(vendor_name) |>
+  summarise(max_fare = max(fare_amount), min_fare = min(fare_amount)) |>
+  pivot_longer(!vendor_name, names_to = "metric") |> 
   collect()
 ```
 
@@ -279,12 +277,12 @@ nyc_taxi %>%
 
 library(duckdb)
 
-nyc_taxi %>% 
-  group_by(vendor_name) %>%
-  summarise(max_fare = max(fare_amount), min_fare = min(fare_amount)) %>%
-  to_duckdb() %>% # send data to duckdb
-  pivot_longer(!vendor_name, names_to = "metric") %>% 
-  to_arrow() %>% # return data back to arrow
+nyc_taxi |> 
+  group_by(vendor_name) |>
+  summarise(max_fare = max(fare_amount), min_fare = min(fare_amount)) |>
+  to_duckdb() |> # send data to duckdb
+  pivot_longer(!vendor_name, names_to = "metric") |> 
+  to_arrow() |> # return data back to arrow
   collect()
 ```
 ::: {.callout-caution collapse="true"}
@@ -304,9 +302,9 @@ This code requires arrow 13.0.0 or above to run, due to a bug which was fixed in
 ```{r, `code-line-numbers`="2"}
 #| label: namespacing
 
-nyc_taxi %>%
-  group_by(time_of_day = ifelse(lubridate::am(pickup_datetime), "morning", "afternoon")) %>%
-  count() %>%
+nyc_taxi |>
+  group_by(time_of_day = ifelse(lubridate::am(pickup_datetime), "morning", "afternoon")) |>
+  count() |>
   collect()
 ```
 
@@ -317,9 +315,9 @@ nyc_taxi %>%
 
 library(lubridate)
 
-nyc_taxi %>%
-  group_by(time_of_day = ifelse(am(pickup_datetime), "morning", "afternoon")) %>%
-  count() %>%
+nyc_taxi |>
+  group_by(time_of_day = ifelse(am(pickup_datetime), "morning", "afternoon")) |>
+  count() |>
   collect()
 ```
 
@@ -331,10 +329,20 @@ nyc_taxi %>%
 ?`arrow-dplyr`
 ```
 
+or view them at [https://arrow.apache.org/docs/r/reference/acero.html](https://arrow.apache.org/docs/r/reference/acero.html)
+
 ## Your Turn
 
-1.  Use the `dplyr::filter()` and `stringr::str_ends()` to return a subset of the data which is a) from September 2020, and b) the value in `vendor_name` ends with the letter "S".
+1.  Use the `dplyr::filter()` and `stringr::str_ends()` functions to return a subset of the data which is a) from September 2020, and b) the value in `vendor_name` ends with the letter "S".
+
 2.  Try to use the `stringr` function `str_replace_na()` to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead. What happens, and why?
+
 3.  Bonus question: see if you can find a different way of completing the task in question 2.
 
 ➡️ [Data Manipulation Part I Exercises Page](2_data_manipulation_1-exercises.html)
+
+## Summary
+
+* Working with Arrow datasets allow you to manipulate data which is larger-than-memory
+* You can use many dplyr functions with arrow - run `?\`arrow-dplyr\`` to view the docs
+* You can pass data to duckdb to use functions implemented in dbplyr and duckdb but not arrow

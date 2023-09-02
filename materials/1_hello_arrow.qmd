@@ -86,19 +86,6 @@ Once you have joined, navigate to Projects on the top menu.
 Arrow Datasets allow you to query against data that has been split across multiple files. This sharding of data may indicate partitioning, which can accelerate queries that only touch some partitions (files). Call open_dataset() to point to a directory of data files and return a Dataset, then use dplyr methods to query it.
 :::
 
-<!-- ## NYC Taxi Dataset: A {dplyr} pipeline -->
-
-<!-- <br> -->
-
-<!-- -   use `filter()` to restrict data to 2014:2017 -->
-
-<!-- -   use `group_by()` to aggregate by `year` -->
-
-<!-- -   use `summarise()` to count total and shared trips -->
-
-<!-- -   use `mutate()` to compute percent of trips shared -->
-
-<!-- -   use `collect()` to trigger execution & pull result into R -->
 
 ## NYC Taxi Dataset
 
@@ -107,7 +94,6 @@ Arrow Datasets allow you to query against data that has been split across multip
 library(arrow)
 
 nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
-nyc_taxi
 ```
 
 ## NYC Taxi Dataset
@@ -121,6 +107,10 @@ nyc_taxi |>
 <br>
 
 1.15 billion rows 🤯
+
+## NYC Taxi Dataset: A question
+
+What percentage of taxi rides each year had more than 1 passenger?
 
 ## NYC Taxi Dataset: A {dplyr} pipeline
 
