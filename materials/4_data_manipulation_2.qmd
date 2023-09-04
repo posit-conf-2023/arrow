@@ -181,6 +181,10 @@ nyc_taxi |>
 
 # Joins
 
+## Joins
+
+![](images/joins.png)
+
 ## Joining a reference table
 
 ```{r}
