@@ -28,6 +28,10 @@ nyc_taxi <- open_dataset(here::here("data/nyc-taxi/"))
 
 # Joins
 
+## Joins
+
+![](images/joins.png)
+
 ## Joining a reference table
 
 ```{r}
