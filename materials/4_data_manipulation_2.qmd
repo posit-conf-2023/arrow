@@ -411,3 +411,5 @@ fare_by_year |>
 ## Summary
 
 * Window functions in arrow can be achieved via joins or passing data to and from duckdb
+* Arrow data type of columns used for joining must match
+* Window functions can be achieved via joins or passing the data to DuckDB and back
