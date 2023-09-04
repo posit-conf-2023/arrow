@@ -250,38 +250,7 @@ fare_by_year |>
 
 ➡️ [Data Manipulation Part I Exercises Page](4_data_manipulation_2-exercises.html)
 
-## Custom functions
+## Summary
 
--   Not officially supported
--   Works for simple operations but not with bindings
-
-## Custom functions - supported
-
-```{r}
-#| label: custom-1
-
-millions <- function(x) x / 10^6
-
-nyc_taxi |>
-  group_by(vendor_name) |>
-  summarise(trips = n()) |>
-  mutate(
-    trips_mil = millions(trips)
-  ) |>
-  collect()
-```
-
-## Custom functions - not supported
-
-```{r}
-#| label: custom-fail
-#| error: true
-
-morning <- function(x) ifelse(lubridate::am(x), "morning", "afternoon")
-nyc_taxi |>
-  group_by(morning(pickup_datetime)) |>
-  count() |>
-  collect()
-```
-
--   recommendation: write code as dplyr expressions instead of functions, or look up docs on user-defined functions for datasets (see `?register_scalar_function`)
+* Arrow data type of columns used for joining must match
+* Window functions can be achieved via joins or passing the data to DuckDB and back
