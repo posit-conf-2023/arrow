@@ -79,7 +79,7 @@ This is the main data set we will need for the day. It's pretty hefty---*40* GB 
 
 If you have a solid internet connection, and especially if you're in the US/Canada, this option is the simplest. You can use `arrow` itself to download the data. Note that there are no progress bars displayed during download, and so your session will appear to hang, but you can check progress by inspecting the contents of the download directory. When we tested this with Steph's laptop and a fast internet connection, it took 67 minutes, though results will likely vary widely.
 
-This method requires arrow to have been built with S3 support enabled.  This is on by default for most
+This method requires `arrow` to have been built with S3 support enabled.  This is on by default for most
 MacOS and Windows users, but if you're on Linux, take a look at the instructions [here](https://arrow.apache.org/docs/r/articles/install.html#libraries).
 
 After installing arrow, run the following code:
