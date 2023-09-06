@@ -12,7 +12,6 @@ execute:
 #| label: load-packages
 library(arrow)
 library(dplyr)
-library(tictoc)
 ```
 
 ```{r}
@@ -89,15 +88,13 @@ seattle_csv <- open_dataset(
 The number of `Checkouts` by `CheckoutYear` arranged by `CheckoutYear`:
 
 ```{r}
-#| label: seattle-csv-dplyr-1
+#| label: seattle-csv-dplyr
 #| cache: true
-tic()
 seattle_csv |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
   arrange(CheckoutYear) |> 
   collect()
-toc()
 ```
 
 or
@@ -105,12 +102,23 @@ or
 ```{r}
 #| label: seattle-csv-dplyr-2
 #| cache: true
-tic()
 seattle_csv |> 
   count(CheckoutYear, wt = Checkouts) |> 
   arrange(CheckoutYear) |> 
   collect()
-toc()
+```
+
+Timing the query:
+
+```{r}
+#| label: seattle-csv-dplyr-timed
+#| cache: true
+seattle_csv |>
+  group_by(CheckoutYear) |>
+  summarise(sum(Checkouts)) |>
+  arrange(CheckoutYear) |> 
+  collect() |> 
+  system.time()
 ```
 
 Querying 42 million rows of data stored in a CSV on disk in \~10 seconds, not too bad.
@@ -140,32 +148,16 @@ seattle_csv |>
 ## Solution 1
 
 ```{r}
-#| label: seattle-parquet-dplyr-1
+#| label: seattle-parquet-dplyr-2
 seattle_parquet <- here::here("data/seattle-library-checkouts-parquet")
 
-tic()
 open_dataset(seattle_parquet, 
              format = "parquet") |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
   arrange(CheckoutYear) |> 
-  collect()
-toc()
-```
-
-or
-
-```{r}
-#| label: seattle-parquet-dplyr-2
-seattle_parquet <- here::here("data/seattle-library-checkouts-parquet")
-
-tic()
-open_dataset(seattle_parquet, 
-             format = "parquet") |>
-  count(CheckoutYear, wt = Checkouts) |> 
-  arrange(CheckoutYear) |> 
-  collect()
-toc()
+  collect() |> 
+  system.time()
 ```
 
 A *much* faster compute time for the query when the on-disk data is stored in the Parquet format.
@@ -216,26 +208,24 @@ Total number of Checkouts in September of 2019 using partitioned Parquet data by
 
 ```{r}
 #| label: seattle-partitioned-other-dplyr
-tic()
 open_dataset(here::here("data/seattle-library-checkouts-type")) |> 
   filter(CheckoutYear == 2019, CheckoutMonth == 9) |> 
   group_by(CheckoutYear) |> 
   summarise(TotalCheckouts = sum(Checkouts)) |>
-  collect() 
-toc()
+  collect() |> 
+  system.time()
 ```
 
 Total number of Checkouts in September of 2019 using partitioned Parquet data by `CheckoutYear` and `CheckoutMonth`:
 
 ```{r}
 #| label: seattle-partitioned-partitioned-filter-dplyr
-tic()
 open_dataset(here::here("data/seattle-library-checkouts")) |> 
   filter(CheckoutYear == 2019, CheckoutMonth == 9) |> 
   group_by(CheckoutYear) |> 
   summarise(TotalCheckouts = sum(Checkouts)) |>
-  collect() 
-toc()
+  collect() |> 
+  system.time()
 ```
 
 Faster compute time because the `filter()` call is based on the partitions.
