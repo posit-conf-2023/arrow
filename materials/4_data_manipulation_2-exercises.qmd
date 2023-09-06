@@ -64,7 +64,6 @@ vendor_names_fixed |>
 :::
 :::
 
-::: {#exercise-window .callout-tip}
 
 
 ::: {#exercise-joins .callout-tip}
