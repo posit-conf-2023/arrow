@@ -108,5 +108,7 @@ nyc_taxi |>
   collect() |>
   mutate(vendor_name = stringr::str_replace_na(vendor_name, "No vendor"))
 ```
+
+
 :::
 :::

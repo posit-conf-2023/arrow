@@ -2,7 +2,6 @@ project:
   type: website
   render:
     - "*.qmd"
-    - "!materials/slides.qmd"
 
 website:
   title: "Big Data in R with Arrow"

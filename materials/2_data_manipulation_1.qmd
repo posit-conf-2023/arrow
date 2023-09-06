@@ -23,9 +23,16 @@ library(lubridate)
 library(stringr)
 ```
 
+## Goals
+
+Avoiding these! But...don't worry!
+
+![](images/segfault.png)
+
+
 ## Arrow Datasets
 
-![Image source: Navarro, Danielle. 2022. “Unpacking Arrow Datasets.” November 30, 2022. https://blog.djnavarro.net/posts/2022-11-30_unpacking-arrow-datasets.](images/datasets.png)
+![Image source: Navarro, Danielle. 2022. "Unpacking Arrow Datasets." November 30, 2022. https://blog.djnavarro.net/posts/2022-11-30_unpacking-arrow-datasets.](images/datasets.png)
 
 ## dplyr API in arrow
 
@@ -105,7 +112,6 @@ nyc_taxi |>
   nrow()
 ```
 
-
 ## calling `nrow()` doesn't work with intermediate step
 
 ```{r}
@@ -155,11 +161,9 @@ How much were fares in GBP (£)?
 #| label: fares-gbp
 
 fares_pounds <- nyc_taxi |>
-  filter(year %in% 2012:2015) |>
   mutate(
     fare_amount_pounds = fare_amount * 0.79
-  ) |>
-  select(fare_amount, fare_amount_pounds)
+  )
 ```
 
 How many rows?
@@ -171,12 +175,14 @@ fares_pounds |>
   nrow()
 ```
 
-## use `head()` then `collect()` to preview output
+## Use `head()`, `select()`, `filter()`, and `collect()` to preview results
 
 ```{r}
-#| label: head-collect
-
-fares_pounds |>
+#| label: fares-gbp-head
+nyc_taxi |>
+  filter(year == 2020) |>
+  mutate(fare_pounds = fare_amount * 0.79) |>
+  select(fare_amount, fare_pounds) |>
   head() |>
   collect()
 ```
@@ -202,6 +208,14 @@ taxis_gbp |>
   head() |>
   collect()
 ```
+
+## Summary
+
+-   Use `nrow()` to work out how many rows of data your analyses will return
+-   Use `compute()` when you need to execute intermediate steps
+-   Use `collect()` to pull all of the data into your R session
+-   Use `head()`, `select()`, `filter()`, and `collect()` to preview results
+-   Use `across()` to manipulate data in multiple columns at once
 
 # dplyr API in arrow - what is and isn't implemented?
 
@@ -229,7 +243,7 @@ long_rides_2021 |>
 ?`arrow-dplyr`
 ```
 
-or view them at [https://arrow.apache.org/docs/r/reference/acero.html](https://arrow.apache.org/docs/r/reference/acero.html)
+or view them at <https://arrow.apache.org/docs/r/reference/acero.html>
 
 ## A different function
 
@@ -261,7 +275,7 @@ library(tidyr)
 
 nyc_taxi |> 
   group_by(vendor_name) |>
-  summarise(max_fare = max(fare_amount), min_fare = min(fare_amount)) |>
+  summarise(max_fare = max(fare_amount)) |>
   pivot_longer(!vendor_name, names_to = "metric") |> 
   collect()
 ```
@@ -279,15 +293,17 @@ library(duckdb)
 
 nyc_taxi |> 
   group_by(vendor_name) |>
-  summarise(max_fare = max(fare_amount), min_fare = min(fare_amount)) |>
+  summarise(max_fare = max(fare_amount)) |>
   to_duckdb() |> # send data to duckdb
   pivot_longer(!vendor_name, names_to = "metric") |> 
   to_arrow() |> # return data back to arrow
   collect()
 ```
+
 ::: {.callout-caution collapse="true"}
 ## Requires arrow 13.0.0
-This code requires arrow 13.0.0 or above to run, due to a bug which was fixed in this version
+
+This code requires arrow 13.0.0 or above to run, due to a bugfix in this version
 :::
 
 # Using functions inside verbs
@@ -310,7 +326,7 @@ nyc_taxi |>
 
 ## Morning vs afternoon - without namespacing
 
-```{r, `code-line-numbers`="2"}
+```{r, `code-line-numbers`="4"}
 #| label: no-namespacing
 
 library(lubridate)
@@ -318,6 +334,17 @@ library(lubridate)
 nyc_taxi |>
   group_by(time_of_day = ifelse(am(pickup_datetime), "morning", "afternoon")) |>
   count() |>
+  collect()
+```
+
+## What if a function isn't implemented?
+
+```{r}
+#| label: na_if_errors
+#| error: true
+nyc_taxi |>
+  mutate(vendor_name = na_if(vendor_name, "CMT")) |>
+  head() |>
   collect()
 ```
 
@@ -329,7 +356,21 @@ nyc_taxi |>
 ?`arrow-dplyr`
 ```
 
-or view them at [https://arrow.apache.org/docs/r/reference/acero.html](https://arrow.apache.org/docs/r/reference/acero.html)
+or view them at <https://arrow.apache.org/docs/r/reference/acero.html>
+
+## Option 1 - find a workaround!
+
+```{r}
+#| label: na_if_workaround
+nyc_taxi |>
+  mutate(vendor_name = ifelse(vendor_name == "CMT", NA, vendor_name)) |>
+  head() |>
+  collect()
+```
+
+## Option 2
+
+* In data manipulation part 2!
 
 ## Your Turn
 
@@ -343,6 +384,7 @@ or view them at [https://arrow.apache.org/docs/r/reference/acero.html](https://a
 
 ## Summary
 
-* Working with Arrow datasets allow you to manipulate data which is larger-than-memory
-* You can use many dplyr functions with arrow - run `?\`arrow-dplyr\`` to view the docs
-* You can pass data to duckdb to use functions implemented in dbplyr and duckdb but not arrow
+-   Working with Arrow datasets allow you to manipulate data which is larger-than-memory
+-   You can use many dplyr functions with arrow - run `?\`arrow-dplyr\`\` to view the docs
+-   You can pass data to duckdb to use functions implemented in dbplyr and duckdb but not arrow
+-   Sometimes the easiest solution is an alternative path
