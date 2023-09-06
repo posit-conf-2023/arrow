@@ -309,6 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="option-1the-simplest-optionfor-those-with-a-good-internet-connection-and-happy-to-let-things-run" class="level4">
 <h4 class="anchored" data-anchor-id="option-1the-simplest-optionfor-those-with-a-good-internet-connection-and-happy-to-let-things-run">Option 1—the simplest option—for those with a good internet connection and happy to let things run</h4>
 <p>If you have a solid internet connection, and especially if you’re in the US/Canada, this option is the simplest. You can use <code>arrow</code> itself to download the data. Note that there are no progress bars displayed during download, and so your session will appear to hang, but you can check progress by inspecting the contents of the download directory. When we tested this with Steph’s laptop and a fast internet connection, it took 67 minutes, though results will likely vary widely.</p>
+<p>This method requires <code>arrow</code> to have been built with S3 support enabled. This is on by default for most MacOS and Windows users, but if you’re on Linux, take a look at the instructions <a href="https://arrow.apache.org/docs/r/articles/install.html#libraries">here</a>.</p>
 <p>After installing arrow, run the following code:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
