@@ -26,6 +26,151 @@ library(tictoc)
 nyc_taxi <- open_dataset(here::here("data/nyc-taxi/"))
 ```
 
+## What if a function binding doesn't exist - revisited!
+
+* Option 1 - find a workaround
+* Option 2 - user-defined functions (UDFs)
+
+## Why use a UDF?
+
+Sometimes it's hard to find a workaround
+
+```{r}
+#| label: difftime-error
+#| error: true
+nyc_taxi |>
+  mutate(duration_minutes = difftime(pickup_datetime, dropoff_datetime, units = "minutes")) |>
+  select(pickup_datetime, dropoff_datetime, duration_minutes) |>
+  head() |>
+  collect()
+```
+
+# User-defined functions (aka UDFs)
+
+-   Define your own functions
+-   Scalar functions only - 1 row input and 1 row output
+
+## User-defined functions - definition
+
+```{r}
+#| label: udf-define-1
+register_scalar_function(
+  name = "time_diff_minutes",
+  function(context, pickup, dropoff) {
+    difftime(dropoff, pickup, units = "mins") |>
+      round() |>
+      as.integer()
+  },
+  in_type = schema(
+    pickup = timestamp(unit = "ms"),
+    dropoff = timestamp(unit = "ms")
+  ),
+  out_type = int32(),
+  auto_convert = TRUE
+)
+```
+
+## User-defined functions - definition
+
+```{r, `code-line-numbers`="2"}
+#| label: udf-define-2
+register_scalar_function(
+  name = "time_diff_minutes",
+  function(context, pickup, dropoff) {
+    difftime(dropoff, pickup, units = "mins") |>
+      round() |>
+      as.integer()
+  },
+  in_type = schema(
+    pickup = timestamp(unit = "ms"),
+    dropoff = timestamp(unit = "ms")
+  ),
+  out_type = int32(),
+  auto_convert = TRUE
+)
+```
+
+## User-defined functions - definition
+
+```{r, `code-line-numbers`="3,4,5,6,7"}
+#| label: udf-define-3
+register_scalar_function(
+  name = "time_diff_minutes",
+  function(context, pickup, dropoff) {
+    difftime(dropoff, pickup, units = "mins") |>
+      round() |>
+      as.integer()
+  },
+  in_type = schema(
+    pickup = timestamp(unit = "ms"),
+    dropoff = timestamp(unit = "ms")
+  ),
+  out_type = int32(),
+  auto_convert = TRUE
+)
+```
+
+## User-defined functions - definition
+
+```{r, `code-line-numbers`="8,9,10,11"}
+#| label: udf-define-4
+register_scalar_function(
+  name = "time_diff_minutes",
+  function(context, pickup, dropoff) {
+    difftime(dropoff, pickup, units = "mins") |>
+      round() |>
+      as.integer()
+  },
+  in_type = schema(
+    pickup = timestamp(unit = "ms"),
+    dropoff = timestamp(unit = "ms")
+  ),
+  out_type = int32(),
+  auto_convert = TRUE
+)
+```
+
+## User-defined functions - definition
+
+```{r, `code-line-numbers`="12"}
+#| label: udf-define-5
+register_scalar_function(
+  name = "time_diff_minutes",
+  function(context, pickup, dropoff) {
+    difftime(dropoff, pickup, units = "mins") |>
+      round() |>
+      as.integer()
+  },
+  in_type = schema(
+    pickup = timestamp(unit = "ms"),
+    dropoff = timestamp(unit = "ms")
+  ),
+  out_type = int32(),
+  auto_convert = TRUE
+)
+```
+
+## User-defined functions - usage
+
+```{r}
+#| label: udf-use
+nyc_taxi |>
+  mutate(duration_minutes = time_diff_minutes(pickup_datetime, dropoff_datetime)) |>
+  select(pickup_datetime, dropoff_datetime, duration_minutes) |>
+  head() |>
+  collect()
+```
+
+## Your Turn
+
+1.  Write a user-defined function which wraps the `stringr` function `str_replace_na()`, and use it to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead.
+
+➡️ [Data Manipulation Part I Exercises Page](4_data_manipulation_2-exercises.html)
+
+## Summary
+
+* You can use UDFs to create your own bindings when they don't exist!
+
 # Joins
 
 ## Joining a reference table
@@ -176,6 +321,11 @@ borough_counts
 
 ➡️ [Data Manipulation Part I Exercises Page](4_data_manipulation_2-exercises.html)
 
+## Summary
+
+* You can join arrow tables and datasets to R data frames and arrow tables
+* The arrow data type of join keys must always match
+
 # Window functions
 
 ## What are window functions?
@@ -246,38 +396,6 @@ fare_by_year |>
 
 ➡️ [Data Manipulation Part I Exercises Page](4_data_manipulation_2-exercises.html)
 
-## Custom functions
+## Summary
 
--   Not officially supported
--   Works for simple operations but not with bindings
-
-## Custom functions - supported
-
-```{r}
-#| label: custom-1
-
-millions <- function(x) x / 10^6
-
-nyc_taxi |>
-  group_by(vendor_name) |>
-  summarise(trips = n()) |>
-  mutate(
-    trips_mil = millions(trips)
-  ) |>
-  collect()
-```
-
-## Custom functions - not supported
-
-```{r}
-#| label: custom-fail
-#| error: true
-
-morning <- function(x) ifelse(lubridate::am(x), "morning", "afternoon")
-nyc_taxi |>
-  group_by(morning(pickup_datetime)) |>
-  count() |>
-  collect()
-```
-
--   recommendation: write code as dplyr expressions instead of functions, or look up docs on user-defined functions for datasets (see `?register_scalar_function`)
+* Window functions in arrow can be achieved via joins or passing data to and from duckdb

@@ -23,9 +23,14 @@ library(lubridate)
 library(stringr)
 ```
 
+## Goals
+
+![](images/segfault.png)
+
+
 ## Arrow Datasets
 
-![Image source: Navarro, Danielle. 2022. “Unpacking Arrow Datasets.” November 30, 2022. https://blog.djnavarro.net/posts/2022-11-30_unpacking-arrow-datasets.](images/datasets.png)
+![Image source: Navarro, Danielle. 2022. "Unpacking Arrow Datasets." November 30, 2022. https://blog.djnavarro.net/posts/2022-11-30_unpacking-arrow-datasets.](images/datasets.png)
 
 ## dplyr API in arrow
 
@@ -104,7 +109,6 @@ nyc_taxi |>
   filter(year %in% 2017:2021) |>
   nrow()
 ```
-
 
 ## calling `nrow()` doesn't work with intermediate step
 
@@ -205,11 +209,11 @@ taxis_gbp |>
 
 ## Summary
 
-* Use `nrow()` to work out how many rows of data your analyses will return
-* Use `compute()` when you need to execute intermediate steps
-* Use `collect()` to pull all of the data into your R session
-* Use `head()`, `select()`, `filter()`, and `collect()` to preview results
-* Use `across()` to manipulate data in multiple columns at once
+-   Use `nrow()` to work out how many rows of data your analyses will return
+-   Use `compute()` when you need to execute intermediate steps
+-   Use `collect()` to pull all of the data into your R session
+-   Use `head()`, `select()`, `filter()`, and `collect()` to preview results
+-   Use `across()` to manipulate data in multiple columns at once
 
 # dplyr API in arrow - what is and isn't implemented?
 
@@ -237,7 +241,7 @@ long_rides_2021 |>
 ?`arrow-dplyr`
 ```
 
-or view them at [https://arrow.apache.org/docs/r/reference/acero.html](https://arrow.apache.org/docs/r/reference/acero.html)
+or view them at <https://arrow.apache.org/docs/r/reference/acero.html>
 
 ## A different function
 
@@ -293,8 +297,10 @@ nyc_taxi |>
   to_arrow() |> # return data back to arrow
   collect()
 ```
+
 ::: {.callout-caution collapse="true"}
 ## Requires arrow 13.0.0
+
 This code requires arrow 13.0.0 or above to run, due to a bugfix in this version
 :::
 
@@ -348,8 +354,7 @@ nyc_taxi |>
 ?`arrow-dplyr`
 ```
 
-or view them at [https://arrow.apache.org/docs/r/reference/acero.html](https://arrow.apache.org/docs/r/reference/acero.html)
-
+or view them at <https://arrow.apache.org/docs/r/reference/acero.html>
 
 ## Option 1 - find a workaround!
 
@@ -361,134 +366,9 @@ nyc_taxi |>
   collect()
 ```
 
-## Option 2 - User-defined functions
+## Option 2
 
-Sometimes it's hard to find a workaround
-
-```{r}
-#| label: difftime-error
-#| error: true
-nyc_taxi |>
-  mutate(duration_minutes = difftime(pickup_datetime, dropoff_datetime, units = "minutes")) |>
-  select(pickup_datetime, dropoff_datetime, duration_minutes) |>
-  head() |>
-  collect()
-```
-## User-defined functions (aka UDFs)
-
-* Define your own functions
-* Scalar functions only - 1 row input and 1 row output
-
-## User-defined functions - definition
-
-```{r}
-#| label: udf-define-1
-register_scalar_function(
-  name = "time_diff_minutes",
-  function(context, pickup, dropoff) {
-    difftime(dropoff, pickup, units = "mins") |>
-      as.numeric() |>
-      round()
-  },
-  in_type = schema(
-    pickup = timestamp(unit = "ms"),
-    dropoff = timestamp(unit = "ms")
-  ),
-  out_type = float64(),
-  auto_convert = TRUE
-)
-```
-
-## User-defined functions - definition
-
-```{r, `code-line-numbers`="2"}
-#| label: udf-define-2
-register_scalar_function(
-  name = "time_diff_minutes",
-  function(context, pickup, dropoff) {
-    difftime(dropoff, pickup, units = "mins") |>
-      as.numeric() |>
-      round()
-  },
-  in_type = schema(
-    pickup = timestamp(unit = "ms"),
-    dropoff = timestamp(unit = "ms")
-  ),
-  out_type = float64(),
-  auto_convert = TRUE
-)
-```
-
-## User-defined functions - definition
-
-```{r, `code-line-numbers`="3,4,5,6,7"}
-#| label: udf-define-3
-register_scalar_function(
-  name = "time_diff_minutes",
-  function(context, pickup, dropoff) {
-    difftime(dropoff, pickup, units = "mins") |>
-      as.numeric() |>
-      round()
-  },
-  in_type = schema(
-    pickup = timestamp(unit = "ms"),
-    dropoff = timestamp(unit = "ms")
-  ),
-  out_type = float64(),
-  auto_convert = TRUE
-)
-```
-
-## User-defined functions - definition
-
-```{r, `code-line-numbers`="8,9,10,11"}
-#| label: udf-define-4
-register_scalar_function(
-  name = "time_diff_minutes",
-  function(context, pickup, dropoff) {
-    difftime(dropoff, pickup, units = "mins") |>
-      as.numeric() |>
-      round()
-  },
-  in_type = schema(
-    pickup = timestamp(unit = "ms"),
-    dropoff = timestamp(unit = "ms")
-  ),
-  out_type = float64(),
-  auto_convert = TRUE
-)
-```
-
-## User-defined functions - definition
-
-```{r, `code-line-numbers`="12"}
-#| label: udf-define-5
-register_scalar_function(
-  name = "time_diff_minutes",
-  function(context, pickup, dropoff) {
-    difftime(dropoff, pickup, units = "mins") |>
-      as.numeric() |>
-      round()
-  },
-  in_type = schema(
-    pickup = timestamp(unit = "ms"),
-    dropoff = timestamp(unit = "ms")
-  ),
-  out_type = float64(),
-  auto_convert = TRUE
-)
-```
-
-## User-defined functions - usage
-
-```{r}
-#| label: udf-use
-nyc_taxi |>
-  mutate(duration_minutes = time_diff_minutes(pickup_datetime, dropoff_datetime)) |>
-  select(pickup_datetime, dropoff_datetime, duration_minutes) |>
-  head() |>
-  collect()
-```
+* In data manipulation part 2!
 
 ## Your Turn
 
@@ -502,8 +382,8 @@ nyc_taxi |>
 
 ## Summary
 
-* Working with Arrow datasets allow you to manipulate data which is larger-than-memory
-* You can use many dplyr functions with arrow - run `?\`arrow-dplyr\`` to view the docs
-* You can pass data to duckdb to use functions implemented in dbplyr and duckdb but not arrow
-* Sometimes the easiest solution is an alternative path
-* Create user-defined-functions when no workaround is available
+-   Working with Arrow datasets allow you to manipulate data which is larger-than-memory
+-   You can use many dplyr functions with arrow - run `?\`arrow-dplyr\`\` to view the docs
+-   You can pass data to duckdb to use functions implemented in dbplyr and duckdb but not arrow
+-   Sometimes the easiest solution is an alternative path
+-   Create user-defined-functions when no workaround is available

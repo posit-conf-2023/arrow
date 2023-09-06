@@ -19,6 +19,54 @@ nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
 nyc_taxi
 ```
 
+
+::: {#exercise-udfs .callout-tip}
+# User-defined functions
+
+::: panel-tabset
+## Problem
+
+1.  Write a user-defined function which wraps the `stringr` function `str_replace_na()`, and use it to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead.
+
+## Solution 1
+
+```{r}
+#| label: udf-preview
+
+# Preview the distinct vendor names before we start
+nyc_taxi |>
+  filter(year == 2019) |> # smaller subset of the data
+  distinct(vendor_name) |>
+  collect()
+```
+
+```{r}
+#| label: udf-solution
+register_scalar_function(
+  name = "replace_vendor_na",
+  function(context, string) {
+    stringr::str_replace_na(string, "No vendor")
+  },
+  in_type = schema(string = string()),
+  out_type = string(),
+  auto_convert = TRUE
+)
+
+vendor_names_fixed <- nyc_taxi |>
+  mutate(vendor_name = replace_vendor_na(vendor_name)) 
+
+# Preview the distinct vendor names to check it's worked
+vendor_names_fixed |>
+  filter(year == 2019) |> # smaller subset of the data
+  distinct(vendor_name) |>
+  collect()
+```
+:::
+:::
+
+::: {#exercise-window .callout-tip}
+
+
 ::: {#exercise-joins .callout-tip}
 # Joins
 
