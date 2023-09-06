@@ -72,6 +72,8 @@ register_scalar_function(
 
 ## User-defined functions - definition
 
+Give the function a name
+
 ```{r, `code-line-numbers`="2"}
 #| label: udf-define-2
 register_scalar_function(
@@ -91,6 +93,8 @@ register_scalar_function(
 ```
 
 ## User-defined functions - definition
+
+Define the body of the function - first argument *must* be `context`
 
 ```{r, `code-line-numbers`="3,4,5,6,7"}
 #| label: udf-define-3
@@ -112,6 +116,8 @@ register_scalar_function(
 
 ## User-defined functions - definition
 
+Define the schema of the input arguments
+
 ```{r, `code-line-numbers`="8,9,10,11"}
 #| label: udf-define-4
 register_scalar_function(
@@ -131,6 +137,8 @@ register_scalar_function(
 ```
 
 ## User-defined functions - definition
+
+Define the data type of the output
 
 ```{r, `code-line-numbers`="12"}
 #| label: udf-define-5
