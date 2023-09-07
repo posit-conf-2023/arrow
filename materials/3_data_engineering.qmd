@@ -103,7 +103,13 @@ seattle_csv |>
   glimpse()
 ```
 
-## Parsing the Metadata
+## arrow::schema()
+
+> Create a schema or extract one from an object.
+
+<br>
+
+Let's extract the schema:
 
 ```{r}
 #| label: seattle-schema
@@ -149,10 +155,35 @@ Arrow has a rich data type system, including direct analogs of many R data types
 
 <br>
 
+Creating a schema manually:
+
+```{r}
+#| label: seattle-schema-write
+#| eval: false
+schema(
+  UsageClass = utf8(),
+  CheckoutType = utf8(),
+  MaterialType = utf8(),
+  ...
+)
+```
+
+<br>
+
+This will take a lot of typing with 12 columns 😢
+
+## Let's Control the Schema
+
+<br>
+
 ```{r}
 #| label: seattle-schema-code
 seattle_csv$schema$code() 
 ```
+
+<br>
+
+🤩
 
 ## Let's Control the Schema
 
