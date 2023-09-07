@@ -18,6 +18,7 @@ engine: knitr
 
 library(arrow)
 library(dplyr)
+library(tictoc)
 ```
 
 ## arrow 📦
@@ -73,12 +74,12 @@ library(dplyr)
 #change a df to a table
 arrow_table(taxi_df)
 
-#change a table to a df
+#change a table to a tibble
 taxi_table |> collect()
-
-as.data.frame(taxi_table)
-
 as_tibble(taxi_table)
+
+#change a table to a data.frame
+as.data.frame(taxi_table)
 ```
 
 <br>
@@ -182,7 +183,7 @@ parquet_file |>
 
 ```{r}
 #| label: parquet-read-col-select-dplyr
-#| code-line-numbers: "|2,3,11"
+#| code-line-numbers: "|2,3,4,11"
 parquet_file |>
   read_parquet(
     col_select = c("vendor_name", "passenger_count"),
@@ -213,5 +214,3 @@ parquet_file |>
 ::: notes
 Lot's of ways to speed up sluggish workflows e.g. [writing more performant tidyverse code](https://www.tidyverse.org/blog/2023/04/performant-packages/), use other data frame libraries like data.table or polars, use duckDB or other databases, Spark + splarklyr ... However, Arrow offers some attractive features for tackling this challenge, especially for dplyr users.
 :::
-
-

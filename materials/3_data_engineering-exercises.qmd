@@ -88,7 +88,7 @@ seattle_csv <- open_dataset(
 The number of `Checkouts` by `CheckoutYear` arranged by `CheckoutYear`:
 
 ```{r}
-#| label: seattle-csv-dplyr-1
+#| label: seattle-csv-dplyr
 #| cache: true
 seattle_csv |>
   group_by(CheckoutYear) |>
@@ -106,6 +106,19 @@ seattle_csv |>
   count(CheckoutYear, wt = Checkouts) |> 
   arrange(CheckoutYear) |> 
   collect()
+```
+
+Timing the query:
+
+```{r}
+#| label: seattle-csv-dplyr-timed
+#| cache: true
+seattle_csv |>
+  group_by(CheckoutYear) |>
+  summarise(sum(Checkouts)) |>
+  arrange(CheckoutYear) |> 
+  collect() |> 
+  system.time()
 ```
 
 Querying 42 million rows of data stored in a CSV on disk in \~10 seconds, not too bad.
@@ -135,26 +148,16 @@ seattle_csv |>
 ## Solution 1
 
 ```{r}
-#| label: seattle-parquet-dplyr-1
-#| eval: false
+#| label: seattle-parquet-dplyr-2
+seattle_parquet <- here::here("data/seattle-library-checkouts-parquet")
+
 open_dataset(seattle_parquet, 
              format = "parquet") |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
   arrange(CheckoutYear) |> 
-  collect()
-```
-
-or
-
-```{r}
-#| label: seattle-parquet-dplyr-2
-#| eval: false
-open_dataset(seattle_parquet, 
-             format = "parquet") |>
-  count(CheckoutYear, wt = Checkouts) |> 
-  arrange(CheckoutYear) |> 
-  collect()
+  collect() |> 
+  system.time()
 ```
 
 A *much* faster compute time for the query when the on-disk data is stored in the Parquet format.
@@ -225,6 +228,6 @@ open_dataset(here::here("data/seattle-library-checkouts")) |>
   system.time()
 ```
 
-\~10x faster compute time because the `filter()` call is based on the partitions.
+Faster compute time because the `filter()` call is based on the partitions.
 :::
 :::
