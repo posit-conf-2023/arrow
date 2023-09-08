@@ -84,8 +84,8 @@ as.data.frame(taxi_table)
 
 <br>
 
--   `data.frame` & `tibble` are in R memory
--   `Table` is in Arrow memory
+-   `data.frame` & `tibble` are R objects _in-memory_
+-   `Table` is an Arrow object _in-memory_
 
 ## Data frames
 
