@@ -94,15 +94,6 @@ seattle_csv <- open_dataset(
 seattle_csv
 ```
 
-## 👀 Glimpse
-
-```{r}
-#| label: seattle-glimpse
-seattle_csv |> 
-  head() |> 
-  glimpse()
-```
-
 ## arrow::schema()
 
 > Create a schema or extract one from an object.
