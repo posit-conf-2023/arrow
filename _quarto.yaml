@@ -44,7 +44,7 @@ website:
           href: materials/3_data_engineering-exercises.qmd
         - text: "Data Manipulation Part II Exercises"
           href: materials/4_data_manipulation_2-exercises.qmd
-        - text: "Single File API Exercises"
+        - text: "Arrow In-Memory Workflow Exercises"
           href: materials/5_arrow_single_file-exercises.qmd
 
 format:
