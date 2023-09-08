@@ -85,6 +85,11 @@ engine: knitr
 
 `r fontawesome::fa("hand")` You can ask questions at any time during the workshop
 
+## Discord `r fontawesome::fa("discord")`
+
+- Main digital communication for posit::conf(2023)
+- Arrow workshop channel 👀
+
 ## We Assume
 
 -   You know `r fontawesome::fa("r-project")`
