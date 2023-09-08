@@ -500,8 +500,8 @@ $dropoff_location_id &lt;int64&gt;</code></pre>
 </div>
 <p><br></p>
 <ul>
-<li><code>data.frame</code> &amp; <code>tibble</code> are in R memory</li>
-<li><code>Table</code> is in Arrow memory</li>
+<li><code>data.frame</code> &amp; <code>tibble</code> are R objects <em>in-memory</em></li>
+<li><code>Table</code> is an Arrow object <em>in-memory</em></li>
 </ul>
 </section>
 <section id="data-frames" class="slide level2">
@@ -582,7 +582,7 @@ $dropoff_location_id &lt;int64&gt;</code></pre>
 <span id="cb10-8"><a href="#cb10-8"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.538   0.235   0.544 </code></pre>
+  1.568   0.260   0.541 </code></pre>
 </div>
 </div>
 </section>
@@ -608,7 +608,7 @@ $dropoff_location_id &lt;int64&gt;</code></pre>
 <span id="cb14-8"><a href="#cb14-8"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.401   0.197   0.291 </code></pre>
+  1.433   0.213   0.267 </code></pre>
 </div>
 </div>
 </section>
@@ -644,7 +644,7 @@ $passenger_count &lt;int64&gt;</code></pre>
 <span id="cb18-11"><a href="#cb18-11"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.280   0.015   0.146 </code></pre>
+  0.278   0.013   0.144 </code></pre>
 </div>
 </div>
 </section>

@@ -116,7 +116,7 @@
     "href": "materials/5_arrow_single_file.html#tibble---table---data.frame",
     "title": "Big Data in R with Arrow",
     "section": "tibble <-> Table <-> data.frame",
-    "text": "tibble &lt;-&gt; Table &lt;-&gt; data.frame\n\nlibrary(dplyr)\n\n#change a df to a table\narrow_table(taxi_df)\n\n#change a table to a tibble\ntaxi_table |&gt; collect()\nas_tibble(taxi_table)\n\n#change a table to a data.frame\nas.data.frame(taxi_table)\n\n\n\ndata.frame & tibble are in R memory\nTable is in Arrow memory"
+    "text": "tibble &lt;-&gt; Table &lt;-&gt; data.frame\n\nlibrary(dplyr)\n\n#change a df to a table\narrow_table(taxi_df)\n\n#change a table to a tibble\ntaxi_table |&gt; collect()\nas_tibble(taxi_table)\n\n#change a table to a data.frame\nas.data.frame(taxi_table)\n\n\n\ndata.frame & tibble are R objects in-memory\nTable is an Arrow object in-memory"
   },
   {
     "objectID": "materials/5_arrow_single_file.html#data-frames",
@@ -144,14 +144,14 @@
     "href": "materials/5_arrow_single_file.html#arrow-for-efficient-in-memory-processing",
     "title": "Big Data in R with Arrow",
     "section": "Arrow for Efficient In-Memory Processing",
-    "text": "Arrow for Efficient In-Memory Processing\n\nparquet_file |&gt;\n  read_parquet() |&gt;\n  nrow()\n\n[1] 6567396\n\n\n\n\nparquet_file |&gt;\n  read_parquet() |&gt;\n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.538   0.235   0.544"
+    "text": "Arrow for Efficient In-Memory Processing\n\nparquet_file |&gt;\n  read_parquet() |&gt;\n  nrow()\n\n[1] 6567396\n\n\n\n\nparquet_file |&gt;\n  read_parquet() |&gt;\n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.568   0.260   0.541"
   },
   {
     "objectID": "materials/5_arrow_single_file.html#arrow-for-efficient-in-memory-processing-1",
     "href": "materials/5_arrow_single_file.html#arrow-for-efficient-in-memory-processing-1",
     "title": "Big Data in R with Arrow",
     "section": "Arrow for Efficient In-Memory Processing",
-    "text": "Arrow for Efficient In-Memory Processing\n\nparquet_file |&gt;\n  read_parquet(as_data_frame = FALSE) |&gt;\n  nrow()\n\n[1] 6567396\n\n\n\n\nparquet_file |&gt;\n  read_parquet(as_data_frame = FALSE) |&gt;\n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.401   0.197   0.291"
+    "text": "Arrow for Efficient In-Memory Processing\n\nparquet_file |&gt;\n  read_parquet(as_data_frame = FALSE) |&gt;\n  nrow()\n\n[1] 6567396\n\n\n\n\nparquet_file |&gt;\n  read_parquet(as_data_frame = FALSE) |&gt;\n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.433   0.213   0.267"
   },
   {
     "objectID": "materials/5_arrow_single_file.html#read-a-parquet-file-selectively",
@@ -165,7 +165,7 @@
     "href": "materials/5_arrow_single_file.html#selective-reads-are-faster",
     "title": "Big Data in R with Arrow",
     "section": "Selective Reads Are Faster",
-    "text": "Selective Reads Are Faster\n\nparquet_file |&gt;\n  read_parquet(\n    col_select = c(\"vendor_name\", \"passenger_count\"),\n    as_data_frame = FALSE\n  ) |&gt; \n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  0.280   0.015   0.146"
+    "text": "Selective Reads Are Faster\n\nparquet_file |&gt;\n  read_parquet(\n    col_select = c(\"vendor_name\", \"passenger_count\"),\n    as_data_frame = FALSE\n  ) |&gt; \n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  0.278   0.013   0.144"
   },
   {
     "objectID": "materials/5_arrow_single_file.html#arrow-table-or-dataset",
@@ -1076,6 +1076,13 @@
     "title": "Big Data in R with Arrow",
     "section": "Getting Help Today ",
     "text": "Getting Help Today \n\nGREEN sticky note: I am OK / I am done\nPINK sticky note: I need support / I am working\n\n You can ask questions at any time during the workshop"
+  },
+  {
+    "objectID": "materials/0_housekeeping.html#discord",
+    "href": "materials/0_housekeeping.html#discord",
+    "title": "Big Data in R with Arrow",
+    "section": "Discord ",
+    "text": "Discord \n\nMain digital communication for posit::conf(2023)\nArrow workshop channel 👀"
   },
   {
     "objectID": "materials/0_housekeeping.html#we-assume",
