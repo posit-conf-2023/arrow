@@ -117,6 +117,18 @@ Arrow scans 👀 a few thousand rows of the file(s) to impute or "guess" the dat
 📚 arrow vs readr blog post: <https://thisisnic.github.io/2022/11/21/type-inference-in-readr-and-arrow/>
 :::
 
+## Arrow Data Types
+
+Arrow has a rich data type system, including direct analogs of many R data types
+
+-   `<dbl>` == `<double>`
+-   `<chr>` == `<string>` or `<utf8>`
+-   `<int>` == `<int32>`
+
+<br>
+
+<https://arrow.apache.org/docs/r/articles/data_types.html>
+
 ## Parsers Are Not Always Right
 
 ```{r}
@@ -129,18 +141,6 @@ International Standard Book Number (ISBN) is a 13-digit number that uniquely ide
 
 Data Dictionaries, metadata in data catalogues should provide this info.
 :::
-
-## Arrow Data Types
-
-Arrow has a rich data type system, including direct analogs of many R data types
-
--   `<dbl>` == `<double>`
--   `<chr>` == `<string>` or `<utf8>`
--   `<int>` == `<int32>`
-
-<br>
-
-<https://arrow.apache.org/docs/r/articles/data_types.html>
 
 ## Let's Control the Schema
 
