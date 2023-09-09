@@ -75,7 +75,7 @@ There are lots of big data/columnar formats (not all supported by Arrow we are o
 
 ![](images/seattle-checkouts.png){.absolute top="0" left="300"}
 
-::: notes
+::: {style="font-size: 60%; margin-top: 440px; margin-left: 330px;"}
 <https://data.seattle.gov/Community/Checkouts-by-Title/tmmm-ytt6>
 :::
 
@@ -135,6 +135,8 @@ Arrow has a rich data type system, including direct analogs of many R data types
 #| label: seattle-schema-again
 schema(seattle_csv)
 ```
+
+![](images/data-dict.png){.absolute top="300" left="330" width="700"}
 
 ::: notes
 International Standard Book Number (ISBN) is a 13-digit number that uniquely identifies books and book-like products published internationally.
