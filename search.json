@@ -434,13 +434,6 @@
     "text": "arrow::open_dataset() with a CSV\n\nlibrary(arrow)\nlibrary(dplyr)\n\nseattle_csv &lt;- open_dataset(\n  sources = here::here(\"data/seattle-library-checkouts.csv\"), \n  format = \"csv\"\n)\n\nseattle_csv\n\nFileSystemDataset with 1 csv file\nUsageClass: string\nCheckoutType: string\nMaterialType: string\nCheckoutYear: int64\nCheckoutMonth: int64\nCheckouts: int64\nTitle: string\nISBN: null\nCreator: string\nSubjects: string\nPublisher: string\nPublicationYear: string"
   },
   {
-    "objectID": "materials/3_data_engineering.html#glimpse",
-    "href": "materials/3_data_engineering.html#glimpse",
-    "title": "Big Data in R with Arrow",
-    "section": "👀 Glimpse",
-    "text": "👀 Glimpse\n\nseattle_csv |&gt; \n  head() |&gt; \n  glimpse()\n\nTable\n6 rows x 12 columns\n$ UsageClass      &lt;string&gt; \"Physical\", \"Physical\", \"Digital\", \"Physical\", \"Physi…\n$ CheckoutType    &lt;string&gt; \"Horizon\", \"Horizon\", \"OverDrive\", \"Horizon\", \"Horizo…\n$ MaterialType    &lt;string&gt; \"BOOK\", \"BOOK\", \"EBOOK\", \"BOOK\", \"SOUNDDISC\", \"BOOK\"\n$ CheckoutYear     &lt;int64&gt; 2016, 2016, 2016, 2016, 2016, 2016\n$ CheckoutMonth    &lt;int64&gt; 6, 6, 6, 6, 6, 6\n$ Checkouts        &lt;int64&gt; 1, 1, 1, 1, 1, 1\n$ Title           &lt;string&gt; \"Super rich : a guide to having it all / Russell Simm…\n$ ISBN              &lt;null&gt; NA, NA, NA, NA, NA, NA\n$ Creator         &lt;string&gt; \"Simmons, Russell\", \"Barclay, James, 1965-\", \"Tim Par…\n$ Subjects        &lt;string&gt; \"Self realization, Conduct of life, Attitude Psycholo…\n$ Publisher       &lt;string&gt; \"Gotham Books,\", \"Pyr,\", \"Random House, Inc.\", \"Dial …\n$ PublicationYear &lt;string&gt; \"c2011.\", \"2010.\", \"2015\", \"2005.\", \"c2004.\", \"c2005.\""
-  },
-  {
     "objectID": "materials/3_data_engineering.html#arrowschema",
     "href": "materials/3_data_engineering.html#arrowschema",
     "title": "Big Data in R with Arrow",
@@ -455,18 +448,18 @@
     "text": "Parsing the Metadata\n\nArrow scans 👀 a few thousand rows of the file(s) to impute or “guess” the data types\n\n📚 arrow vs readr blog post: https://thisisnic.github.io/2022/11/21/type-inference-in-readr-and-arrow/"
   },
   {
-    "objectID": "materials/3_data_engineering.html#parsers-are-not-always-right",
-    "href": "materials/3_data_engineering.html#parsers-are-not-always-right",
-    "title": "Big Data in R with Arrow",
-    "section": "Parsers Are Not Always Right",
-    "text": "Parsers Are Not Always Right\n\nschema(seattle_csv)\n\nSchema\nUsageClass: string\nCheckoutType: string\nMaterialType: string\nCheckoutYear: int64\nCheckoutMonth: int64\nCheckouts: int64\nTitle: string\nISBN: null\nCreator: string\nSubjects: string\nPublisher: string\nPublicationYear: string\n\n\n\nInternational Standard Book Number (ISBN) is a 13-digit number that uniquely identifies books and book-like products published internationally.\nData Dictionaries, metadata in data catalogues should provide this info."
-  },
-  {
     "objectID": "materials/3_data_engineering.html#arrow-data-types",
     "href": "materials/3_data_engineering.html#arrow-data-types",
     "title": "Big Data in R with Arrow",
     "section": "Arrow Data Types",
     "text": "Arrow Data Types\nArrow has a rich data type system, including direct analogs of many R data types\n\n&lt;dbl&gt; == &lt;double&gt;\n&lt;chr&gt; == &lt;string&gt; or &lt;utf8&gt;\n&lt;int&gt; == &lt;int32&gt;\n\n\nhttps://arrow.apache.org/docs/r/articles/data_types.html"
+  },
+  {
+    "objectID": "materials/3_data_engineering.html#parsers-are-not-always-right",
+    "href": "materials/3_data_engineering.html#parsers-are-not-always-right",
+    "title": "Big Data in R with Arrow",
+    "section": "Parsers Are Not Always Right",
+    "text": "Parsers Are Not Always Right\n\nschema(seattle_csv)\n\nSchema\nUsageClass: string\nCheckoutType: string\nMaterialType: string\nCheckoutYear: int64\nCheckoutMonth: int64\nCheckouts: int64\nTitle: string\nISBN: null\nCreator: string\nSubjects: string\nPublisher: string\nPublicationYear: string\n\n\n\n\nInternational Standard Book Number (ISBN) is a 13-digit number that uniquely identifies books and book-like products published internationally.\nData Dictionaries, metadata in data catalogues should provide this info."
   },
   {
     "objectID": "materials/3_data_engineering.html#lets-control-the-schema",
@@ -508,7 +501,7 @@
     "href": "materials/3_data_engineering.html#gb-csv-file-arrow-dplyr-1",
     "title": "Big Data in R with Arrow",
     "section": "9GB CSV file + arrow + dplyr",
-    "text": "9GB CSV file + arrow + dplyr\n\nseattle_csv |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n 10.870   1.217  10.583 \n\n\n42 million rows – not bad, but could be faster…."
+    "text": "9GB CSV file + arrow + dplyr\n\nseattle_csv |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n 10.904   1.212  10.613 \n\n\n42 million rows – not bad, but could be faster…."
   },
   {
     "objectID": "materials/3_data_engineering.html#file-format-apache-parquet",
@@ -564,7 +557,7 @@
     "href": "materials/3_data_engineering.html#gb-parquet-file-arrow-dplyr",
     "title": "Big Data in R with Arrow",
     "section": "4.5GB Parquet file + arrow + dplyr",
-    "text": "4.5GB Parquet file + arrow + dplyr\n\nopen_dataset(seattle_parquet, \n             format = \"parquet\") |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  arrange(CheckoutYear) |&gt; \n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  2.352   0.501   0.617 \n\n\n42 million rows – much better! But could be even faster…."
+    "text": "4.5GB Parquet file + arrow + dplyr\n\nopen_dataset(seattle_parquet, \n             format = \"parquet\") |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  arrange(CheckoutYear) |&gt; \n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  2.186   0.459   0.614 \n\n\n42 million rows – much better! But could be even faster…."
   },
   {
     "objectID": "materials/3_data_engineering.html#file-storage-partitioning",
@@ -606,7 +599,7 @@
     "href": "materials/3_data_engineering.html#gb-partitioned-parquet-files-arrow-dplyr",
     "title": "Big Data in R with Arrow",
     "section": "4.5GB partitioned Parquet files + arrow + dplyr",
-    "text": "4.5GB partitioned Parquet files + arrow + dplyr\n\nseattle_parquet_part &lt;- here::here(\"data/seattle-library-checkouts\")\n\nopen_dataset(seattle_parquet_part,\n             format = \"parquet\") |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  2.019   0.416   0.367 \n\n\n\n42 million rows – not too shabby!"
+    "text": "4.5GB partitioned Parquet files + arrow + dplyr\n\nseattle_parquet_part &lt;- here::here(\"data/seattle-library-checkouts\")\n\nopen_dataset(seattle_parquet_part,\n             format = \"parquet\") |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.925   0.411   0.391 \n\n\n\n42 million rows – not too shabby!"
   },
   {
     "objectID": "materials/3_data_engineering.html#your-turn-2",
@@ -627,14 +620,14 @@
     "href": "materials/3_data_engineering.html#performance-review-single-csv",
     "title": "Big Data in R with Arrow",
     "section": "Performance Review: Single CSV",
-    "text": "Performance Review: Single CSV\nHow long does it take to calculate the number of books checked out in each month of 2021?\n\n\nopen_dataset(\n  sources = here::here(\"data/seattle-library-checkouts.csv\"), \n  format = \"csv\"\n) |&gt; \n  filter(CheckoutYear == 2021, MaterialType == \"BOOK\") |&gt;\n  group_by(CheckoutMonth) |&gt;\n  summarize(TotalCheckouts = sum(Checkouts)) |&gt;\n  arrange(desc(CheckoutMonth)) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n 12.211   1.290  11.664"
+    "text": "Performance Review: Single CSV\nHow long does it take to calculate the number of books checked out in each month of 2021?\n\n\nopen_dataset(\n  sources = here::here(\"data/seattle-library-checkouts.csv\"), \n  format = \"csv\"\n) |&gt; \n  filter(CheckoutYear == 2021, MaterialType == \"BOOK\") |&gt;\n  group_by(CheckoutMonth) |&gt;\n  summarize(TotalCheckouts = sum(Checkouts)) |&gt;\n  arrange(desc(CheckoutMonth)) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n 12.189   1.256  11.614"
   },
   {
     "objectID": "materials/3_data_engineering.html#performance-review-partitioned-parquet",
     "href": "materials/3_data_engineering.html#performance-review-partitioned-parquet",
     "title": "Big Data in R with Arrow",
     "section": "Performance Review: Partitioned Parquet",
-    "text": "Performance Review: Partitioned Parquet\nHow long does it take to calculate the number of books checked out in each month of 2021?\n\n\nopen_dataset(here::here(\"data/seattle-library-checkouts\"),\n             format = \"parquet\") |&gt; \n  filter(CheckoutYear == 2021, MaterialType == \"BOOK\") |&gt;\n  group_by(CheckoutMonth) |&gt;\n  summarize(TotalCheckouts = sum(Checkouts)) |&gt;\n  arrange(desc(CheckoutMonth)) |&gt;\n  collect() |&gt; \n  system.time()\n\n   user  system elapsed \n  0.277   0.046   0.077"
+    "text": "Performance Review: Partitioned Parquet\nHow long does it take to calculate the number of books checked out in each month of 2021?\n\n\nopen_dataset(here::here(\"data/seattle-library-checkouts\"),\n             format = \"parquet\") |&gt; \n  filter(CheckoutYear == 2021, MaterialType == \"BOOK\") |&gt;\n  group_by(CheckoutMonth) |&gt;\n  summarize(TotalCheckouts = sum(Checkouts)) |&gt;\n  arrange(desc(CheckoutMonth)) |&gt;\n  collect() |&gt; \n  system.time()\n\n   user  system elapsed \n  0.285   0.045   0.077"
   },
   {
     "objectID": "materials/3_data_engineering.html#engineering-data-tips-for-improved-storage-performance",
