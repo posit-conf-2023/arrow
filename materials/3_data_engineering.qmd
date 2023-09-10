@@ -75,7 +75,7 @@ There are lots of big data/columnar formats (not all supported by Arrow we are o
 
 ![](images/seattle-checkouts.png){.absolute top="0" left="300"}
 
-::: notes
+::: {style="font-size: 60%; margin-top: 440px; margin-left: 330px;"}
 <https://data.seattle.gov/Community/Checkouts-by-Title/tmmm-ytt6>
 :::
 
@@ -92,15 +92,6 @@ seattle_csv <- open_dataset(
 )
 
 seattle_csv
-```
-
-## 👀 Glimpse
-
-```{r}
-#| label: seattle-glimpse
-seattle_csv |> 
-  head() |> 
-  glimpse()
 ```
 
 ## arrow::schema()
@@ -126,19 +117,6 @@ Arrow scans 👀 a few thousand rows of the file(s) to impute or "guess" the dat
 📚 arrow vs readr blog post: <https://thisisnic.github.io/2022/11/21/type-inference-in-readr-and-arrow/>
 :::
 
-## Parsers Are Not Always Right
-
-```{r}
-#| label: seattle-schema-again
-schema(seattle_csv)
-```
-
-::: notes
-International Standard Book Number (ISBN) is a 13-digit number that uniquely identifies books and book-like products published internationally.
-
-Data Dictionaries, metadata in data catalogues should provide this info.
-:::
-
 ## Arrow Data Types
 
 Arrow has a rich data type system, including direct analogs of many R data types
@@ -150,6 +128,21 @@ Arrow has a rich data type system, including direct analogs of many R data types
 <br>
 
 <https://arrow.apache.org/docs/r/articles/data_types.html>
+
+## Parsers Are Not Always Right
+
+```{r}
+#| label: seattle-schema-again
+schema(seattle_csv)
+```
+
+![](images/data-dict.png){.absolute top="300" left="330" width="700"}
+
+::: notes
+International Standard Book Number (ISBN) is a 13-digit number that uniquely identifies books and book-like products published internationally.
+
+Data Dictionaries, metadata in data catalogues should provide this info.
+:::
 
 ## Let's Control the Schema
 
