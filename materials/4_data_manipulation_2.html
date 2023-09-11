@@ -403,15 +403,21 @@
 </section>
 <section id="why-use-a-udf" class="slide level2">
 <h2>Why use a UDF?</h2>
-<p>Sometimes it’s hard to find a workaround</p>
+<p>Implement your own custom functions!</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>nyc_taxi <span class="sc">|&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">mutate</span>(<span class="at">duration_minutes =</span> <span class="fu">difftime</span>(pickup_datetime, dropoff_datetime, <span class="at">units =</span> <span class="st">"minutes"</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a>  <span class="fu">select</span>(pickup_datetime, dropoff_datetime, duration_minutes) <span class="sc">|&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>time_diff_minutes <span class="ot">&lt;-</span> <span class="cf">function</span>(pickup, dropoff){</span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">difftime</span>(dropoff, pickup, <span class="at">units =</span> <span class="st">"mins"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>      <span class="fu">round</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>      <span class="fu">as.integer</span>()</span>
+<span id="cb1-5"><a href="#cb1-5"></a>}</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>nyc_taxi <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="fu">mutate</span>(<span class="at">duration_minutes =</span> <span class="fu">time_diff_minutes</span>(pickup_datetime, dropoff_datetime)) <span class="sc">|&gt;</span> </span>
+<span id="cb1-9"><a href="#cb1-9"></a>  <span class="fu">select</span>(pickup_datetime, dropoff_datetime, duration_minutes) <span class="sc">|&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error: In difftime(pickup_datetime, dropoff_datetime, units = "minutes"), `difftime()` with units other than `secs` not supported in Arrow
+<pre><code>Error: Expression time_diff_minutes(pickup_datetime, dropoff_datetime) not supported in Arrow
 Call collect() first to pull data into R.</code></pre>
 </div>
 </div>
@@ -547,14 +553,16 @@ Call collect() first to pull data into R.</code></pre>
 <section id="your-turn" class="slide level2">
 <h2>Your Turn</h2>
 <ol type="1">
-<li>Write a user-defined function which wraps the <code>stringr</code> function <code>str_replace_na()</code>, and use it to replace any <code>NA</code> values in the <code>vendor_name</code> column with the string “No vendor” instead.</li>
+<li>Write a user-defined function which wraps the <code>stringr</code> function <code>str_replace_na()</code>, and use it to replace any <code>NA</code> values in the <code>vendor_name</code> column with the string “No vendor” instead. (Test it on the data from 2019 so you’re not pulling everything into memory)</li>
 </ol>
-<p>➡️ <a href="4_data_manipulation_2-exercises.html">Data Manipulation Part I Exercises Page</a></p>
+<p>➡️ <a href="4_data_manipulation_2-exercises.html">Data Manipulation Part II Exercises Page</a></p>
 </section>
 <section id="summary" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>You can use UDFs to create your own bindings when they don’t exist!</li>
+<li>You can use UDFs to create your own bindings when they don’t exist</li>
+<li>UDFs must be scalar (1 row in -&gt; 1 row out) and stateless (no knowledge of other rows of data)</li>
+<li>Calculations done by R not arrow, so slower than in-built bindings but still pretty fast</li>
 </ul>
 </section></section>
 <section>
@@ -562,6 +570,10 @@ Call collect() first to pull data into R.</code></pre>
 <h1>Joins</h1>
 
 </section>
+<section id="joins-1" class="slide level2">
+<h2>Joins</h2>
+
+<img data-src="images/joins.png" class="r-stretch"></section>
 <section id="joining-a-reference-table" class="slide level2">
 <h2>Joining a reference table</h2>
 <div class="cell">
@@ -583,14 +595,15 @@ Call collect() first to pull data into R.</code></pre>
 <pre><code># A tibble: 3 × 3
   vendor_name full_name                    pickup_datetime    
   &lt;chr&gt;       &lt;chr&gt;                        &lt;dttm&gt;             
-1 CMT         Creative Mobile Technologies 2012-01-27 23:35:26
-2 CMT         Creative Mobile Technologies 2012-01-27 14:56:04
-3 CMT         Creative Mobile Technologies 2012-01-27 16:12:50</code></pre>
+1 CMT         Creative Mobile Technologies 2012-01-20 14:09:36
+2 CMT         Creative Mobile Technologies 2012-01-20 14:54:10
+3 CMT         Creative Mobile Technologies 2012-01-20 08:08:01</code></pre>
 </div>
 </div>
 </section>
 <section id="traps-for-the-unwary" class="slide level2">
 <h2>Traps for the unwary</h2>
+<p>Question: which are the most common borough-to-borough journeys in the dataset?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>nyc_taxi_zones <span class="ot">&lt;-</span></span>
 <span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">read_csv_arrow</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/taxi_zone_lookup.csv"</span>)) <span class="sc">|&gt;</span></span>
@@ -624,16 +637,14 @@ Call collect() first to pull data into R.</code></pre>
 <span id="cb14-3"><a href="#cb14-3"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in `compute.arrow_dplyr_query()`:
-! Invalid: Incompatible data types for corresponding join field keys: FieldRef.Name(pickup_location_id) of type int64 and FieldRef.Name(location_id) of type int32
-/home/nic/arrow/cpp/src/arrow/acero/hash_join_node.cc:131  ValidateSchemas(join_type, left_schema, left_keys, left_output, right_schema, right_keys, right_output, left_field_name_suffix, right_field_name_suffix)
-/home/nic/arrow/cpp/src/arrow/acero/hash_join_node.cc:724  schema_mgr-&gt;Init( join_options.join_type, left_schema, join_options.left_keys, join_options.left_output, right_schema, join_options.right_keys, join_options.right_output, join_options.filter, join_options.output_suffix_for_left, join_options.output_suffix_for_right)</code></pre>
+! Invalid: Incompatible data types for corresponding join field keys: FieldRef.Name(pickup_location_id) of type int64 and FieldRef.Name(location_id) of type int32</code></pre>
 </div>
 </div>
 </section>
 <section id="schema-for-the-nyc_taxi-table" class="slide level2">
 <h2>Schema for the <code>nyc_taxi</code> table</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>nyc_taxi<span class="sc">$</span>schema</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="fu">schema</span>(nyc_taxi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Schema
 vendor_name: string
@@ -666,7 +677,8 @@ month: int32</code></pre>
 <section id="schema-for-the-nyc_taxi_zones-table" class="slide level2">
 <h2>Schema for the <code>nyc_taxi_zones</code> table</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">arrow_table</span>(nyc_taxi_zones)<span class="sc">$</span>schema</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>nyc_taxi_zones_arrow <span class="ot">&lt;-</span> <span class="fu">arrow_table</span>(nyc_taxi_zones)</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="fu">schema</span>(nyc_taxi_zones_arrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Schema
 location_id: int32
@@ -698,7 +710,7 @@ borough: string</code></pre>
 <span id="cb21-2"><a href="#cb21-2"></a>  nyc_taxi_zones, </span>
 <span id="cb21-3"><a href="#cb21-3"></a>  <span class="at">schema =</span> <span class="fu">schema</span>(<span class="at">location_id =</span> <span class="fu">int64</span>(), <span class="at">borough =</span> <span class="fu">utf8</span>())</span>
 <span id="cb21-4"><a href="#cb21-4"></a>)</span>
-<span id="cb21-5"><a href="#cb21-5"></a>nyc_taxi_zones_arrow<span class="sc">$</span>schema</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-5"><a href="#cb21-5"></a><span class="fu">schema</span>(nyc_taxi_zones_arrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Schema
 location_id: int64
@@ -740,7 +752,7 @@ borough: string</code></pre>
 <span id="cb24-9"><a href="#cb24-9"></a>  <span class="fu">collect</span>()</span>
 <span id="cb24-10"><a href="#cb24-10"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>1171.556 sec elapsed</code></pre>
+<pre><code>160.966 sec elapsed</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -771,9 +783,9 @@ borough: string</code></pre>
 <section id="your-turn-1" class="slide level2">
 <h2>Your Turn</h2>
 <ol type="1">
-<li>How many taxi pickups were recorded in 2019 from the three major airports covered by the NYC Taxis data set (JFK, LaGuardia, Newark)?</li>
+<li>How many taxi pickups were recorded in 2019 from the three major airports covered by the NYC Taxis data set (JFK, LaGuardia, Newark)? (Hint: you can use <code>stringr::str_detect()</code> to help you find pickup zones with the word “Airport” in them)</li>
 </ol>
-<p>➡️ <a href="4_data_manipulation_2-exercises.html">Data Manipulation Part I Exercises Page</a></p>
+<p>➡️ <a href="4_data_manipulation_2-exercises.html">Data Manipulation Part II Exercises Page</a></p>
 </section>
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
@@ -790,14 +802,15 @@ borough: string</code></pre>
 <section id="what-are-window-functions" class="slide level2">
 <h2>What are window functions?</h2>
 <ul>
-<li>calculations within groups</li>
+<li>calculations across a “window” of multiple rows which relate to the current row</li>
+<li>e.g.&nbsp;<code>row_number()</code>, <code>ntile()</code>, or calling <code>mutate()</code> after <code>group_by()</code></li>
 </ul>
 </section>
 <section id="grouped-summaries" class="slide level2">
 <h2>Grouped summaries</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a>fare_by_year <span class="ot">&lt;-</span> nyc_taxi <span class="sc">|&gt;</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2021</span><span class="sc">:</span><span class="dv">2022</span>) <span class="sc">|&gt;</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;</span> <span class="dv">2019</span>) <span class="sc">|&gt;</span></span>
 <span id="cb28-3"><a href="#cb28-3"></a>  <span class="fu">select</span>(year, fare_amount)</span>
 <span id="cb28-4"><a href="#cb28-4"></a></span>
 <span id="cb28-5"><a href="#cb28-5"></a>fare_by_year <span class="sc">|&gt;</span></span>
@@ -805,10 +818,11 @@ borough: string</code></pre>
 <span id="cb28-7"><a href="#cb28-7"></a>  <span class="fu">summarise</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount)) <span class="sc">|&gt;</span> </span>
 <span id="cb28-8"><a href="#cb28-8"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 2
+<pre><code># A tibble: 2 × 2
    year mean_fare
   &lt;int&gt;     &lt;dbl&gt;
-1  2021      13.5</code></pre>
+1  2020      12.7
+2  2021      13.5</code></pre>
 </div>
 </div>
 </section>
@@ -818,7 +832,8 @@ borough: string</code></pre>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>fare_by_year <span class="sc">|&gt;</span></span>
 <span id="cb30-2"><a href="#cb30-2"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
 <span id="cb30-3"><a href="#cb30-3"></a>  <span class="fu">mutate</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount)) <span class="sc">|&gt;</span> </span>
-<span id="cb30-4"><a href="#cb30-4"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-4"><a href="#cb30-4"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb30-5"><a href="#cb30-5"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error: window functions not currently supported in Arrow
 Call collect() first to pull data into R.</code></pre>
@@ -830,28 +845,23 @@ Call collect() first to pull data into R.</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>fare_by_year <span class="sc">|&gt;</span></span>
 <span id="cb32-2"><a href="#cb32-2"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb32-3"><a href="#cb32-3"></a>    nyc_taxi <span class="sc">|&gt;</span></span>
-<span id="cb32-4"><a href="#cb32-4"></a>      <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2021</span><span class="sc">:</span><span class="dv">2022</span>) <span class="sc">|&gt;</span></span>
-<span id="cb32-5"><a href="#cb32-5"></a>      <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb32-6"><a href="#cb32-6"></a>      <span class="fu">summarise</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount))</span>
-<span id="cb32-7"><a href="#cb32-7"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb32-8"><a href="#cb32-8"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(fare_amount)) <span class="sc">|&gt;</span></span>
+<span id="cb32-3"><a href="#cb32-3"></a>    fare_by_year <span class="sc">|&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4"></a>      <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb32-5"><a href="#cb32-5"></a>      <span class="fu">summarise</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount))</span>
+<span id="cb32-6"><a href="#cb32-6"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb32-7"><a href="#cb32-7"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(fare_amount)) <span class="sc">|&gt;</span></span>
+<span id="cb32-8"><a href="#cb32-8"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb32-9"><a href="#cb32-9"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 30,902,618 × 3
-    year fare_amount mean_fare
-   &lt;int&gt;       &lt;dbl&gt;     &lt;dbl&gt;
- 1  2021     818283.      13.5
- 2  2021     398466.      13.5
- 3  2021     395854.      13.5
- 4  2021       6965       13.5
- 5  2021       6960.      13.5
- 6  2021       6010       13.5
- 7  2021       5954       13.5
- 8  2021       4969       13.5
- 9  2021       3555.      13.5
-10  2021       3009       13.5
-# ℹ 30,902,608 more rows</code></pre>
+<pre><code># A tibble: 6 × 3
+   year fare_amount mean_fare
+  &lt;int&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+1  2020     998310.      12.7
+2  2021     818283.      13.5
+3  2020     671100.      12.7
+4  2020     429497.      12.7
+5  2021     398466.      13.5
+6  2020     398465.      12.7</code></pre>
 </div>
 </div>
 </section>
@@ -864,22 +874,18 @@ Call collect() first to pull data into R.</code></pre>
 <span id="cb34-4"><a href="#cb34-4"></a>  <span class="fu">mutate</span>(<span class="at">mean_fare =</span> <span class="fu">mean</span>(fare_amount)) <span class="sc">|&gt;</span> </span>
 <span id="cb34-5"><a href="#cb34-5"></a>  <span class="fu">to_arrow</span>() <span class="sc">|&gt;</span></span>
 <span id="cb34-6"><a href="#cb34-6"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(fare_amount)) <span class="sc">|&gt;</span></span>
-<span id="cb34-7"><a href="#cb34-7"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb34-7"><a href="#cb34-7"></a>  <span class="fu">head</span>() <span class="sc">|&gt;</span></span>
+<span id="cb34-8"><a href="#cb34-8"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 30,902,618 × 3
-    year fare_amount mean_fare
-   &lt;int&gt;       &lt;dbl&gt;     &lt;dbl&gt;
- 1  2021     818283.      13.5
- 2  2021     398466.      13.5
- 3  2021     395854.      13.5
- 4  2021       6965       13.5
- 5  2021       6960.      13.5
- 6  2021       6010       13.5
- 7  2021       5954       13.5
- 8  2021       4969       13.5
- 9  2021       3555.      13.5
-10  2021       3009       13.5
-# ℹ 30,902,608 more rows</code></pre>
+<pre><code># A tibble: 6 × 3
+   year fare_amount mean_fare
+  &lt;int&gt;       &lt;dbl&gt;     &lt;dbl&gt;
+1  2020     998310.      12.7
+2  2021     818283.      13.5
+3  2020     671100.      12.7
+4  2020     429497.      12.7
+5  2021     398466.      13.5
+6  2020     398465.      12.7</code></pre>
 </div>
 </div>
 </section>
@@ -888,7 +894,7 @@ Call collect() first to pull data into R.</code></pre>
 <ol type="1">
 <li>How many trips in September 2019 had a longer than average distance for that month?</li>
 </ol>
-<p>➡️ <a href="4_data_manipulation_2-exercises.html">Data Manipulation Part I Exercises Page</a></p>
+<p>➡️ <a href="4_data_manipulation_2-exercises.html">Data Manipulation Part II Exercises Page</a></p>
 </section>
 <section id="summary-2" class="slide level2">
 <h2>Summary</h2>
