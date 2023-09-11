@@ -19,14 +19,13 @@ nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
 nyc_taxi
 ```
 
-
 ::: {#exercise-udfs .callout-tip}
 # User-defined functions
 
 ::: panel-tabset
 ## Problem
 
-1.  Write a user-defined function which wraps the `stringr` function `str_replace_na()`, and use it to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead.
+1.  Write a user-defined function which wraps the `stringr` function `str_replace_na()`, and use it to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead. (Test it on the data from 2019 so you're not pulling everything into memory)
 
 ## Solution 1
 
@@ -64,15 +63,13 @@ vendor_names_fixed |>
 :::
 :::
 
-
-
 ::: {#exercise-joins .callout-tip}
 # Joins
 
 ::: panel-tabset
 ## Problem
 
-1.  How many taxi pickups were recorded in 2019 from the three major airports covered by the NYC Taxis data set (JFK, LaGuardia, Newark)?
+1.  How many taxi pickups were recorded in 2019 from the three major airports covered by the NYC Taxis data set (JFK, LaGuardia, Newark)? (Hint: you can use `stringr::str_detect()` to help you find pickup zones with the word "Airport" in them)
 
 ## Solution 1
 
@@ -85,8 +82,12 @@ pickup_location <- pickup_location |>
     pickup_location_id = LocationID,
     borough = Borough,
     pickup_zone = Zone
-  ) |>
-  arrow_table(schema = schema(
+  ) 
+
+
+pickup_location_arrow <- arrow_table(
+  pickup_location, 
+  schema = schema(
     pickup_location_id = int64(),
     borough = utf8(),
     pickup_zone = utf8()
@@ -94,7 +95,7 @@ pickup_location <- pickup_location |>
 
 nyc_taxi |>
   filter(year == 2019) |>
-  left_join(pickup_location) |>
+  left_join(pickup_location_arrow) |>
   filter(str_detect(pickup_zone, "Airport")) |>
   count(pickup_zone) |>
   collect()

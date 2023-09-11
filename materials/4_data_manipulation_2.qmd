@@ -178,7 +178,7 @@ nyc_taxi |>
 
 ## Your Turn
 
-1.  Write a user-defined function which wraps the `stringr` function `str_replace_na()`, and use it to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead.
+1.  Write a user-defined function which wraps the `stringr` function `str_replace_na()`, and use it to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead. (Test it on the data from 2019 so you're not pulling everything into memory)
 
 ➡️ [Data Manipulation Part II Exercises Page](4_data_manipulation_2-exercises.html)
 
@@ -217,6 +217,8 @@ nyc_taxi |>
 
 ## Traps for the unwary
 
+Question: which are the most common borough-to-borough journeys in the dataset?
+
 ```{r}
 #| label: lookup
 
@@ -243,8 +245,7 @@ nyc_taxi |>
 
 ```{r}
 #| label: get-schema
-
-nyc_taxi$schema
+schema(nyc_taxi)
 ```
 
 ## Schema for the `nyc_taxi_zones` table
@@ -252,7 +253,8 @@ nyc_taxi$schema
 ```{r}
 #| label: schema-2
 
-arrow_table(nyc_taxi_zones)$schema
+nyc_taxi_zones_arrow <- arrow_table(nyc_taxi_zones)
+schema(nyc_taxi_zones_arrow)
 ```
 
 -   `pickup_location_id` is int64 in the `nyc_taxi` table
@@ -281,7 +283,7 @@ nyc_taxi_zones_arrow <- arrow_table(
   nyc_taxi_zones, 
   schema = schema(location_id = int64(), borough = utf8())
 )
-nyc_taxi_zones_arrow$schema
+schema(nyc_taxi_zones_arrow)
 ```
 
 ## Prepare the auxiliary tables
@@ -338,9 +340,9 @@ borough_counts
 
 ## Your Turn
 
-1.  How many taxi pickups were recorded in 2019 from the three major airports covered by the NYC Taxis data set (JFK, LaGuardia, Newark)?
+1.  How many taxi pickups were recorded in 2019 from the three major airports covered by the NYC Taxis data set (JFK, LaGuardia, Newark)? (Hint: you can use `stringr::str_detect()` to help you find pickup zones with the word "Airport" in them)
 
-➡️ [Data Manipulation Part I Exercises Page](4_data_manipulation_2-exercises.html)
+➡️ [Data Manipulation Part II Exercises Page](4_data_manipulation_2-exercises.html)
 
 ## Summary
 
@@ -351,7 +353,8 @@ borough_counts
 
 ## What are window functions?
 
--   calculations within groups
+- calculations across a "window" of multiple rows which relate to the current row
+- e.g. `row_number()`, `ntile()`, or calling `mutate()` after `group_by()`
 
 ## Grouped summaries
 
@@ -359,7 +362,7 @@ borough_counts
 #| label: grouped-summaries
 
 fare_by_year <- nyc_taxi |>
-  filter(year %in% 2021:2022) |>
+  filter(year > 2019) |>
   select(year, fare_amount)
 
 fare_by_year |>
@@ -377,6 +380,7 @@ fare_by_year |>
 fare_by_year |>
   group_by(year) |>
   mutate(mean_fare = mean(fare_amount)) |> 
+  head() |> 
   collect()
 ```
 
@@ -388,12 +392,12 @@ fare_by_year |>
 
 fare_by_year |>
   left_join(
-    nyc_taxi |>
-      filter(year %in% 2021:2022) |>
+    fare_by_year |>
       group_by(year) |>
       summarise(mean_fare = mean(fare_amount))
   ) |> 
   arrange(desc(fare_amount)) |>
+  head() |> 
   collect()
 ```
 
@@ -408,6 +412,7 @@ fare_by_year |>
   mutate(mean_fare = mean(fare_amount)) |> 
   to_arrow() |>
   arrange(desc(fare_amount)) |>
+  head() |>
   collect()
 ```
 
@@ -420,4 +425,3 @@ fare_by_year |>
 ## Summary
 
 * Window functions in arrow can be achieved via joins or passing data to and from duckdb
-* Arrow data type of columns used for joining must match
