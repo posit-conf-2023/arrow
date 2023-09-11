@@ -33,15 +33,20 @@ nyc_taxi <- open_dataset(here::here("data/nyc-taxi/"))
 
 ## Why use a UDF?
 
-Sometimes it's hard to find a workaround
+Implement your own custom functions!
 
 ```{r}
 #| label: difftime-error
 #| error: true
+
+time_diff_minutes <- function(pickup, dropoff){
+  difftime(dropoff, pickup, units = "mins") |>
+      round() |>
+      as.integer()
+}
+
 nyc_taxi |>
-  mutate(
-    duration_minutes = difftime(pickup_datetime, dropoff_datetime, units = "minutes")
-  ) |>
+  mutate(duration_minutes = time_diff_minutes(pickup_datetime, dropoff_datetime)) |> 
   select(pickup_datetime, dropoff_datetime, duration_minutes) |>
   head() |>
   collect()
@@ -179,7 +184,9 @@ nyc_taxi |>
 
 ## Summary
 
-* You can use UDFs to create your own bindings when they don't exist!
+* You can use UDFs to create your own bindings when they don't exist
+* UDFs must be scalar (1 row in -> 1 row out) and stateless (no knowledge of other rows of data)
+* Calculations done by R not arrow, so slower than in-built bindings but still pretty fast
 
 # Joins
 
