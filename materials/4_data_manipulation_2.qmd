@@ -39,7 +39,9 @@ Sometimes it's hard to find a workaround
 #| label: difftime-error
 #| error: true
 nyc_taxi |>
-  mutate(duration_minutes = difftime(pickup_datetime, dropoff_datetime, units = "minutes")) |>
+  mutate(
+    duration_minutes = difftime(pickup_datetime, dropoff_datetime, units = "minutes")
+  ) |>
   select(pickup_datetime, dropoff_datetime, duration_minutes) |>
   head() |>
   collect()
@@ -173,7 +175,7 @@ nyc_taxi |>
 
 1.  Write a user-defined function which wraps the `stringr` function `str_replace_na()`, and use it to replace any `NA` values in the `vendor_name` column with the string "No vendor" instead.
 
-➡️ [Data Manipulation Part I Exercises Page](4_data_manipulation_2-exercises.html)
+➡️ [Data Manipulation Part II Exercises Page](4_data_manipulation_2-exercises.html)
 
 ## Summary
 
@@ -406,10 +408,9 @@ fare_by_year |>
 
 1.  How many trips in September 2019 had a longer than average distance for that month?
 
-➡️ [Data Manipulation Part I Exercises Page](4_data_manipulation_2-exercises.html)
+➡️ [Data Manipulation Part II Exercises Page](4_data_manipulation_2-exercises.html)
 
 ## Summary
 
 * Window functions in arrow can be achieved via joins or passing data to and from duckdb
 * Arrow data type of columns used for joining must match
-* Window functions can be achieved via joins or passing the data to DuckDB and back
