@@ -17,22 +17,31 @@ website:
         menu:
         - text: "Welcome 👋"
           href: materials/0_housekeeping.qmd
+          target: "_blank"
         - text: "Hello Arrow"
           href: materials/1_hello_arrow.qmd
+          target: "_blank"
         - text: "Manipulating Data with Arrow (Part I)"
           href: materials/2_data_manipulation_1.qmd
+          target: "_blank"
         - text: "Data Engineering with Arrow"
           href: materials/3_data_engineering.qmd
+          target: "_blank"
         - text: "Manipulating Data with Arrow (Part II)"
           href: materials/4_data_manipulation_2.qmd
+          target: "_blank"
         - text: "Arrow In-Memory Workflows"
           href: materials/5_arrow_single_file.qmd
+          target: "_blank"
         - text: "Wrapping Up: Arrow & R Together"
           href: materials/6_wrapping_up.qmd
+          target: "_blank"
         - text: "Getting Help & More Resources"
           href: materials/7_continue_learning.qmd
+          target: "_blank"
         - text: "Thank you 👋"
           href: materials/8_closing.qmd
+          target: "_blank"
       - text: Exercises
         menu:
         - text: "Hello Arrow Exercises"

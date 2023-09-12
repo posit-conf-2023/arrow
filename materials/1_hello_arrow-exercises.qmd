@@ -28,17 +28,20 @@ taxi_size |> summarise(total_GB = sum(size_GB))
 ```{r}
 #| label: open-dataset
 nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
-nyc_taxi
 ```
 
 ```{r}
 #| label: nrow
+#| include: false
+#| eval: false
 nyc_taxi |> 
   nrow()
 ```
 
 ```{r}
 #| label: first-dplyr-pipeline
+#| include: false
+#| eval: false
 nyc_taxi |>
   filter(year %in% 2014:2017) |> 
   group_by(year) |>
