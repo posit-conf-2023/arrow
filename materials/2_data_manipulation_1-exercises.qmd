@@ -16,7 +16,6 @@ library(stringr)
 ```{r}
 #| label: open-dataset
 nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
-nyc_taxi
 ```
 
 ::: {#exercise-compute-collect .callout-tip}
@@ -108,7 +107,5 @@ nyc_taxi |>
   collect() |>
   mutate(vendor_name = stringr::str_replace_na(vendor_name, "No vendor"))
 ```
-
-
 :::
 :::
