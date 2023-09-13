@@ -10,6 +10,7 @@ format:
   revealjs: 
     theme: default
 engine: knitr
+editor: source
 ---
 
 # Welcome 👋
@@ -87,12 +88,12 @@ engine: knitr
 
 ## Discord `r fontawesome::fa("discord")`
 
-- Main digital communication for posit::conf(2023)
-- Arrow workshop channel 👀
+-   Main digital communication for posit::conf(2023)
+-   Arrow workshop channel 👀
 
 ## We Assume
 
 -   You know `r fontawesome::fa("r-project")`
--   You are familiar with the [`dplyr`](https://dplyr.tidyverse.org/) package for data manipulation `r fontawesome::fa("screwdriver-wrench")`
+-   You are familiar with the [dplyr](https://dplyr.tidyverse.org/) package for data manipulation `r fontawesome::fa("screwdriver-wrench")`
 -   You have data in your life that is too large to fit into memory or sluggish in memory
 -   You want to learn how to engineer your data storage for more performant access and analysis

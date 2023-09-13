@@ -4,6 +4,7 @@ execute:
   echo: true
   messages: false
   warning: false
+editor: source
 ---
 
 ```{r}
@@ -12,14 +13,14 @@ library(arrow)
 library(dplyr)
 ```
 
-
 ::: {#exercise-hello-nyc-taxi .callout-tip}
-## Exercises: Arrow Table
+## Arrow Table
 
 ::: panel-tabset
 ## Problems
 
 1.  Read in a single NYC Taxi parquet file using `read_parquet()` as an Arrow Table
+
 2.  Convert your Arrow Table object to a `data.frame` or a `tibble`
 
 ## Solution 1

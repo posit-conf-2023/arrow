@@ -4,6 +4,7 @@ execute:
   echo: true
   messages: false
   warning: false
+editor: source
 ---
 
 ```{r}
@@ -22,7 +23,7 @@ nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
 # Using `compute()` and `collect()`
 
 ::: panel-tabset
-## Problem
+## Problems
 
 1.  How many taxi fares in the dataset had a total amount greater than \$100?
 
@@ -56,7 +57,7 @@ nyc_taxi |>
 # Using the dplyr API in arrow
 
 ::: panel-tabset
-## Problem
+## Problems
 
 1.  Use the `dplyr::filter()` and `stringr::str_ends()` functions to return a subset of the data which is a) from September 2020, and b) the value in `vendor_name` ends with the letter "S".
 

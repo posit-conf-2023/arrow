@@ -7,6 +7,7 @@ format:
   revealjs: 
     theme: default
 engine: knitr
+editor: source
 ---
 
 # Arrow in R: In-Memory Workflows {#single-file-api}
@@ -41,6 +42,7 @@ library(tictoc)
 ## Your Turn
 
 1.  Read in a single NYC Taxi parquet file using `read_parquet()` as an Arrow Table
+
 2.  Convert your Arrow Table object to a `data.frame` or a `tibble`
 
 ## Read a Parquet File (`tibble`)
@@ -84,8 +86,8 @@ as.data.frame(taxi_table)
 
 <br>
 
--   `data.frame` & `tibble` are R objects _in-memory_
--   `Table` is an Arrow object _in-memory_
+-   `data.frame` & `tibble` are R objects *in-memory*
+-   `Table` is an Arrow object *in-memory*
 
 ## Data frames
 
@@ -117,7 +119,7 @@ parquet_file |>
 Functions available in Arrow dplyr queries: <https://arrow.apache.org/docs/r/reference/acero.html>
 
 ::: notes
-All the same capabilities as you practiced with Arrow `Dataset`
+All the same capabilities as you practiced with Arrow Dataset
 :::
 
 ## Arrow for Efficient In-Memory Processing
@@ -207,8 +209,8 @@ parquet_file |>
 
 ## Arrow for Improving Those Sluggish Worklows
 
--   a "drop-in" for many `dplyr` workflows (`Table` or `Dataset`)
--   works when your tabular data get too big for your RAM (`Dataset`)
+-   a "drop-in" for many dplyr workflows (Arrow Table or Dataset)
+-   works when your tabular data get too big for your RAM (Arrow Dataset)
 -   provides tools for re-engineering data storage for better performance (`arrow::write_dataset()`)
 
 ::: notes
