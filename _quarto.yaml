@@ -8,6 +8,13 @@ website:
   navbar:
     background: dark
     logo: "materials/images/logo.png"
+    right:
+      - icon: file-certificate
+        href: license-web.qmd
+      - icon: github
+        href: https://github.com/posit-conf-2023/arrow
+        text: GitHub
+
     left:
       - href: index.qmd
         text: Home
