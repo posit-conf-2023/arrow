@@ -4,6 +4,7 @@ execute:
   echo: true
   messages: false
   warning: false
+editor: source
 ---
 
 ```{r}

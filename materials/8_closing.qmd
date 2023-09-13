@@ -7,6 +7,7 @@ format:
   revealjs: 
     theme: default
 engine: knitr
+editor: source
 ---
 
 # Thank You! {#goodbye-arrow}

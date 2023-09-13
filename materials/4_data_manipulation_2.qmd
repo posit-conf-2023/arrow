@@ -7,6 +7,7 @@ format:
   revealjs: 
     theme: default
 engine: knitr
+editor: source
 ---
 
 # Data Manipulation---Part 2 {#data-manip-2}
@@ -28,8 +29,8 @@ nyc_taxi <- open_dataset(here::here("data/nyc-taxi/"))
 
 ## What if a function binding doesn't exist - revisited!
 
-* Option 1 - find a workaround
-* Option 2 - user-defined functions (UDFs)
+-   Option 1 - find a workaround
+-   Option 2 - user-defined functions (UDFs)
 
 ## Why use a UDF?
 
@@ -184,9 +185,9 @@ nyc_taxi |>
 
 ## Summary
 
-* You can use UDFs to create your own bindings when they don't exist
-* UDFs must be scalar (1 row in -> 1 row out) and stateless (no knowledge of other rows of data)
-* Calculations done by R not arrow, so slower than in-built bindings but still pretty fast
+-   You can use UDFs to create your own bindings when they don't exist
+-   UDFs must be scalar (1 row in -\> 1 row out) and stateless (no knowledge of other rows of data)
+-   Calculations done by R not Arrow, so slower than in-built bindings but still pretty fast
 
 # Joins
 
@@ -346,15 +347,15 @@ borough_counts
 
 ## Summary
 
-* You can join arrow tables and datasets to R data frames and arrow tables
-* The arrow data type of join keys must always match
+-   You can join Arrow Tables and Datasets to R data frames and Arrow Tables
+-   The Arrow data type of join keys must always match
 
 # Window functions
 
 ## What are window functions?
 
-- calculations across a "window" of multiple rows which relate to the current row
-- e.g. `row_number()`, `ntile()`, or calling `mutate()` after `group_by()`
+-   calculations across a "window" of multiple rows which relate to the current row
+-   e.g. `row_number()`, `ntile()`, or calling `mutate()` after `group_by()`
 
 ## Grouped summaries
 
@@ -424,4 +425,4 @@ fare_by_year |>
 
 ## Summary
 
-* Window functions in arrow can be achieved via joins or passing data to and from duckdb
+-   Window functions in arrow can be achieved via joins or passing data to and from duckdb
