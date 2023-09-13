@@ -416,10 +416,10 @@
 <p><br></p>
 <p>Which file formats do you use most often?</p>
 <ul>
-<li>CSV (.csv)</li>
-<li>MS Excel (.xls and .xlsx)</li>
-<li>Parquet (.parquet)</li>
-<li>Something else</li>
+<li>1️⃣ CSV (.csv)</li>
+<li>2️⃣ MS Excel (.xls and .xlsx)</li>
+<li>3️⃣ Parquet (.parquet)</li>
+<li>4️⃣ Something else</li>
 </ul>
 </section>
 <section id="formats" class="slide level2">
@@ -636,8 +636,8 @@ PublicationYear: string</code></pre>
 <section id="your-turn" class="slide level2">
 <h2>Your Turn</h2>
 <ol type="1">
-<li>The first few thousand rows of <code>ISBN</code> are blank in the Seattle Checkouts CSV file. Read in the Seattle Checkouts CSV file with <code>open_dataset()</code> and ensure the correct data type for <code>ISBN</code> is <code>&lt;string&gt;</code> instead of the <code>&lt;null&gt;</code> interpreted by Arrow.</li>
-<li>Once you have a <code>Dataset</code> object with the metadata you are after, count the number of <code>Checkouts</code> by <code>CheckoutYear</code> and arrange the result by <code>CheckoutYear</code>.</li>
+<li><p>The first few thousand rows of <code>ISBN</code> are blank in the Seattle Checkouts CSV file. Read in the Seattle Checkouts CSV file with <code>open_dataset()</code> and ensure the correct data type for <code>ISBN</code> is <code>&lt;string&gt;</code> instead of the <code>&lt;null&gt;</code> interpreted by Arrow.</p></li>
+<li><p>Once you have a <code>Dataset</code> object with the metadata you are after, count the number of <code>Checkouts</code> by <code>CheckoutYear</code> and arrange the result by <code>CheckoutYear</code>.</p></li>
 </ol>
 <p>➡️ <a href="3_data_engineering-exercises.html">Data Storage Engineering Exercises Page</a></p>
 </section>
@@ -683,7 +683,7 @@ PublicationYear: string</code></pre>
 <span id="cb14-5"><a href="#cb14-5"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
- 10.904   1.212  10.613 </code></pre>
+ 10.981   1.239  10.695 </code></pre>
 </div>
 </div>
 <p>42 million rows – not bad, but could be faster….</p>
@@ -769,7 +769,7 @@ PublicationYear: string</code></pre>
 <span id="cb19-7"><a href="#cb19-7"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  2.186   0.459   0.614 </code></pre>
+  2.252   0.481   0.620 </code></pre>
 </div>
 </div>
 <p>42 million rows – much better! But could be <em>even</em> faster….</p>
@@ -802,9 +802,9 @@ PublicationYear: string</code></pre>
 <h2>Poll: Partitioning?</h2>
 <p>Have you partitioned your data or used partitioned data before today?</p>
 <ul>
-<li>Yes</li>
-<li>No</li>
-<li>Not sure, the data engineers sort that out!</li>
+<li>1️⃣ Yes</li>
+<li>2️⃣ No</li>
+<li>3️⃣ Not sure, the data engineers sort that out!</li>
 </ul>
 </section>
 <section id="art-science-of-partitioning" class="slide level2">
@@ -895,7 +895,7 @@ PublicationYear: string</code></pre>
 <span id="cb24-8"><a href="#cb24-8"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.925   0.411   0.391 </code></pre>
+  1.933   0.402   0.396 </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -939,7 +939,7 @@ PublicationYear: string</code></pre>
 <span id="cb26-10"><a href="#cb26-10"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
- 12.189   1.256  11.614 </code></pre>
+ 12.292   1.289  11.697 </code></pre>
 </div>
 </div>
 </section>
@@ -958,7 +958,7 @@ PublicationYear: string</code></pre>
 <span id="cb28-8"><a href="#cb28-8"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.285   0.045   0.077 </code></pre>
+  0.278   0.039   0.076 </code></pre>
 </div>
 </div>
 </section>

@@ -197,7 +197,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./license-web.html" rel="" target=""><i class="bi bi-file-certificate" role="img">
+</i> 
+ <span class="menu-text">License</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/posit-conf-2023/arrow" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text">GitHub</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -258,7 +270,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Welcome to the <code>Big Data in R with Arrow</code> workshop! On this page you will find information about the software, packages and data we will be using during the workshop. Please try your very best to arrive on the day ready—software &amp; packages installed and data downloaded on to your laptop.</p>
 <section id="software" class="level1">
 <h1>Software</h1>
-<p>You will need a laptop with <a href="https://cloud.r-project.org/">R</a> and the <a href="https://posit.co/download/rstudio-desktop/">RStudio Desktop IDE</a> installed and with sufficient disk storage space for the workshop data sets and exercises—we recommend a minimum of about ~80GB to work with the “larger-than-memory” data option or ~2-3GB to work with the smaller example—or “tiny”—data option. The workshop will also have a dedicated Posit Cloud work space ready with the packages and the tiny sample data sets loaded for those who need or prefer to participate through a browser.</p>
+<p>You will need a laptop with <a href="https://cloud.r-project.org/">R</a> and the <a href="https://posit.co/download/rstudio-desktop/">RStudio Desktop IDE</a> installed and with sufficient disk storage space for the workshop datasets and exercises—we recommend a minimum of about ~80GB to work with the “larger-than-memory” data option or ~2-3GB to work with the smaller example—or “tiny”—data option. The workshop will also have a dedicated Posit Cloud work space ready with the packages and the tiny sample datasets loaded for those who need or prefer to participate through a browser.</p>
 </section>
 <section id="packages" class="level1">
 <h1>Packages</h1>
@@ -279,7 +291,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tictoc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Please come with the <em>latest CRAN versions</em> of the core packages installed on your laptops. Note that the latest version of the <code>arrow</code> package—<strong><code>arrow 13.0.0</code></strong>—was just released 30 August 2023. A small amount of the code in the workshop relies on functions introduced in <code>arrow 13.0.0</code>; let us know if for any reason you are unable to install this version, and we’ll flag up any modifications you’ll need to make the workshop code run with earlier versions of the <code>arrow</code>package.</p>
+<p>Please come with the <em>latest CRAN versions</em> of the core packages installed on your laptops. Note that the latest version of the arrow R package—<strong>arrow 13.0.0</strong>—was just released 30 August 2023. A small amount of the code in the workshop relies on functions introduced in the arrow 13.0.0 release; let us know if for any reason you are unable to install this version, and we’ll flag up any modifications you’ll need to make the workshop code run with earlier versions of the arrow package.</p>
 <p>While the core workshop doesn’t focus on spatial data, the “wrapping up” section near the end of day results in a ggplot map. If you want to run the “wrapping up” workflow code you will need to install the following spatial and plotting packages:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ggplot2"</span>, <span class="st">"ggrepel"</span>, <span class="st">"sf"</span>, <span class="st">"scales"</span>, <span class="st">"janitor"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -295,9 +307,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data" class="level1">
 <h1>Data</h1>
-<p>During the 1-day workshop, you will need the following data sets:</p>
+<p>During the 1-day workshop, you will need the following datasets:</p>
 <ol type="1">
-<li><em>NYC Yellow Taxi Trip Record Data</em>: Partitioned parquet files released as open data from the <a href="https://www.nyc.gov/site/tlc/about/raw-data.page">NYC Taxi &amp; Limousine Commission (TLC)</a> with a pre-tidied subset (~40GB) downloaded with either <code>arrow</code> or via https from an AWS S3 bucket</li>
+<li><em>NYC Yellow Taxi Trip Record Data</em>: Partitioned parquet files released as open data from the <a href="https://www.nyc.gov/site/tlc/about/raw-data.page">NYC Taxi &amp; Limousine Commission (TLC)</a> with a pre-tidied subset (~40GB) downloaded with either arrow or via https from an AWS S3 bucket</li>
 <li><em>Seattle Public Library Checkouts by Title</em>: A single CSV file (9GB) from the <a href="https://data.seattle.gov/Community/Checkouts-by-Title/tmmm-ytt6">Seattle Open Data portal</a> downloaded via https from an AWS S3 bucket</li>
 <li><em>Taxi Zone Lookup CSV Table &amp; Taxi Zone Shapefile</em>: two NYC Taxi trip ancillary data files from the <a href="https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page">TLC open platform</a> downloaded via https directly from this repository</li>
 </ol>
@@ -305,11 +317,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="larger-than-memory-data-option">Larger-Than-Memory Data Option</h2>
 <section id="nyc-taxi-data" class="level3">
 <h3 class="anchored" data-anchor-id="nyc-taxi-data">1. NYC Taxi Data</h3>
-<p>This is the main data set we will need for the day. It’s pretty hefty—<em>40</em> GB in total—and there are a couple of options for how to acquire it, depending on your internet connection speed.</p>
+<p>This is the main dataset we will need for the day. It’s pretty hefty—<em>40</em> GB in total—and there are a couple of options for how to acquire it, depending on your internet connection speed.</p>
 <section id="option-1the-simplest-optionfor-those-with-a-good-internet-connection-and-happy-to-let-things-run" class="level4">
 <h4 class="anchored" data-anchor-id="option-1the-simplest-optionfor-those-with-a-good-internet-connection-and-happy-to-let-things-run">Option 1—the simplest option—for those with a good internet connection and happy to let things run</h4>
-<p>If you have a solid internet connection, and especially if you’re in the US/Canada, this option is the simplest. You can use <code>arrow</code> itself to download the data. Note that there are no progress bars displayed during download, and so your session will appear to hang, but you can check progress by inspecting the contents of the download directory. When we tested this with Steph’s laptop and a fast internet connection, it took 67 minutes, though results will likely vary widely.</p>
-<p>This method requires <code>arrow</code> to have been built with S3 support enabled. This is on by default for most MacOS and Windows users, but if you’re on Linux, take a look at the instructions <a href="https://arrow.apache.org/docs/r/articles/install.html#libraries">here</a>.</p>
+<p>If you have a solid internet connection, and especially if you’re in the US/Canada, this option is the simplest. You can use arrow itself to download the data. Note that there are no progress bars displayed during download, and so your session will appear to hang, but you can check progress by inspecting the contents of the download directory. When we tested this with Steph’s laptop and a fast internet connection, it took 67 minutes, though results will likely vary widely.</p>
+<p>This method requires the arrow R package to have been built with S3 support enabled. This is on by default for most MacOS and Windows users, but if you’re on Linux, take a look at the instructions <a href="https://arrow.apache.org/docs/r/articles/install.html#libraries">here</a>.</p>
 <p>After installing arrow, run the following code:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(arrow)</span>
@@ -422,10 +434,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="tiny-data-option" class="level2">
 <h2 class="anchored" data-anchor-id="tiny-data-option">Tiny Data Option</h2>
-<p>If you don’t have time or disk space to download the larger-than-memory data sets (and still have disk space do the exercises), you can run the code and exercises in the course with “tiny” versions of these data. Although the focus in this course is working with larger-than-memory data, you can still learn about the concepts and workflows with smaller data—although note you may not see the same performance improvements that you would get when working with larger data.</p>
+<p>If you don’t have time or disk space to download the larger-than-memory datasets (and still have disk space do the exercises), you can run the code and exercises in the course with “tiny” versions of these data. Although the focus in this course is working with larger-than-memory data, you can still learn about the concepts and workflows with smaller data—although note you may not see the same performance improvements that you would get when working with larger data.</p>
 <section id="tiny-nyc-taxi-data" class="level3">
 <h3 class="anchored" data-anchor-id="tiny-nyc-taxi-data">1. Tiny NYC Taxi Data</h3>
-<p>We’ve created a “tiny” NYC Taxi data set which contains only 1 in 1000 rows from the original data set. So instead of working with 1.15 billion rows of data and about 40GB of files, the tiny taxi data set is 1.15 million rows and about 50MB of files. You can download the tiny NYC Taxi data directly from this repo via https:</p>
+<p>We’ve created a “tiny” NYC Taxi dataset which contains only 1 in 1000 rows from the original dataset. So instead of working with 1.15 billion rows of data and about 40GB of files, the tiny taxi dataset is 1.15 million rows and about 50MB of files. You can download the tiny NYC Taxi data directly from this repo via https:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">timeout =</span> <span class="dv">1800</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
@@ -442,7 +454,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="tiny-seattle-checkouts-by-title-data" class="level3">
 <h3 class="anchored" data-anchor-id="tiny-seattle-checkouts-by-title-data">2. Tiny Seattle Checkouts by Title Data</h3>
-<p>We’ve created a “tiny” Seattle Checkouts by Title data set which contains only 1 in 100 rows from the original data set. So instead of working with ~41 million rows of data in a 9GB file, the tiny Seattle checkouts data set is ~410 thousand rows and in an 90MB file. You can download the tiny Seattle Checkouts by Title data directly from this repo via https:</p>
+<p>We’ve created a “tiny” Seattle Checkouts by Title dataset which contains only 1 in 100 rows from the original dataset. So instead of working with ~41 million rows of data in a 9GB file, the tiny Seattle checkouts dataset is ~410 thousand rows and in an 90MB file. You can download the tiny Seattle Checkouts by Title data directly from this repo via https:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">timeout =</span> <span class="dv">1800</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(</span>
@@ -479,7 +491,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-on-the-day-of" class="level2">
 <h2 class="anchored" data-anchor-id="data-on-the-day-of">Data on The Day Of</h2>
-<p>While we ask that everyone do their best to arrive on the day ready with your software &amp; packages installed and the data downloaded on to your laptops—we recognize that life happens. We will have 5 USB flash drives (and a few USB-C to USB adapters) on-hand the morning of the workshop with copies of <strong><em>all the larger-than-memory and tiny versions of the data sets</em></strong>. So if you have trouble downloading any of the data beforehand, we should be able to get you sorted before the day starts or as soon as possible as the day begins. And if disk space or laptop permissions are blockers, the workshop will have a dedicated Posit Cloud work space ready for participants.</p>
+<p>While we ask that everyone do their best to arrive on the day ready with your software &amp; packages installed and the data downloaded on to your laptops—we recognize that life happens. We will have 5 USB flash drives (and a few USB-C to USB adapters) on-hand the morning of the workshop with copies of <strong><em>all the larger-than-memory and tiny versions of the datasets</em></strong>. So if you have trouble downloading any of the data beforehand, we should be able to get you sorted before the day starts or as soon as possible as the day begins. And if disk space or laptop permissions are blockers, the workshop will have a dedicated Posit Cloud workspace ready for participants.</p>
 
 
 </section>

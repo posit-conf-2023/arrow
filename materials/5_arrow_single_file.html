@@ -413,8 +413,8 @@
 <section id="your-turn" class="slide level2">
 <h2>Your Turn</h2>
 <ol type="1">
-<li>Read in a single NYC Taxi parquet file using <code>read_parquet()</code> as an Arrow Table</li>
-<li>Convert your Arrow Table object to a <code>data.frame</code> or a <code>tibble</code></li>
+<li><p>Read in a single NYC Taxi parquet file using <code>read_parquet()</code> as an Arrow Table</p></li>
+<li><p>Convert your Arrow Table object to a <code>data.frame</code> or a <code>tibble</code></p></li>
 </ol>
 </section>
 <section id="read-a-parquet-file-tibble" class="slide level2">
@@ -547,7 +547,7 @@ $dropoff_location_id &lt;int64&gt;</code></pre>
 <p><br></p>
 <p>Functions available in Arrow dplyr queries: <a href="https://arrow.apache.org/docs/r/reference/acero.html" class="uri">https://arrow.apache.org/docs/r/reference/acero.html</a></p>
 <aside class="notes">
-<p>All the same capabilities as you practiced with Arrow <code>Dataset</code></p>
+<p>All the same capabilities as you practiced with Arrow Dataset</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -582,7 +582,7 @@ $dropoff_location_id &lt;int64&gt;</code></pre>
 <span id="cb10-8"><a href="#cb10-8"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.568   0.260   0.541 </code></pre>
+  1.627   0.246   0.614 </code></pre>
 </div>
 </div>
 </section>
@@ -608,7 +608,7 @@ $dropoff_location_id &lt;int64&gt;</code></pre>
 <span id="cb14-8"><a href="#cb14-8"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.433   0.213   0.267 </code></pre>
+  1.418   0.189   0.262 </code></pre>
 </div>
 </div>
 </section>
@@ -644,7 +644,7 @@ $passenger_count &lt;int64&gt;</code></pre>
 <span id="cb18-11"><a href="#cb18-11"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.278   0.013   0.144 </code></pre>
+  0.280   0.012   0.144 </code></pre>
 </div>
 </div>
 </section>
@@ -658,8 +658,8 @@ $passenger_count &lt;int64&gt;</code></pre>
 <section id="arrow-for-improving-those-sluggish-worklows" class="slide level2">
 <h2>Arrow for Improving Those Sluggish Worklows</h2>
 <ul>
-<li>a “drop-in” for many <code>dplyr</code> workflows (<code>Table</code> or <code>Dataset</code>)</li>
-<li>works when your tabular data get too big for your RAM (<code>Dataset</code>)</li>
+<li>a “drop-in” for many dplyr workflows (Arrow Table or Dataset)</li>
+<li>works when your tabular data get too big for your RAM (Arrow Dataset)</li>
 <li>provides tools for re-engineering data storage for better performance (<code>arrow::write_dataset()</code>)</li>
 </ul>
 <aside class="notes">

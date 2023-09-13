@@ -541,12 +541,12 @@ Call collect() first to pull data into R.</code></pre>
 <pre><code># A tibble: 6 × 3
   pickup_datetime     dropoff_datetime    duration_minutes
   &lt;dttm&gt;              &lt;dttm&gt;                         &lt;int&gt;
-1 2012-11-02 23:40:32 2012-11-02 23:58:16               18
-2 2012-11-02 23:40:41 2012-11-02 23:45:56                5
-3 2012-11-02 23:40:50 2012-11-02 23:49:20                8
-4 2012-11-02 23:40:52 2012-11-02 23:46:15                5
-5 2012-11-02 23:41:00 2012-11-02 23:44:00                3
-6 2012-11-02 23:41:00 2012-11-02 23:45:00                4</code></pre>
+1 2012-11-02 17:47:00 2012-11-02 18:16:00               29
+2 2012-11-02 17:47:07 2012-11-02 17:53:32                6
+3 2012-11-02 17:47:13 2012-11-02 17:53:31                6
+4 2012-11-02 17:47:35 2012-11-02 17:52:40                5
+5 2012-11-02 17:47:51 2012-11-02 18:00:19               12
+6 2012-11-02 17:48:00 2012-11-02 17:51:00                3</code></pre>
 </div>
 </div>
 </section>
@@ -562,7 +562,7 @@ Call collect() first to pull data into R.</code></pre>
 <ul>
 <li>You can use UDFs to create your own bindings when they don’t exist</li>
 <li>UDFs must be scalar (1 row in -&gt; 1 row out) and stateless (no knowledge of other rows of data)</li>
-<li>Calculations done by R not arrow, so slower than in-built bindings but still pretty fast</li>
+<li>Calculations done by R not Arrow, so slower than in-built bindings but still pretty fast</li>
 </ul>
 </section></section>
 <section>
@@ -593,11 +593,11 @@ Call collect() first to pull data into R.</code></pre>
 <span id="cb10-14"><a href="#cb10-14"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
-  vendor_name full_name                    pickup_datetime    
-  &lt;chr&gt;       &lt;chr&gt;                        &lt;dttm&gt;             
-1 CMT         Creative Mobile Technologies 2012-01-20 14:09:36
-2 CMT         Creative Mobile Technologies 2012-01-20 14:54:10
-3 CMT         Creative Mobile Technologies 2012-01-20 08:08:01</code></pre>
+  vendor_name full_name                       pickup_datetime    
+  &lt;chr&gt;       &lt;chr&gt;                           &lt;dttm&gt;             
+1 VTS         Verifone Transportation Systems 2012-10-01 00:57:00
+2 VTS         Verifone Transportation Systems 2012-10-01 00:57:00
+3 VTS         Verifone Transportation Systems 2012-10-01 00:57:00</code></pre>
 </div>
 </div>
 </section>
@@ -752,7 +752,7 @@ borough: string</code></pre>
 <span id="cb24-9"><a href="#cb24-9"></a>  <span class="fu">collect</span>()</span>
 <span id="cb24-10"><a href="#cb24-10"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>160.966 sec elapsed</code></pre>
+<pre><code>103.234 sec elapsed</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -790,8 +790,8 @@ borough: string</code></pre>
 <section id="summary-1" class="slide level2">
 <h2>Summary</h2>
 <ul>
-<li>You can join arrow tables and datasets to R data frames and arrow tables</li>
-<li>The arrow data type of join keys must always match</li>
+<li>You can join Arrow Tables and Datasets to R data frames and Arrow Tables</li>
+<li>The Arrow data type of join keys must always match</li>
 </ul>
 </section></section>
 <section>
