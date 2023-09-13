@@ -385,6 +385,6 @@ nyc_taxi |>
 ## Summary
 
 -   Working with an Arrow Dataset allows you to manipulate data which is larger-than-memory
--   You can use many dplyr functions with arrow - run `?arrow-dplyr` to view the docs
+-   You can use many dplyr functions with arrow - run `?\`arrow-dplyr\`\` to view the docs
 -   You can pass data to duckdb to use functions implemented in dbplyr and duckdb but not arrow
 -   Sometimes the easiest solution is an alternative path
