@@ -79,10 +79,8 @@ unzip(
 
 <br>
 
-`sources`: point to a string path or directory of data files (on disk or in a GCS/S3 bucket) and return an `Arrow Dataset`, then use `dplyr` methods to query it.
-
 ::: notes
-Arrow Datasets allow you to query against data that has been split across multiple files. This sharding of data may indicate partitioning, which can accelerate queries that only touch some partitions (files). Call open_dataset() to point to a directory of data files and return a Dataset, then use dplyr methods to query it.
+Arrow Datasets allow you to query against data that has been split across multiple files. This division of data into multiple files may indicate partitioning, which can accelerate queries that only touch some partitions (files). Call open_dataset() to point to a directory of data files and return a Dataset, then use dplyr methods to query it.
 :::
 
 ## NYC Taxi Dataset
@@ -108,6 +106,8 @@ nyc_taxi |>
 
 ## NYC Taxi Dataset: A question
 
+<br>
+
 What percentage of taxi rides each year had more than 1 passenger?
 
 ## NYC Taxi Dataset: A dplyr pipeline
@@ -117,7 +117,6 @@ What percentage of taxi rides each year had more than 1 passenger?
 library(dplyr)
 
 nyc_taxi |>
-  filter(year %in% 2014:2017) |>
   group_by(year) |>
   summarise(
     all_trips = n(),
@@ -131,26 +130,28 @@ nyc_taxi |>
 
 ```{r}
 #| label: first-timing
-#| code-line-numbers: "11,12"
-library(dplyr)
+#| eval: false
+library(tictoc)
 
+tic()
 nyc_taxi |>
-  filter(year %in% 2014:2017) |>
   group_by(year) |>
   summarise(
     all_trips = n(),
     shared_trips = sum(passenger_count > 1, na.rm = TRUE)
   ) |>
   mutate(pct_shared = shared_trips / all_trips * 100) |>
-  collect() |> 
-  system.time()
+  collect()
+toc()
 ```
+
+> 6.077 sec elapsed
 
 ## Your Turn
 
-1.  Calculate total number of rides for each month in 2019
+1.  Calculate the longest trip distance for every month in 2019
 
-2.  About how long did this query of 1.15 billion rows take?
+2.  How long did this query take to run?
 
 ➡️ [Hello Arrow Exercises Page](1_hello_arrow-exercises.html)
 
@@ -212,7 +213,3 @@ The contiguous columnar layout enables vectorization using the latest SIMD (Sing
 -   Module 2: Data engineering with Arrow
 -   Module 3: Larger-than-memory data manipulation with Arrow---Part II
 -   Module 4: In-memory workflows in R with Arrow
-
-<br>
-
-We will also talk about Arrow data types, file formats, controlling schemas & more fun stuff along the way!

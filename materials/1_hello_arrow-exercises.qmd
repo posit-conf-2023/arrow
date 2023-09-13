@@ -60,41 +60,30 @@ nyc_taxi |>
 ::: panel-tabset
 ## Problems
 
-1.  Calculate the total number of rides for every month in 2019
+1.  Calculate the longest trip distance for every month in 2019
 
-2.  About how long did this query of 1.15 billion rows take?
+2.  How long did this query take to run?
 
 ## Solution 1
 
-Total number of rides for every month in 2019:
+Longest trip distance for every month in 2019:
 
 ```{r}
 #| label: first-dplyr-exercise1
 nyc_taxi |> 
   filter(year == 2019) |>
-  count(month) |>
+  group_by(month) |>
+  summarize(longest_trip = max(trip_distance, na.rm = TRUE)) |>
+  arrange(month) |> 
   collect()
 ```
 
 ## Solution 2
 
-Compute time for querying the 1.15 billion rows:
+Compute time:
 
 ```{r}
 #| label: first-dplyr-exercise2
-nyc_taxi |> 
-  filter(year == 2019) |>
-  group_by(month) |>
-  summarize(longest_trip = max(trip_distance, na.rm = TRUE)) |>
-  arrange(month) |> 
-  collect() |> 
-  system.time()
-```
-
-or
-
-```{r}
-#| label: first-dplyr-exercise2alt
 library(tictoc)
 
 tic()
@@ -106,5 +95,20 @@ nyc_taxi |>
   collect()
 toc()
 ```
+
+or 
+
+```{r}
+#| label: first-dplyr-exercise2alt
+
+nyc_taxi |> 
+  filter(year == 2019) |>
+  group_by(month) |>
+  summarize(longest_trip = max(trip_distance, na.rm = TRUE)) |>
+  arrange(month) |> 
+  collect() |> 
+  system.time()
+```
+
 :::
 :::

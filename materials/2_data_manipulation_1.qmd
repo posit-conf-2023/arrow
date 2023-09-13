@@ -30,9 +30,6 @@ Avoiding these! But...don't worry!
 
 ![](images/segfault.png)
 
-## Arrow Datasets
-
-![Image source: Navarro, Danielle. 2022. "Unpacking Arrow Datasets." November 30, 2022. https://blog.djnavarro.net/posts/2022-11-30_unpacking-arrow-datasets.](images/datasets.png)
 
 ## dplyr API in arrow
 
@@ -48,8 +45,12 @@ library(arrow)
 nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
 nyc_taxi
 ```
+## Arrow Datasets
 
-## How many trips had more than 1 passenger?
+![](images/nyc_taxi_dataset.png)
+
+
+## Constructing queries
 
 ```{r}
 #| label: shared-rides
@@ -57,7 +58,6 @@ nyc_taxi
 library(dplyr)
 
 shared_rides <- nyc_taxi |>
-  filter(year %in% 2017:2021) |> 
   group_by(year) |>
   summarize(
     all_trips = n(),
@@ -153,7 +153,8 @@ nyc_taxi |>
 
 ➡️ [Data Manipulation Part I Exercises Page](2_data_manipulation_1-exercises.html)
 
-## Use `head()` then `collect()` to preview output for large queries
+
+## Previewing output for large queries
 
 How much were fares in GBP (£)?
 
@@ -217,7 +218,7 @@ taxis_gbp |>
 -   Use `head()`, `select()`, `filter()`, and `collect()` to preview results
 -   Use `across()` to manipulate data in multiple columns at once
 
-# dplyr API in arrow - what is and isn't implemented?
+# dplyr verbs API in arrow - alternatives
 
 ## Example - `slice()`
 
@@ -384,7 +385,8 @@ nyc_taxi |>
 
 ## Summary
 
--   Working with an Arrow Dataset allows you to manipulate data which is larger-than-memory
--   You can use many dplyr functions with arrow - run `?\`arrow-dplyr\`\` to view the docs
+
+-   Working with Arrow Datasets allow you to manipulate data which is larger-than-memory
+-   You can use many dplyr functions with arrow - run `` ?`arrow-dplyr` `` to view the docs
 -   You can pass data to duckdb to use functions implemented in dbplyr and duckdb but not arrow
 -   Sometimes the easiest solution is an alternative path
