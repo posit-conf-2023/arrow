@@ -7,6 +7,7 @@ format:
   revealjs: 
     theme: default
 engine: knitr
+editor: source
 ---
 
 # Hello Arrow {#hello-arrow}
@@ -17,10 +18,11 @@ engine: knitr
 
 Have you used or experimented with Arrow before today?
 
--   A little
--   A lot
--   Not yet
--   Not yet, but I have read about it!
+- 1️⃣ No yet
+- 2️⃣ Not yet, but I have read about it!
+- 3️⃣ A little
+- 4️⃣ A lot
+
 
 ## Hello Arrow<br>Demo
 
@@ -62,15 +64,12 @@ unzip(
 )
 ```
 
-## posit Cloud ☁️
+## Posit Cloud ☁️
 
-<br>
+ - Join the cloud workspace via URL in the workshop Discord channel 
+ - You will need to create a (free) Posit Cloud account
 
-[posit.io/arrow-conf23-cloud](https://posit.cloud/spaces/397258/content/all?sort=name_asc)
-
-<br>
-
-Once you have joined, navigate to Projects on the top menu.
+![](images/posit-cloud.png){.absolute left="200" width="600"}
 
 ## Larger-Than-Memory Data
 
@@ -85,7 +84,6 @@ Once you have joined, navigate to Projects on the top menu.
 ::: notes
 Arrow Datasets allow you to query against data that has been split across multiple files. This sharding of data may indicate partitioning, which can accelerate queries that only touch some partitions (files). Call open_dataset() to point to a directory of data files and return a Dataset, then use dplyr methods to query it.
 :::
-
 
 ## NYC Taxi Dataset
 
@@ -112,7 +110,7 @@ nyc_taxi |>
 
 What percentage of taxi rides each year had more than 1 passenger?
 
-## NYC Taxi Dataset: A {dplyr} pipeline
+## NYC Taxi Dataset: A dplyr pipeline
 
 ```{r}
 #| label: first-collect
@@ -129,7 +127,7 @@ nyc_taxi |>
   collect()
 ```
 
-## NYC Taxi Dataset: A {dplyr} pipeline
+## NYC Taxi Dataset: A dplyr pipeline
 
 ```{r}
 #| label: first-timing
