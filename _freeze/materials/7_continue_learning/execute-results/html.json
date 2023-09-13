@@ -1,8 +1,10 @@
 {
-  "hash": "cc793cf8e9d9659a59161fcf5c675a42",
+  "hash": "1ebee17b6741ea2abb6f8f6e64e13e7a",
   "result": {
-    "markdown": "---\nfooter: \"[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)\"\nlogo: \"images/logo.png\"\nexecute:\n  echo: true\nformat:\n  revealjs: \n    theme: default\nengine: knitr\n---\n\n\n# Continue Your Arrow Learning Journey {#more-learning}\n\n## Docs\n\n::: {style=\"font-size: 80%;\"}\n<https://arrow.apache.org/docs/r/>\n:::\n\n![](images/docs.png)\n\n## Cookbook\n\n<https://arrow.apache.org/cookbook/r/>\n\n![](images/cookbook.png)\n\n## Cheatsheet\n\n::: {style=\"font-size: 60%;\"}\n<https://github.com/apache/arrow/blob/master/r/cheatsheet/arrow-cheatsheet.pdf>\n:::\n\n![](https://arrow.apache.org/img/20220427-arrow-r-cheatsheet-thumbnail.png){.absolute top=\"125\" width=\"700\"}\n\n## Awesome Arrow\n\n<https://github.com/thisisnic/awesome-arrow-r>\n\n![](images/awesomearrow.png)\n\n# How to Get Help\n\n## GitHub Issues\n\n<https://github.com/apache/arrow/issues>\n\n![](images/issues.png)\n\n## Community\n\n<https://arrow.apache.org/community/>\n\n![](images/mailing-list.png){.absolute width=\"600\"}\n\n::: notes\nalso Stack Overflow, Posit Community\n:::\n",
-    "supporting": [],
+    "markdown": "---\nfooter: \"[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)\"\nlogo: \"images/logo.png\"\nexecute:\n  echo: true\nformat:\n  revealjs: \n    theme: default\nengine: knitr\neditor: source\n---\n\n\n# Continue Your Arrow Learning Journey {#more-learning}\n\n## Docs\n\n::: {style=\"font-size: 80%;\"}\n<https://arrow.apache.org/docs/r/>\n:::\n\n![](images/docs.png)\n\n## Cookbook\n\n<https://arrow.apache.org/cookbook/r/>\n\n![](images/cookbook.png)\n\n## Cheatsheet\n\n::: {style=\"font-size: 60%;\"}\n<https://github.com/apache/arrow/blob/master/r/cheatsheet/arrow-cheatsheet.pdf>\n:::\n\n![](https://arrow.apache.org/img/20220427-arrow-r-cheatsheet-thumbnail.png){.absolute top=\"125\" width=\"700\"}\n\n## Awesome Arrow\n\n<https://github.com/thisisnic/awesome-arrow-r>\n\n![](images/awesomearrow.png)\n\n# How to Get Help\n\n## GitHub Issues\n\n<https://github.com/apache/arrow/issues>\n\n![](images/issues.png)\n\n## Community\n\n<https://arrow.apache.org/community/>\n\n![](images/mailing-list.png){.absolute width=\"600\"}\n\n::: notes\nalso Stack Overflow, Posit Community\n:::\n",
+    "supporting": [
+      "7_continue_learning_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],
