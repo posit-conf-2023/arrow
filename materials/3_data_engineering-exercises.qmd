@@ -4,6 +4,7 @@ execute:
   echo: true
   messages: false
   warning: false
+editor: source  
 ---
 
 # Schemas
@@ -26,7 +27,7 @@ seattle_csv <- open_dataset(
 # Data Types & Controlling the Schema
 
 ::: panel-tabset
-## Problem
+## Problems
 
 1.  The first few thousand rows of `ISBN` are blank in the Seattle Checkouts CSV file. Read in the Seattle Checkouts CSV file with `open_dataset()` and ensure the correct data type for `ISBN` is `<string>` instead of the `<null>` interpreted by Arrow.
 
@@ -141,7 +142,7 @@ seattle_csv |>
 # Parquet
 
 ::: panel-tabset
-## Problems
+## Problem
 
 1.  Re-run the query counting the number of `Checkouts` by `CheckoutYear` and arranging the result by `CheckoutYear`, this time using the Seattle Checkout data saved to disk as a single, Parquet file. Did you notice a difference in compute time?
 
@@ -177,7 +178,7 @@ seattle_csv |>
                 format = "parquet")
 ```
 
-::: {#exercise-dataset .callout-tip}
+::: callout-tip
 # Partitioning
 
 ::: panel-tabset

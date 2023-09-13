@@ -7,6 +7,7 @@ format:
   revealjs: 
     theme: default
 engine: knitr
+editor: source
 ---
 
 # Data Manipulation---Part 1 {#data-manip-1}
@@ -29,7 +30,6 @@ Avoiding these! But...don't worry!
 
 ![](images/segfault.png)
 
-
 ## Arrow Datasets
 
 ![Image source: Navarro, Danielle. 2022. "Unpacking Arrow Datasets." November 30, 2022. https://blog.djnavarro.net/posts/2022-11-30_unpacking-arrow-datasets.](images/datasets.png)
@@ -38,7 +38,7 @@ Avoiding these! But...don't worry!
 
 ![](images/dplyr-backend.png)
 
-## The dataset
+## An Arrow Dataset
 
 ```{r}
 #| label: setup-data-manip1-2
@@ -86,7 +86,7 @@ shared_rides
 -   `compute()` evaluates the query, in-memory output stays in Arrow
 -   `collect()` evaluates the query, in-memory output returns to R
 
-## compute
+## `compute()`
 
 ```{r}
 #| label: compute
@@ -94,7 +94,7 @@ shared_rides
 compute(shared_rides)
 ```
 
-## collect
+## `collect()`
 
 ```{r}
 #| label: collect
@@ -102,7 +102,7 @@ compute(shared_rides)
 collect(shared_rides)
 ```
 
-## calling `nrow()` to see how much data
+## Calling `nrow()` to see how much data
 
 ```{r}
 #| label: nrow
@@ -112,7 +112,7 @@ nyc_taxi |>
   nrow()
 ```
 
-## calling `nrow()` doesn't work with intermediate step
+## Calling `nrow()` doesn't work with intermediate step
 
 ```{r}
 #| label: nrow-intermed
@@ -128,7 +128,7 @@ nyc_taxi |>
   nrow()
 ```
 
-## use `compute()` to execute intermediate steps
+## Use `compute()` to execute intermediate steps
 
 ```{r,`code-line-numbers`="9"}
 #| label: compute-intermed
@@ -153,7 +153,7 @@ nyc_taxi |>
 
 ➡️ [Data Manipulation Part I Exercises Page](2_data_manipulation_1-exercises.html)
 
-## use `head()` then `collect()` to preview output for large queries
+## Use `head()` then `collect()` to preview output for large queries
 
 How much were fares in GBP (£)?
 
@@ -187,7 +187,7 @@ nyc_taxi |>
   collect()
 ```
 
-## use `across()` to transform data in multiple columns
+## Use `across()` to transform data in multiple columns
 
 ```{r}
 #| label: across
@@ -198,7 +198,7 @@ taxis_gbp <- nyc_taxi |>
 taxis_gbp
 ```
 
-## use `across()` to transform data in multiple columns
+## Use `across()` to transform data in multiple columns
 
 ```{r}
 #| label: across-2
@@ -219,7 +219,7 @@ taxis_gbp |>
 
 # dplyr API in arrow - what is and isn't implemented?
 
-## example - `slice()`
+## Example - `slice()`
 
 First three trips in the dataset in 2021 where distance \> 100 miles
 
@@ -235,7 +235,7 @@ long_rides_2021 |>
   slice(1:3)
 ```
 
-## head to the docs!
+## Head to the docs!
 
 ```{r}
 #| label: get-help
@@ -284,7 +284,7 @@ nyc_taxi |>
 
 ![](images/dplyr-arrow-duckdb.png)
 
-## tidyr functions - pivot with duckdb!
+## [tidyr](https://tidyr.tidyverse.org/) functions - pivot with [duckdb](https://duckdb.org/docs/api/r.html)!
 
 ```{r}
 #| label: pivot-duckdb
@@ -310,7 +310,7 @@ This code requires arrow 13.0.0 or above to run, due to a bugfix in this version
 
 ## Using functions inside verbs
 
--   lots of the lubridate and stringr APIs supported!
+-   lots of the [lubridate](https://lubridate.tidyverse.org/) and [stringr](https://stringr.tidyverse.org/) APIs supported!
 -   base R and others too - always good to check the docs
 
 ## Morning vs afternoon with namespacing
@@ -370,7 +370,7 @@ nyc_taxi |>
 
 ## Option 2
 
-* In data manipulation part 2!
+-   In data manipulation part 2!
 
 ## Your Turn
 
@@ -384,7 +384,7 @@ nyc_taxi |>
 
 ## Summary
 
--   Working with Arrow datasets allow you to manipulate data which is larger-than-memory
--   You can use many dplyr functions with arrow - run `?\`arrow-dplyr\`\` to view the docs
+-   Working with an Arrow Dataset allows you to manipulate data which is larger-than-memory
+-   You can use many dplyr functions with arrow - run `?arrow-dplyr` to view the docs
 -   You can pass data to duckdb to use functions implemented in dbplyr and duckdb but not arrow
 -   Sometimes the easiest solution is an alternative path
