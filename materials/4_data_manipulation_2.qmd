@@ -47,16 +47,21 @@ time_diff_minutes <- function(pickup, dropoff){
 }
 
 nyc_taxi |>
-  mutate(duration_minutes = time_diff_minutes(pickup_datetime, dropoff_datetime)) |> 
+  mutate(
+    duration_minutes = time_diff_minutes(pickup_datetime, dropoff_datetime)
+  ) |> 
   select(pickup_datetime, dropoff_datetime, duration_minutes) |>
   head() |>
   collect()
 ```
 
+We get an error as we can't automatically convert the function to arrow.
+
 # User-defined functions (aka UDFs)
 
 -   Define your own functions
--   Scalar functions only - 1 row input and 1 row output
+-   Scalar functions - 1 row input and 1 row output
+
 
 ## User-defined functions - definition
 
@@ -78,9 +83,11 @@ register_scalar_function(
 )
 ```
 
+This looks complicated, so let's look at it 1 part at a time!
+
 ## User-defined functions - definition
 
-Give the function a name
+Step 1. Give the function a name
 
 ```{r, `code-line-numbers`="2"}
 #| label: udf-define-2
@@ -102,7 +109,7 @@ register_scalar_function(
 
 ## User-defined functions - definition
 
-Define the body of the function - first argument *must* be `context`
+Step 2. Define the body of the function - first argument *must* be `context`
 
 ```{r, `code-line-numbers`="3,4,5,6,7"}
 #| label: udf-define-3
@@ -124,7 +131,7 @@ register_scalar_function(
 
 ## User-defined functions - definition
 
-Define the schema of the input arguments
+Step 3. Set the schema of the input arguments
 
 ```{r, `code-line-numbers`="8,9,10,11"}
 #| label: udf-define-4
@@ -146,10 +153,32 @@ register_scalar_function(
 
 ## User-defined functions - definition
 
-Define the data type of the output
+Step 4. Set the data type of the output
 
 ```{r, `code-line-numbers`="12"}
 #| label: udf-define-5
+register_scalar_function(
+  name = "time_diff_minutes",
+  function(context, pickup, dropoff) {
+    difftime(dropoff, pickup, units = "mins") |>
+      round() |>
+      as.integer()
+  },
+  in_type = schema(
+    pickup = timestamp(unit = "ms"),
+    dropoff = timestamp(unit = "ms")
+  ),
+  out_type = int32(),
+  auto_convert = TRUE
+)
+```
+
+## User-defined functions - definition
+
+Step 5. Set `auto_convert = TRUE` if using in a dplyr pipeline
+
+```{r, `code-line-numbers`="13"}
+#| label: udf-define-6
 register_scalar_function(
   name = "time_diff_minutes",
   function(context, pickup, dropoff) {
@@ -171,7 +200,9 @@ register_scalar_function(
 ```{r}
 #| label: udf-use
 nyc_taxi |>
-  mutate(duration_minutes = time_diff_minutes(pickup_datetime, dropoff_datetime)) |>
+  mutate(
+    duration_minutes = time_diff_minutes(pickup_datetime, dropoff_datetime)
+  ) |>
   select(pickup_datetime, dropoff_datetime, duration_minutes) |>
   head() |>
   collect()
@@ -223,7 +254,7 @@ Question: which are the most common borough-to-borough journeys in the dataset?
 ```{r}
 #| label: lookup
 
-nyc_taxi_zones <-
+nyc_taxi_zones <- 
   read_csv_arrow(here::here("data/taxi_zone_lookup.csv")) |>
   select(location_id = LocationID,
          borough = Borough)
@@ -273,7 +304,7 @@ nyc_taxi_zones_arrow <- arrow_table(
 ```
 
 -   `schema()` takes variable name / types as input
--   {arrow} has various "type" functions: `int64()`, `utf8()`, `boolean()`, `date32()` etc
+-   arrow has various "type" functions: `int64()`, `utf8()`, `boolean()`, `date32()` etc
 
 ## Take control of the schema
 
@@ -303,13 +334,7 @@ dropoff <- nyc_taxi_zones_arrow |>
 
 -   Join separately for the pickup and dropoff zones
 
-```{=html}
-<!-- 
-    * simple example of a join
-    * show a join with unmatched schemas
-    * making the schemas match
--->
-```
+
 ## Join and cross-tabulate
 
 ```{r}

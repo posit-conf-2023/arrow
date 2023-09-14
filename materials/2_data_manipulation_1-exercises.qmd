@@ -25,9 +25,11 @@ nyc_taxi <- open_dataset(here::here("data/nyc-taxi"))
 ::: panel-tabset
 ## Problems
 
+Use the function `nrow()` to work out the answers to these questions:
+
 1.  How many taxi fares in the dataset had a total amount greater than \$100?
 
-2.  How many distinct pickup locations (distinct combinations of the `pickup_latitude` and `pickup_longitude` columns) are in the dataset since 2016? Use `nrow()` to work this out.
+2.  How many distinct pickup locations (distinct combinations of the `pickup_latitude` and `pickup_longitude` columns) are in the dataset since 2016? 
 
 ## Solution 1
 
