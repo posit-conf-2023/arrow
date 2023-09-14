@@ -147,9 +147,11 @@ nyc_taxi |>
 
 ## Your Turn
 
+Use the function `nrow()` to work out the answers to these questions:
+
 1.  How many taxi fares in the dataset had a total amount greater than \$100?
 
-2.  How many distinct pickup locations (distinct combinations of the `pickup_latitude` and `pickup_longitude` columns) are in the dataset since 2016? Use `nrow()` to work this out.
+2.  How many distinct pickup locations (distinct combinations of the `pickup_latitude` and `pickup_longitude` columns) are in the dataset since 2016? 
 
 ➡️ [Data Manipulation Part I Exercises Page](2_data_manipulation_1-exercises.html)
 
