@@ -193,49 +193,56 @@
     "href": "materials/4_data_manipulation_2.html#why-use-a-udf",
     "title": "Big Data in R with Arrow",
     "section": "Why use a UDF?",
-    "text": "Why use a UDF?\nImplement your own custom functions!\n\ntime_diff_minutes &lt;- function(pickup, dropoff){\n  difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n}\n\nnyc_taxi |&gt;\n  mutate(duration_minutes = time_diff_minutes(pickup_datetime, dropoff_datetime)) |&gt; \n  select(pickup_datetime, dropoff_datetime, duration_minutes) |&gt;\n  head() |&gt;\n  collect()\n\nError: Expression time_diff_minutes(pickup_datetime, dropoff_datetime) not supported in Arrow\nCall collect() first to pull data into R."
+    "text": "Why use a UDF?\nImplement your own custom functions!\n\ntime_diff_minutes &lt;- function(pickup, dropoff){\n  difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n}\n\nnyc_taxi |&gt;\n  mutate(\n    duration_minutes = time_diff_minutes(pickup_datetime, dropoff_datetime)\n  ) |&gt; \n  select(pickup_datetime, dropoff_datetime, duration_minutes) |&gt;\n  head() |&gt;\n  collect()\n\nError: Expression time_diff_minutes(pickup_datetime, dropoff_datetime) not supported in Arrow\nCall collect() first to pull data into R.\n\n\nWe get an error as we can’t automatically convert the function to arrow."
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#user-defined-functions---definition",
     "href": "materials/4_data_manipulation_2.html#user-defined-functions---definition",
     "title": "Big Data in R with Arrow",
     "section": "User-defined functions - definition",
-    "text": "User-defined functions - definition\n\nregister_scalar_function(\n  name = \"time_diff_minutes\",\n  function(context, pickup, dropoff) {\n    difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n  },\n  in_type = schema(\n    pickup = timestamp(unit = \"ms\"),\n    dropoff = timestamp(unit = \"ms\")\n  ),\n  out_type = int32(),\n  auto_convert = TRUE\n)"
+    "text": "User-defined functions - definition\n\nregister_scalar_function(\n  name = \"time_diff_minutes\",\n  function(context, pickup, dropoff) {\n    difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n  },\n  in_type = schema(\n    pickup = timestamp(unit = \"ms\"),\n    dropoff = timestamp(unit = \"ms\")\n  ),\n  out_type = int32(),\n  auto_convert = TRUE\n)\n\nThis looks complicated, so let’s look at it 1 part at a time!"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#user-defined-functions---definition-1",
     "href": "materials/4_data_manipulation_2.html#user-defined-functions---definition-1",
     "title": "Big Data in R with Arrow",
     "section": "User-defined functions - definition",
-    "text": "User-defined functions - definition\nGive the function a name\n\nregister_scalar_function(\n  name = \"time_diff_minutes\",\n  function(context, pickup, dropoff) {\n    difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n  },\n  in_type = schema(\n    pickup = timestamp(unit = \"ms\"),\n    dropoff = timestamp(unit = \"ms\")\n  ),\n  out_type = int32(),\n  auto_convert = TRUE\n)"
+    "text": "User-defined functions - definition\nStep 1. Give the function a name\n\nregister_scalar_function(\n  name = \"time_diff_minutes\",\n  function(context, pickup, dropoff) {\n    difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n  },\n  in_type = schema(\n    pickup = timestamp(unit = \"ms\"),\n    dropoff = timestamp(unit = \"ms\")\n  ),\n  out_type = int32(),\n  auto_convert = TRUE\n)"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#user-defined-functions---definition-2",
     "href": "materials/4_data_manipulation_2.html#user-defined-functions---definition-2",
     "title": "Big Data in R with Arrow",
     "section": "User-defined functions - definition",
-    "text": "User-defined functions - definition\nDefine the body of the function - first argument must be context\n\nregister_scalar_function(\n  name = \"time_diff_minutes\",\n  function(context, pickup, dropoff) {\n    difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n  },\n  in_type = schema(\n    pickup = timestamp(unit = \"ms\"),\n    dropoff = timestamp(unit = \"ms\")\n  ),\n  out_type = int32(),\n  auto_convert = TRUE\n)"
+    "text": "User-defined functions - definition\nStep 2. Define the body of the function - first argument must be context\n\nregister_scalar_function(\n  name = \"time_diff_minutes\",\n  function(context, pickup, dropoff) {\n    difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n  },\n  in_type = schema(\n    pickup = timestamp(unit = \"ms\"),\n    dropoff = timestamp(unit = \"ms\")\n  ),\n  out_type = int32(),\n  auto_convert = TRUE\n)"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#user-defined-functions---definition-3",
     "href": "materials/4_data_manipulation_2.html#user-defined-functions---definition-3",
     "title": "Big Data in R with Arrow",
     "section": "User-defined functions - definition",
-    "text": "User-defined functions - definition\nDefine the schema of the input arguments\n\nregister_scalar_function(\n  name = \"time_diff_minutes\",\n  function(context, pickup, dropoff) {\n    difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n  },\n  in_type = schema(\n    pickup = timestamp(unit = \"ms\"),\n    dropoff = timestamp(unit = \"ms\")\n  ),\n  out_type = int32(),\n  auto_convert = TRUE\n)"
+    "text": "User-defined functions - definition\nStep 3. Set the schema of the input arguments\n\nregister_scalar_function(\n  name = \"time_diff_minutes\",\n  function(context, pickup, dropoff) {\n    difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n  },\n  in_type = schema(\n    pickup = timestamp(unit = \"ms\"),\n    dropoff = timestamp(unit = \"ms\")\n  ),\n  out_type = int32(),\n  auto_convert = TRUE\n)"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#user-defined-functions---definition-4",
     "href": "materials/4_data_manipulation_2.html#user-defined-functions---definition-4",
     "title": "Big Data in R with Arrow",
     "section": "User-defined functions - definition",
-    "text": "User-defined functions - definition\nDefine the data type of the output\n\nregister_scalar_function(\n  name = \"time_diff_minutes\",\n  function(context, pickup, dropoff) {\n    difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n  },\n  in_type = schema(\n    pickup = timestamp(unit = \"ms\"),\n    dropoff = timestamp(unit = \"ms\")\n  ),\n  out_type = int32(),\n  auto_convert = TRUE\n)"
+    "text": "User-defined functions - definition\nStep 4. Set the data type of the output\n\nregister_scalar_function(\n  name = \"time_diff_minutes\",\n  function(context, pickup, dropoff) {\n    difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n  },\n  in_type = schema(\n    pickup = timestamp(unit = \"ms\"),\n    dropoff = timestamp(unit = \"ms\")\n  ),\n  out_type = int32(),\n  auto_convert = TRUE\n)"
+  },
+  {
+    "objectID": "materials/4_data_manipulation_2.html#user-defined-functions---definition-5",
+    "href": "materials/4_data_manipulation_2.html#user-defined-functions---definition-5",
+    "title": "Big Data in R with Arrow",
+    "section": "User-defined functions - definition",
+    "text": "User-defined functions - definition\nStep 5. Set auto_convert = TRUE if using in a dplyr pipeline\n\nregister_scalar_function(\n  name = \"time_diff_minutes\",\n  function(context, pickup, dropoff) {\n    difftime(dropoff, pickup, units = \"mins\") |&gt;\n      round() |&gt;\n      as.integer()\n  },\n  in_type = schema(\n    pickup = timestamp(unit = \"ms\"),\n    dropoff = timestamp(unit = \"ms\")\n  ),\n  out_type = int32(),\n  auto_convert = TRUE\n)"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#user-defined-functions---usage",
     "href": "materials/4_data_manipulation_2.html#user-defined-functions---usage",
     "title": "Big Data in R with Arrow",
     "section": "User-defined functions - usage",
-    "text": "User-defined functions - usage\n\nnyc_taxi |&gt;\n  mutate(duration_minutes = time_diff_minutes(pickup_datetime, dropoff_datetime)) |&gt;\n  select(pickup_datetime, dropoff_datetime, duration_minutes) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 3\n  pickup_datetime     dropoff_datetime    duration_minutes\n  &lt;dttm&gt;              &lt;dttm&gt;                         &lt;int&gt;\n1 2012-11-02 17:47:00 2012-11-02 18:16:00               29\n2 2012-11-02 17:47:07 2012-11-02 17:53:32                6\n3 2012-11-02 17:47:13 2012-11-02 17:53:31                6\n4 2012-11-02 17:47:35 2012-11-02 17:52:40                5\n5 2012-11-02 17:47:51 2012-11-02 18:00:19               12\n6 2012-11-02 17:48:00 2012-11-02 17:51:00                3"
+    "text": "User-defined functions - usage\n\nnyc_taxi |&gt;\n  mutate(\n    duration_minutes = time_diff_minutes(pickup_datetime, dropoff_datetime)\n  ) |&gt;\n  select(pickup_datetime, dropoff_datetime, duration_minutes) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 3\n  pickup_datetime     dropoff_datetime    duration_minutes\n  &lt;dttm&gt;              &lt;dttm&gt;                         &lt;int&gt;\n1 2012-10-07 18:19:00 2012-10-07 18:29:00               10\n2 2012-10-07 18:19:00 2012-10-07 18:33:00               14\n3 2012-10-07 18:19:00 2012-10-07 18:35:00               16\n4 2012-10-07 18:19:00 2012-10-07 18:35:00               16\n5 2012-10-07 18:19:00 2012-10-07 18:42:00               23\n6 2012-10-07 18:19:00 2012-10-07 18:43:00               24"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#your-turn",
@@ -263,14 +270,14 @@
     "href": "materials/4_data_manipulation_2.html#joining-a-reference-table",
     "title": "Big Data in R with Arrow",
     "section": "Joining a reference table",
-    "text": "Joining a reference table\n\nvendors &lt;- tibble::tibble(\n  code = c(\"VTS\", \"CMT\", \"DDS\"),\n  full_name = c(\n    \"Verifone Transportation Systems\",\n    \"Creative Mobile Technologies\",\n    \"Digital Dispatch Systems\"\n  )\n)\n\nnyc_taxi |&gt;\n  left_join(vendors, by = c(\"vendor_name\" = \"code\")) |&gt;\n  select(vendor_name, full_name, pickup_datetime) |&gt;\n  head(3) |&gt;\n  collect()\n\n# A tibble: 3 × 3\n  vendor_name full_name                       pickup_datetime    \n  &lt;chr&gt;       &lt;chr&gt;                           &lt;dttm&gt;             \n1 VTS         Verifone Transportation Systems 2012-10-01 00:57:00\n2 VTS         Verifone Transportation Systems 2012-10-01 00:57:00\n3 VTS         Verifone Transportation Systems 2012-10-01 00:57:00"
+    "text": "Joining a reference table\n\nvendors &lt;- tibble::tibble(\n  code = c(\"VTS\", \"CMT\", \"DDS\"),\n  full_name = c(\n    \"Verifone Transportation Systems\",\n    \"Creative Mobile Technologies\",\n    \"Digital Dispatch Systems\"\n  )\n)\n\nnyc_taxi |&gt;\n  left_join(vendors, by = c(\"vendor_name\" = \"code\")) |&gt;\n  select(vendor_name, full_name, pickup_datetime) |&gt;\n  head(3) |&gt;\n  collect()\n\n# A tibble: 3 × 3\n  vendor_name full_name                    pickup_datetime    \n  &lt;chr&gt;       &lt;chr&gt;                        &lt;dttm&gt;             \n1 CMT         Creative Mobile Technologies 2012-01-10 23:55:50\n2 CMT         Creative Mobile Technologies 2012-01-11 19:18:25\n3 CMT         Creative Mobile Technologies 2012-01-11 19:19:19"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#traps-for-the-unwary",
     "href": "materials/4_data_manipulation_2.html#traps-for-the-unwary",
     "title": "Big Data in R with Arrow",
     "section": "Traps for the unwary",
-    "text": "Traps for the unwary\nQuestion: which are the most common borough-to-borough journeys in the dataset?\n\nnyc_taxi_zones &lt;-\n  read_csv_arrow(here::here(\"data/taxi_zone_lookup.csv\")) |&gt;\n  select(location_id = LocationID,\n         borough = Borough)\n\nnyc_taxi_zones\n\n# A tibble: 265 × 2\n   location_id borough      \n         &lt;int&gt; &lt;chr&gt;        \n 1           1 EWR          \n 2           2 Queens       \n 3           3 Bronx        \n 4           4 Manhattan    \n 5           5 Staten Island\n 6           6 Staten Island\n 7           7 Queens       \n 8           8 Queens       \n 9           9 Queens       \n10          10 Queens       \n# ℹ 255 more rows"
+    "text": "Traps for the unwary\nQuestion: which are the most common borough-to-borough journeys in the dataset?\n\nnyc_taxi_zones &lt;- \n  read_csv_arrow(here::here(\"data/taxi_zone_lookup.csv\")) |&gt;\n  select(location_id = LocationID,\n         borough = Borough)\n\nnyc_taxi_zones\n\n# A tibble: 265 × 2\n   location_id borough      \n         &lt;int&gt; &lt;chr&gt;        \n 1           1 EWR          \n 2           2 Queens       \n 3           3 Bronx        \n 4           4 Manhattan    \n 5           5 Staten Island\n 6           6 Staten Island\n 7           7 Queens       \n 8           8 Queens       \n 9           9 Queens       \n10          10 Queens       \n# ℹ 255 more rows"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#why-didnt-this-work",
@@ -298,7 +305,7 @@
     "href": "materials/4_data_manipulation_2.html#take-control-of-the-schema",
     "title": "Big Data in R with Arrow",
     "section": "Take control of the schema",
-    "text": "Take control of the schema\n\nnyc_taxi_zones_arrow &lt;- arrow_table(\n  nyc_taxi_zones, \n  schema = schema(location_id = int64(), borough = utf8())\n)\n\n\nschema() takes variable name / types as input\n{arrow} has various “type” functions: int64(), utf8(), boolean(), date32() etc"
+    "text": "Take control of the schema\n\nnyc_taxi_zones_arrow &lt;- arrow_table(\n  nyc_taxi_zones, \n  schema = schema(location_id = int64(), borough = utf8())\n)\n\n\nschema() takes variable name / types as input\narrow has various “type” functions: int64(), utf8(), boolean(), date32() etc"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#take-control-of-the-schema-1",
@@ -319,7 +326,7 @@
     "href": "materials/4_data_manipulation_2.html#join-and-cross-tabulate",
     "title": "Big Data in R with Arrow",
     "section": "Join and cross-tabulate",
-    "text": "Join and cross-tabulate\n\nlibrary(tictoc)\n\ntic()\nborough_counts &lt;- nyc_taxi |&gt; \n  left_join(pickup) |&gt;\n  left_join(dropoff) |&gt;\n  count(pickup_borough, dropoff_borough) |&gt;\n  arrange(desc(n)) |&gt;\n  collect()\ntoc()\n\n103.234 sec elapsed\n\n\n\n2-3 minutes to join twice and cross-tabulate on non-partition variables, with 1.15 billion rows of data 🙂"
+    "text": "Join and cross-tabulate\n\nlibrary(tictoc)\n\ntic()\nborough_counts &lt;- nyc_taxi |&gt; \n  left_join(pickup) |&gt;\n  left_join(dropoff) |&gt;\n  count(pickup_borough, dropoff_borough) |&gt;\n  arrange(desc(n)) |&gt;\n  collect()\ntoc()\n\n151.228 sec elapsed\n\n\n\n2-3 minutes to join twice and cross-tabulate on non-partition variables, with 1.15 billion rows of data 🙂"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#the-results",
@@ -658,13 +665,6 @@
     "text": "Goals\nAvoiding these! But…don’t worry!"
   },
   {
-    "objectID": "materials/2_data_manipulation_1.html#arrow-datasets",
-    "href": "materials/2_data_manipulation_1.html#arrow-datasets",
-    "title": "Big Data in R with Arrow",
-    "section": "Arrow Datasets",
-    "text": "Arrow Datasets\n\nImage source: Navarro, Danielle. 2022. “Unpacking Arrow Datasets.” November 30, 2022. https://blog.djnavarro.net/posts/2022-11-30_unpacking-arrow-datasets."
-  },
-  {
     "objectID": "materials/2_data_manipulation_1.html#dplyr-api-in-arrow",
     "href": "materials/2_data_manipulation_1.html#dplyr-api-in-arrow",
     "title": "Big Data in R with Arrow",
@@ -679,11 +679,18 @@
     "text": "An Arrow Dataset\n\nlibrary(arrow)\n\nnyc_taxi &lt;- open_dataset(here::here(\"data/nyc-taxi\"))\nnyc_taxi\n\nFileSystemDataset with 120 Parquet files\nvendor_name: string\npickup_datetime: timestamp[ms]\ndropoff_datetime: timestamp[ms]\npassenger_count: int64\ntrip_distance: double\npickup_longitude: double\npickup_latitude: double\nrate_code: string\nstore_and_fwd: string\ndropoff_longitude: double\ndropoff_latitude: double\npayment_type: string\nfare_amount: double\nextra: double\nmta_tax: double\ntip_amount: double\ntolls_amount: double\ntotal_amount: double\nimprovement_surcharge: double\ncongestion_surcharge: double\npickup_location_id: int64\ndropoff_location_id: int64\nyear: int32\nmonth: int32"
   },
   {
-    "objectID": "materials/2_data_manipulation_1.html#how-many-trips-had-more-than-1-passenger",
-    "href": "materials/2_data_manipulation_1.html#how-many-trips-had-more-than-1-passenger",
+    "objectID": "materials/2_data_manipulation_1.html#arrow-datasets",
+    "href": "materials/2_data_manipulation_1.html#arrow-datasets",
     "title": "Big Data in R with Arrow",
-    "section": "How many trips had more than 1 passenger?",
-    "text": "How many trips had more than 1 passenger?\n\nlibrary(dplyr)\n\nshared_rides &lt;- nyc_taxi |&gt;\n  filter(year %in% 2017:2021) |&gt; \n  group_by(year) |&gt;\n  summarize(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) \n\nclass(shared_rides)\n\n[1] \"arrow_dplyr_query\""
+    "section": "Arrow Datasets",
+    "text": "Arrow Datasets"
+  },
+  {
+    "objectID": "materials/2_data_manipulation_1.html#constructing-queries",
+    "href": "materials/2_data_manipulation_1.html#constructing-queries",
+    "title": "Big Data in R with Arrow",
+    "section": "Constructing queries",
+    "text": "Constructing queries\n\nlibrary(dplyr)\n\nshared_rides &lt;- nyc_taxi |&gt;\n  group_by(year) |&gt;\n  summarize(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) \n\nclass(shared_rides)\n\n[1] \"arrow_dplyr_query\""
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#arrow-dplyr-queries",
@@ -711,14 +718,14 @@
     "href": "materials/2_data_manipulation_1.html#compute",
     "title": "Big Data in R with Arrow",
     "section": "compute()",
-    "text": "compute()\n\ncompute(shared_rides)\n\nTable\n5 rows x 4 columns\n$year &lt;int32&gt;\n$all_trips &lt;int64&gt;\n$shared_trips &lt;uint64&gt;\n$pct_shared &lt;double&gt;"
+    "text": "compute()\n\ncompute(shared_rides)\n\nTable\n10 rows x 4 columns\n$year &lt;int32&gt;\n$all_trips &lt;int64&gt;\n$shared_trips &lt;uint64&gt;\n$pct_shared &lt;double&gt;"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#collect",
     "href": "materials/2_data_manipulation_1.html#collect",
     "title": "Big Data in R with Arrow",
     "section": "collect()",
-    "text": "collect()\n\ncollect(shared_rides)\n\n# A tibble: 5 × 4\n   year all_trips shared_trips pct_shared\n  &lt;int&gt;     &lt;int&gt;        &lt;int&gt;      &lt;dbl&gt;\n1  2017 113495512     32296166       28.5\n2  2018 102797401     28796633       28.0\n3  2019  84393604     23515989       27.9\n4  2020  24647055      5837960       23.7\n5  2021  30902618      7221844       23.4"
+    "text": "collect()\n\ncollect(shared_rides)\n\n# A tibble: 10 × 4\n    year all_trips shared_trips pct_shared\n   &lt;int&gt;     &lt;int&gt;        &lt;int&gt;      &lt;dbl&gt;\n 1  2012 178544324     53313752       29.9\n 2  2013 173179759     51215013       29.6\n 3  2014 165114361     48816505       29.6\n 4  2015 146112989     43081091       29.5\n 5  2016 131165043     38163870       29.1\n 6  2017 113495512     32296166       28.5\n 7  2018 102797401     28796633       28.0\n 8  2019  84393604     23515989       27.9\n 9  2020  24647055      5837960       23.7\n10  2021  30902618      7221844       23.4"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#calling-nrow-to-see-how-much-data",
@@ -746,14 +753,14 @@
     "href": "materials/2_data_manipulation_1.html#your-turn",
     "title": "Big Data in R with Arrow",
     "section": "Your Turn",
-    "text": "Your Turn\n\nHow many taxi fares in the dataset had a total amount greater than $100?\nHow many distinct pickup locations (distinct combinations of the pickup_latitude and pickup_longitude columns) are in the dataset since 2016? Use nrow() to work this out.\n\n➡️ Data Manipulation Part I Exercises Page"
+    "text": "Your Turn\nUse the function nrow() to work out the answers to these questions:\n\nHow many taxi fares in the dataset had a total amount greater than $100?\nHow many distinct pickup locations (distinct combinations of the pickup_latitude and pickup_longitude columns) are in the dataset since 2016?\n\n➡️ Data Manipulation Part I Exercises Page"
   },
   {
-    "objectID": "materials/2_data_manipulation_1.html#use-head-then-collect-to-preview-output-for-large-queries",
-    "href": "materials/2_data_manipulation_1.html#use-head-then-collect-to-preview-output-for-large-queries",
+    "objectID": "materials/2_data_manipulation_1.html#previewing-output-for-large-queries",
+    "href": "materials/2_data_manipulation_1.html#previewing-output-for-large-queries",
     "title": "Big Data in R with Arrow",
-    "section": "Use head() then collect() to preview output for large queries",
-    "text": "Use head() then collect() to preview output for large queries\nHow much were fares in GBP (£)?\n\nfares_pounds &lt;- nyc_taxi |&gt;\n  mutate(\n    fare_amount_pounds = fare_amount * 0.79\n  )\n\nHow many rows?\n\nfares_pounds |&gt;\n  nrow()\n\n[1] 1150352666"
+    "section": "Previewing output for large queries",
+    "text": "Previewing output for large queries\nHow much were fares in GBP (£)?\n\nfares_pounds &lt;- nyc_taxi |&gt;\n  mutate(\n    fare_amount_pounds = fare_amount * 0.79\n  )\n\nHow many rows?\n\nfares_pounds |&gt;\n  nrow()\n\n[1] 1150352666"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#use-head-select-filter-and-collect-to-preview-results",
@@ -774,7 +781,7 @@
     "href": "materials/2_data_manipulation_1.html#use-across-to-transform-data-in-multiple-columns-1",
     "title": "Big Data in R with Arrow",
     "section": "Use across() to transform data in multiple columns",
-    "text": "Use across() to transform data in multiple columns\n\ntaxis_gbp |&gt;\n  select(contains(\"amount\")) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 8\n  fare_amount tip_amount tolls_amount total_amount fare_amount_pounds\n        &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;              &lt;dbl&gt;\n1         6.1       2               0          8.6               4.82\n2         5.3       0               0          5.8               4.19\n3         9.7       2               0         12.2               7.66\n4         8.1       0               0          8.6               6.40\n5         5.7       2               0          8.2               4.50\n6        24.5       6.37            0         31.9              19.4 \n# ℹ 3 more variables: tip_amount_pounds &lt;dbl&gt;, tolls_amount_pounds &lt;dbl&gt;,\n#   total_amount_pounds &lt;dbl&gt;"
+    "text": "Use across() to transform data in multiple columns\n\ntaxis_gbp |&gt;\n  select(contains(\"amount\")) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 8\n  fare_amount tip_amount tolls_amount total_amount fare_amount_pounds\n        &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;              &lt;dbl&gt;\n1        29.7       6.04            0        36.2               23.5 \n2         9.3       0               0         9.8                7.35\n3         4.1       1.38            0         5.98               3.24\n4         4.5       1               0         6                  3.56\n5         4.5       0               0         5.5                3.56\n6         4.1       0               0         5.6                3.24\n# ℹ 3 more variables: tip_amount_pounds &lt;dbl&gt;, tolls_amount_pounds &lt;dbl&gt;,\n#   total_amount_pounds &lt;dbl&gt;"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#summary",
@@ -802,14 +809,14 @@
     "href": "materials/2_data_manipulation_1.html#a-different-function",
     "title": "Big Data in R with Arrow",
     "section": "A different function",
-    "text": "A different function\n\nlong_rides_2021 |&gt;\n  slice_max(n = 3, order_by = trip_distance, with_ties = FALSE) |&gt;\n  collect()\n\n# A tibble: 3 × 3\n  pickup_datetime      year trip_distance\n  &lt;dttm&gt;              &lt;int&gt;         &lt;dbl&gt;\n1 2021-11-16 04:55:00  2021       351613.\n2 2021-10-27 09:46:00  2021       345124.\n3 2021-12-11 02:48:00  2021       335094."
+    "text": "A different function\n\nlong_rides_2021 |&gt;\n  slice_max(n = 3, order_by = trip_distance, with_ties = FALSE) |&gt;\n  collect()\n\n# A tibble: 3 × 3\n  pickup_datetime      year trip_distance\n  &lt;dttm&gt;              &lt;int&gt;         &lt;dbl&gt;\n1 2021-11-16 12:55:00  2021       351613.\n2 2021-10-27 17:46:00  2021       345124.\n3 2021-12-11 10:48:00  2021       335094."
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#or-call-collect-first",
     "href": "materials/2_data_manipulation_1.html#or-call-collect-first",
     "title": "Big Data in R with Arrow",
     "section": "Or call collect() first",
-    "text": "Or call collect() first\n\nlong_rides_2021 |&gt;\n  collect() |&gt;\n  slice(1:3)\n\n# A tibble: 3 × 3\n  pickup_datetime      year trip_distance\n  &lt;dttm&gt;              &lt;int&gt;         &lt;dbl&gt;\n1 2021-10-02 07:04:53  2021          188.\n2 2021-01-03 01:01:26  2021          216.\n3 2021-01-03 03:36:52  2021          268."
+    "text": "Or call collect() first\n\nlong_rides_2021 |&gt;\n  collect() |&gt;\n  slice(1:3)\n\n# A tibble: 3 × 3\n  pickup_datetime      year trip_distance\n  &lt;dttm&gt;              &lt;int&gt;         &lt;dbl&gt;\n1 2021-10-03 16:45:02  2021          134 \n2 2021-10-03 17:29:35  2021          218.\n3 2021-10-03 17:58:15  2021          225."
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#tidyr-functions---pivot",
@@ -844,14 +851,14 @@
     "href": "materials/2_data_manipulation_1.html#morning-vs-afternoon-with-namespacing",
     "title": "Big Data in R with Arrow",
     "section": "Morning vs afternoon with namespacing",
-    "text": "Morning vs afternoon with namespacing\n\nnyc_taxi |&gt;\n  group_by(time_of_day = ifelse(lubridate::am(pickup_datetime), \"morning\", \"afternoon\")) |&gt;\n  count() |&gt;\n  collect()\n\n# A tibble: 2 × 2\n# Groups:   time_of_day [2]\n  time_of_day         n\n  &lt;chr&gt;           &lt;int&gt;\n1 morning     413860990\n2 afternoon   736491676"
+    "text": "Morning vs afternoon with namespacing\n\nnyc_taxi |&gt;\n  group_by(\n    time_of_day = ifelse(lubridate::am(pickup_datetime), \"morning\", \"afternoon\")\n  ) |&gt;\n  count() |&gt;\n  collect()\n\n# A tibble: 2 × 2\n# Groups:   time_of_day [2]\n  time_of_day         n\n  &lt;chr&gt;           &lt;int&gt;\n1 afternoon   736491676\n2 morning     413860990"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#morning-vs-afternoon---without-namespacing",
     "href": "materials/2_data_manipulation_1.html#morning-vs-afternoon---without-namespacing",
     "title": "Big Data in R with Arrow",
     "section": "Morning vs afternoon - without namespacing",
-    "text": "Morning vs afternoon - without namespacing\n\nlibrary(lubridate)\n\nnyc_taxi |&gt;\n  group_by(time_of_day = ifelse(am(pickup_datetime), \"morning\", \"afternoon\")) |&gt;\n  count() |&gt;\n  collect()\n\n# A tibble: 2 × 2\n# Groups:   time_of_day [2]\n  time_of_day         n\n  &lt;chr&gt;           &lt;int&gt;\n1 afternoon   736491676\n2 morning     413860990"
+    "text": "Morning vs afternoon - without namespacing\n\nlibrary(lubridate)\n\nnyc_taxi |&gt;\n  group_by(\n    time_of_day = ifelse(am(pickup_datetime), \"morning\", \"afternoon\")\n  ) |&gt;\n  count() |&gt;\n  collect()\n\n# A tibble: 2 × 2\n# Groups:   time_of_day [2]\n  time_of_day         n\n  &lt;chr&gt;           &lt;int&gt;\n1 afternoon   736491676\n2 morning     413860990"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#what-if-a-function-isnt-implemented",
@@ -872,7 +879,7 @@
     "href": "materials/2_data_manipulation_1.html#option-1---find-a-workaround",
     "title": "Big Data in R with Arrow",
     "section": "Option 1 - find a workaround!",
-    "text": "Option 1 - find a workaround!\n\nnyc_taxi |&gt;\n  mutate(vendor_name = ifelse(vendor_name == \"CMT\", NA, vendor_name)) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 24\n  vendor_name pickup_datetime     dropoff_datetime    passenger_count\n  &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;\n1 VTS         2012-11-02 17:47:00 2012-11-02 18:16:00               2\n2 &lt;NA&gt;        2012-11-02 17:47:07 2012-11-02 17:53:32               1\n3 &lt;NA&gt;        2012-11-02 17:47:13 2012-11-02 17:53:31               1\n4 &lt;NA&gt;        2012-11-02 17:47:35 2012-11-02 17:52:40               1\n5 &lt;NA&gt;        2012-11-02 17:47:51 2012-11-02 18:00:19               1\n6 VTS         2012-11-02 17:48:00 2012-11-02 17:51:00               1\n# ℹ 20 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,\n#   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,\n#   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,\n#   fare_amount &lt;dbl&gt;, extra &lt;dbl&gt;, mta_tax &lt;dbl&gt;, tip_amount &lt;dbl&gt;,\n#   tolls_amount &lt;dbl&gt;, total_amount &lt;dbl&gt;, improvement_surcharge &lt;dbl&gt;,\n#   congestion_surcharge &lt;dbl&gt;, pickup_location_id &lt;int&gt;,\n#   dropoff_location_id &lt;int&gt;, year &lt;int&gt;, month &lt;int&gt;"
+    "text": "Option 1 - find a workaround!\n\nnyc_taxi |&gt;\n  mutate(vendor_name = ifelse(vendor_name == \"CMT\", NA, vendor_name)) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 24\n  vendor_name pickup_datetime     dropoff_datetime    passenger_count\n  &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;\n1 &lt;NA&gt;        2012-01-20 14:09:36 2012-01-20 14:42:25               1\n2 &lt;NA&gt;        2012-01-20 14:54:10 2012-01-20 15:06:55               1\n3 &lt;NA&gt;        2012-01-20 08:08:01 2012-01-20 08:11:02               1\n4 &lt;NA&gt;        2012-01-20 08:36:22 2012-01-20 08:39:44               1\n5 &lt;NA&gt;        2012-01-20 20:58:32 2012-01-20 21:03:04               1\n6 &lt;NA&gt;        2012-01-20 19:40:20 2012-01-20 19:43:43               2\n# ℹ 20 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,\n#   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,\n#   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,\n#   fare_amount &lt;dbl&gt;, extra &lt;dbl&gt;, mta_tax &lt;dbl&gt;, tip_amount &lt;dbl&gt;,\n#   tolls_amount &lt;dbl&gt;, total_amount &lt;dbl&gt;, improvement_surcharge &lt;dbl&gt;,\n#   congestion_surcharge &lt;dbl&gt;, pickup_location_id &lt;int&gt;,\n#   dropoff_location_id &lt;int&gt;, year &lt;int&gt;, month &lt;int&gt;"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#option-2",
@@ -893,7 +900,7 @@
     "href": "materials/2_data_manipulation_1.html#summary-1",
     "title": "Big Data in R with Arrow",
     "section": "Summary",
-    "text": "Summary\n\nWorking with an Arrow Dataset allows you to manipulate data which is larger-than-memory\nYou can use many dplyr functions with arrow - run ?\\arrow-dplyr`` to view the docs\nYou can pass data to duckdb to use functions implemented in dbplyr and duckdb but not arrow\nSometimes the easiest solution is an alternative path\n\n\n\n\n🔗 posit.io/arrow"
+    "text": "Summary\n\nWorking with Arrow Datasets allow you to manipulate data which is larger-than-memory\nYou can use many dplyr functions with arrow - run ?`arrow-dplyr` to view the docs\nYou can pass data to duckdb to use functions implemented in duckdb but not arrow\n\n\n\n\n🔗 posit.io/arrow"
   },
   {
     "objectID": "materials/1_hello_arrow.html#poll-arrow",
@@ -935,7 +942,7 @@
     "href": "materials/1_hello_arrow.html#larger-than-memory-data",
     "title": "Big Data in R with Arrow",
     "section": "Larger-Than-Memory Data",
-    "text": "Larger-Than-Memory Data\n\narrow::open_dataset()\n\nsources: point to a string path or directory of data files (on disk or in a GCS/S3 bucket) and return an Arrow Dataset, then use dplyr methods to query it.\n\nArrow Datasets allow you to query against data that has been split across multiple files. This sharding of data may indicate partitioning, which can accelerate queries that only touch some partitions (files). Call open_dataset() to point to a directory of data files and return a Dataset, then use dplyr methods to query it."
+    "text": "Larger-Than-Memory Data\n\narrow::open_dataset()\n\n\nArrow Datasets allow you to query against data that has been split across multiple files. This division of data into multiple files may indicate partitioning, which can accelerate queries that only touch some partitions (files). Call open_dataset() to point to a directory of data files and return a Dataset, then use dplyr methods to query it."
   },
   {
     "objectID": "materials/1_hello_arrow.html#nyc-taxi-dataset",
@@ -956,28 +963,28 @@
     "href": "materials/1_hello_arrow.html#nyc-taxi-dataset-a-question",
     "title": "Big Data in R with Arrow",
     "section": "NYC Taxi Dataset: A question",
-    "text": "NYC Taxi Dataset: A question\nWhat percentage of taxi rides each year had more than 1 passenger?"
+    "text": "NYC Taxi Dataset: A question\n\nWhat percentage of taxi rides each year had more than 1 passenger?"
   },
   {
     "objectID": "materials/1_hello_arrow.html#nyc-taxi-dataset-a-dplyr-pipeline",
     "href": "materials/1_hello_arrow.html#nyc-taxi-dataset-a-dplyr-pipeline",
     "title": "Big Data in R with Arrow",
     "section": "NYC Taxi Dataset: A dplyr pipeline",
-    "text": "NYC Taxi Dataset: A dplyr pipeline\n\nlibrary(dplyr)\n\nnyc_taxi |&gt;\n  filter(year %in% 2014:2017) |&gt;\n  group_by(year) |&gt;\n  summarise(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect()\n\n# A tibble: 4 × 4\n   year all_trips shared_trips pct_shared\n  &lt;int&gt;     &lt;int&gt;        &lt;int&gt;      &lt;dbl&gt;\n1  2014 165114361     48816505       29.6\n2  2015 146112989     43081091       29.5\n3  2016 131165043     38163870       29.1\n4  2017 113495512     32296166       28.5"
+    "text": "NYC Taxi Dataset: A dplyr pipeline\n\nlibrary(dplyr)\n\nnyc_taxi |&gt;\n  group_by(year) |&gt;\n  summarise(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect()\n\n# A tibble: 10 × 4\n    year all_trips shared_trips pct_shared\n   &lt;int&gt;     &lt;int&gt;        &lt;int&gt;      &lt;dbl&gt;\n 1  2012 178544324     53313752       29.9\n 2  2013 173179759     51215013       29.6\n 3  2014 165114361     48816505       29.6\n 4  2015 146112989     43081091       29.5\n 5  2016 131165043     38163870       29.1\n 6  2017 113495512     32296166       28.5\n 7  2018 102797401     28796633       28.0\n 8  2019  84393604     23515989       27.9\n 9  2020  24647055      5837960       23.7\n10  2021  30902618      7221844       23.4"
   },
   {
     "objectID": "materials/1_hello_arrow.html#nyc-taxi-dataset-a-dplyr-pipeline-1",
     "href": "materials/1_hello_arrow.html#nyc-taxi-dataset-a-dplyr-pipeline-1",
     "title": "Big Data in R with Arrow",
     "section": "NYC Taxi Dataset: A dplyr pipeline",
-    "text": "NYC Taxi Dataset: A dplyr pipeline\n\nlibrary(dplyr)\n\nnyc_taxi |&gt;\n  filter(year %in% 2014:2017) |&gt;\n  group_by(year) |&gt;\n  summarise(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt; \n  system.time()\n\n   user  system elapsed \n 17.661   1.404   2.625"
+    "text": "NYC Taxi Dataset: A dplyr pipeline\n\nlibrary(tictoc)\n\ntic()\nnyc_taxi |&gt;\n  group_by(year) |&gt;\n  summarise(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect()\ntoc()\n\n\n6.077 sec elapsed"
   },
   {
     "objectID": "materials/1_hello_arrow.html#your-turn",
     "href": "materials/1_hello_arrow.html#your-turn",
     "title": "Big Data in R with Arrow",
     "section": "Your Turn",
-    "text": "Your Turn\n\nCalculate total number of rides for each month in 2019\nAbout how long did this query of 1.15 billion rows take?\n\n➡️ Hello Arrow Exercises Page"
+    "text": "Your Turn\n\nCalculate the longest trip distance for every month in 2019\nHow long did this query take to run?\n\n➡️ Hello Arrow Exercises Page"
   },
   {
     "objectID": "materials/1_hello_arrow.html#what-is-apache-arrow",
@@ -1033,7 +1040,7 @@
     "href": "materials/1_hello_arrow.html#today",
     "title": "Big Data in R with Arrow",
     "section": "Today",
-    "text": "Today\n\nModule 1: Larger-than-memory data manipulation with Arrow—Part I\nModule 2: Data engineering with Arrow\nModule 3: Larger-than-memory data manipulation with Arrow—Part II\nModule 4: In-memory workflows in R with Arrow\n\n\nWe will also talk about Arrow data types, file formats, controlling schemas & more fun stuff along the way!\n\n\n\n🔗 posit.io/arrow"
+    "text": "Today\n\nModule 1: Larger-than-memory data manipulation with Arrow—Part I\nModule 2: Data engineering with Arrow\nModule 3: Larger-than-memory data manipulation with Arrow—Part II\nModule 4: In-memory workflows in R with Arrow\n\n\n\n\n🔗 posit.io/arrow"
   },
   {
     "objectID": "materials/0_housekeeping.html#section",
@@ -1110,14 +1117,14 @@
     "href": "materials/1_hello_arrow-exercises.html",
     "title": "Hello Arrow Exercises",
     "section": "",
-    "text": "library(arrow)\nlibrary(dplyr)\n\n\nnyc_taxi &lt;- open_dataset(here::here(\"data/nyc-taxi\"))\n\n\n\n\n\n\n\nFirst dplyr pipeline with Arrow\n\n\n\n\nProblemsSolution 1Solution 2\n\n\n\nCalculate the total number of rides for every month in 2019\nAbout how long did this query of 1.15 billion rows take?\n\n\n\nTotal number of rides for every month in 2019:\n\nnyc_taxi |&gt; \n  filter(year == 2019) |&gt;\n  count(month) |&gt;\n  collect()\n\n# A tibble: 12 × 2\n   month       n\n   &lt;int&gt;   &lt;int&gt;\n 1    11 6877463\n 2    10 7213588\n 3    12 6895933\n 4     1 7667255\n 5     2 7018750\n 6     3 7832035\n 7     4 7432826\n 8     5 7564884\n 9     6 6940489\n10     8 6072851\n11     7 6310134\n12     9 6567396\n\n\n\n\nCompute time for querying the 1.15 billion rows:\n\nnyc_taxi |&gt; \n  filter(year == 2019) |&gt;\n  group_by(month) |&gt;\n  summarize(longest_trip = max(trip_distance, na.rm = TRUE)) |&gt;\n  arrange(month) |&gt; \n  collect() |&gt; \n  system.time()\n\n   user  system elapsed \n  2.837   0.322   0.925 \n\n\nor\n\nlibrary(tictoc)\n\ntic()\nnyc_taxi |&gt; \n  filter(year == 2019) |&gt;\n  group_by(month) |&gt;\n  summarize(longest_trip = max(trip_distance, na.rm = TRUE)) |&gt;\n  arrange(month) |&gt; \n  collect()\n\n# A tibble: 12 × 2\n   month longest_trip\n   &lt;int&gt;        &lt;dbl&gt;\n 1     1         832.\n 2     2         702.\n 3     3         237.\n 4     4         831.\n 5     5         401.\n 6     6       45977.\n 7     7         312.\n 8     8         602.\n 9     9         604.\n10    10         308.\n11    11         701.\n12    12       19130.\n\ntoc()\n\n0.441 sec elapsed"
+    "text": "library(arrow)\nlibrary(dplyr)\n\n\nnyc_taxi &lt;- open_dataset(here::here(\"data/nyc-taxi\"))\n\n\n\n\n\n\n\nFirst dplyr pipeline with Arrow\n\n\n\n\nProblemsSolution 1Solution 2\n\n\n\nCalculate the longest trip distance for every month in 2019\nHow long did this query take to run?\n\n\n\nLongest trip distance for every month in 2019:\n\nnyc_taxi |&gt; \n  filter(year == 2019) |&gt;\n  group_by(month) |&gt;\n  summarize(longest_trip = max(trip_distance, na.rm = TRUE)) |&gt;\n  arrange(month) |&gt; \n  collect()\n\n# A tibble: 12 × 2\n   month longest_trip\n   &lt;int&gt;        &lt;dbl&gt;\n 1     1         832.\n 2     2         702.\n 3     3         237.\n 4     4         831.\n 5     5         401.\n 6     6       45977.\n 7     7         312.\n 8     8         602.\n 9     9         604.\n10    10         308.\n11    11         701.\n12    12       19130.\n\n\n\n\nCompute time:\n\nlibrary(tictoc)\n\ntic()\nnyc_taxi |&gt; \n  filter(year == 2019) |&gt;\n  group_by(month) |&gt;\n  summarize(longest_trip = max(trip_distance, na.rm = TRUE)) |&gt;\n  arrange(month) |&gt; \n  collect()\n\n# A tibble: 12 × 2\n   month longest_trip\n   &lt;int&gt;        &lt;dbl&gt;\n 1     1         832.\n 2     2         702.\n 3     3         237.\n 4     4         831.\n 5     5         401.\n 6     6       45977.\n 7     7         312.\n 8     8         602.\n 9     9         604.\n10    10         308.\n11    11         701.\n12    12       19130.\n\ntoc()\n\n0.461 sec elapsed\n\n\nor\n\nnyc_taxi |&gt; \n  filter(year == 2019) |&gt;\n  group_by(month) |&gt;\n  summarize(longest_trip = max(trip_distance, na.rm = TRUE)) |&gt;\n  arrange(month) |&gt; \n  collect() |&gt; \n  system.time()\n\n   user  system elapsed \n  3.887   0.225   0.435"
   },
   {
     "objectID": "materials/2_data_manipulation_1-exercises.html",
     "href": "materials/2_data_manipulation_1-exercises.html",
     "title": "Data Manipulation Part 1 - Exercises",
     "section": "",
-    "text": "library(arrow)\nlibrary(dplyr)\nlibrary(stringr)\n\n\nnyc_taxi &lt;- open_dataset(here::here(\"data/nyc-taxi\"))\n\n\n\n\n\n\n\nUsing compute() and collect()\n\n\n\n\nProblemsSolution 1Solution 2\n\n\n\nHow many taxi fares in the dataset had a total amount greater than $100?\nHow many distinct pickup locations (distinct combinations of the pickup_latitude and pickup_longitude columns) are in the dataset since 2016? Use nrow() to work this out.\n\n\n\n\nnyc_taxi |&gt;\n  filter(total_amount &gt; 100) |&gt;\n  nrow()\n\n[1] 1518869\n\n\n\n\n\nnyc_taxi |&gt;\n  filter(year &gt;= 2016) |&gt;\n  distinct(pickup_longitude, pickup_latitude) |&gt;\n  compute() |&gt;\n  nrow()\n\n[1] 29105801\n\n\n\n\n\n\n\n\n\n\n\n\n\nUsing the dplyr API in arrow\n\n\n\n\nProblemsSolution 1Solution 2 and 3\n\n\n\nUse the dplyr::filter() and stringr::str_ends() functions to return a subset of the data which is a) from September 2020, and b) the value in vendor_name ends with the letter “S”.\nTry to use the stringr function str_replace_na() to replace any NA values in the vendor_name column with the string “No vendor” instead. What happens, and why?\nBonus question: see if you can find a different way of completing the task in question 2.\n\n\n\n\nnyc_taxi |&gt;\n  filter(str_ends(vendor_name, \"S\"), year == 2020,  month == 9) |&gt;\n  collect()\n\n\n\n\nnyc_taxi |&gt;\n  mutate(vendor_name = stringr::str_replace_na(vendor_name, \"No vendor\")) |&gt;\n  head() |&gt;\n  collect()\n\nThis won’t work as stringr::str_replace_na() hasn’t been implemented in Arrow. You could try using mutate() and ifelse() here instead.\n\nnyc_taxi |&gt;\n  mutate(vendor_name = ifelse(is.na(vendor_name), \"No vendor\", vendor_name)) |&gt;\n  head() |&gt;\n  collect()\n\nOr, if you only needed a subset of the data, you could apply the function after collecting it into R memory.\n\nnyc_taxi |&gt;\n  filter(year == 2019, month == 10) |&gt; # smaller subset of the data\n  collect() |&gt;\n  mutate(vendor_name = stringr::str_replace_na(vendor_name, \"No vendor\"))"
+    "text": "library(arrow)\nlibrary(dplyr)\nlibrary(stringr)\n\n\nnyc_taxi &lt;- open_dataset(here::here(\"data/nyc-taxi\"))\n\n\n\n\n\n\n\nUsing compute() and collect()\n\n\n\n\nProblemsSolution 1Solution 2\n\n\nUse the function nrow() to work out the answers to these questions:\n\nHow many taxi fares in the dataset had a total amount greater than $100?\nHow many distinct pickup locations (distinct combinations of the pickup_latitude and pickup_longitude columns) are in the dataset since 2016?\n\n\n\n\nnyc_taxi |&gt;\n  filter(total_amount &gt; 100) |&gt;\n  nrow()\n\n[1] 1518869\n\n\n\n\n\nnyc_taxi |&gt;\n  filter(year &gt;= 2016) |&gt;\n  distinct(pickup_longitude, pickup_latitude) |&gt;\n  compute() |&gt;\n  nrow()\n\n[1] 29105801\n\n\n\n\n\n\n\n\n\n\n\n\n\nUsing the dplyr API in arrow\n\n\n\n\nProblemsSolution 1Solution 2 and 3\n\n\n\nUse the dplyr::filter() and stringr::str_ends() functions to return a subset of the data which is a) from September 2020, and b) the value in vendor_name ends with the letter “S”.\nTry to use the stringr function str_replace_na() to replace any NA values in the vendor_name column with the string “No vendor” instead. What happens, and why?\nBonus question: see if you can find a different way of completing the task in question 2.\n\n\n\n\nnyc_taxi |&gt;\n  filter(str_ends(vendor_name, \"S\"), year == 2020,  month == 9) |&gt;\n  collect()\n\n\n\n\nnyc_taxi |&gt;\n  mutate(vendor_name = stringr::str_replace_na(vendor_name, \"No vendor\")) |&gt;\n  head() |&gt;\n  collect()\n\nThis won’t work as stringr::str_replace_na() hasn’t been implemented in Arrow. You could try using mutate() and ifelse() here instead.\n\nnyc_taxi |&gt;\n  mutate(vendor_name = ifelse(is.na(vendor_name), \"No vendor\", vendor_name)) |&gt;\n  head() |&gt;\n  collect()\n\nOr, if you only needed a subset of the data, you could apply the function after collecting it into R memory.\n\nnyc_taxi |&gt;\n  filter(year == 2019, month == 10) |&gt; # smaller subset of the data\n  collect() |&gt;\n  mutate(vendor_name = stringr::str_replace_na(vendor_name, \"No vendor\"))"
   },
   {
     "objectID": "materials/3_data_engineering-exercises.html",

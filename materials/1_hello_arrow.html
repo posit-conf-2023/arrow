@@ -453,9 +453,8 @@
 <p><br></p>
 <p><code>arrow::open_dataset()</code></p>
 <p><br></p>
-<p><code>sources</code>: point to a string path or directory of data files (on disk or in a GCS/S3 bucket) and return an <code>Arrow Dataset</code>, then use <code>dplyr</code> methods to query it.</p>
 <aside class="notes">
-<p>Arrow Datasets allow you to query against data that has been split across multiple files. This sharding of data may indicate partitioning, which can accelerate queries that only touch some partitions (files). Call open_dataset() to point to a directory of data files and return a Dataset, then use dplyr methods to query it.</p>
+<p>Arrow Datasets allow you to query against data that has been split across multiple files. This division of data into multiple files may indicate partitioning, which can accelerate queries that only touch some partitions (files). Call open_dataset() to point to a directory of data files and return a Dataset, then use dplyr methods to query it.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -490,6 +489,7 @@
 </section>
 <section id="nyc-taxi-dataset-a-question" class="slide level2">
 <h2>NYC Taxi Dataset: A question</h2>
+<p><br></p>
 <p>What percentage of taxi rides each year had more than 1 passenger?</p>
 </section>
 <section id="nyc-taxi-dataset-a-dplyr-pipeline" class="slide level2">
@@ -498,51 +498,55 @@
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb6-2"><a href="#cb6-2"></a></span>
 <span id="cb6-3"><a href="#cb6-3"></a>nyc_taxi <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2014</span><span class="sc">:</span><span class="dv">2017</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb6-7"><a href="#cb6-7"></a>    <span class="at">all_trips =</span> <span class="fu">n</span>(),</span>
-<span id="cb6-8"><a href="#cb6-8"></a>    <span class="at">shared_trips =</span> <span class="fu">sum</span>(passenger_count <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-9"><a href="#cb6-9"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a>  <span class="fu">mutate</span>(<span class="at">pct_shared =</span> shared_trips <span class="sc">/</span> all_trips <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    <span class="at">all_trips =</span> <span class="fu">n</span>(),</span>
+<span id="cb6-7"><a href="#cb6-7"></a>    <span class="at">shared_trips =</span> <span class="fu">sum</span>(passenger_count <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-8"><a href="#cb6-8"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>  <span class="fu">mutate</span>(<span class="at">pct_shared =</span> shared_trips <span class="sc">/</span> all_trips <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 4 × 4
-   year all_trips shared_trips pct_shared
-  &lt;int&gt;     &lt;int&gt;        &lt;int&gt;      &lt;dbl&gt;
-1  2014 165114361     48816505       29.6
-2  2015 146112989     43081091       29.5
-3  2016 131165043     38163870       29.1
-4  2017 113495512     32296166       28.5</code></pre>
+<pre><code># A tibble: 10 × 4
+    year all_trips shared_trips pct_shared
+   &lt;int&gt;     &lt;int&gt;        &lt;int&gt;      &lt;dbl&gt;
+ 1  2012 178544324     53313752       29.9
+ 2  2013 173179759     51215013       29.6
+ 3  2014 165114361     48816505       29.6
+ 4  2015 146112989     43081091       29.5
+ 5  2016 131165043     38163870       29.1
+ 6  2017 113495512     32296166       28.5
+ 7  2018 102797401     28796633       28.0
+ 8  2019  84393604     23515989       27.9
+ 9  2020  24647055      5837960       23.7
+10  2021  30902618      7221844       23.4</code></pre>
 </div>
 </div>
 </section>
 <section id="nyc-taxi-dataset-a-dplyr-pipeline-1" class="slide level2">
 <h2>NYC Taxi Dataset: A dplyr pipeline</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8" data-code-line-numbers="11,12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(dplyr)</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">library</span>(tictoc)</span>
 <span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a>nyc_taxi <span class="sc">|&gt;</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">filter</span>(year <span class="sc">%in%</span> <span class="dv">2014</span><span class="sc">:</span><span class="dv">2017</span>) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="fu">tic</span>()</span>
+<span id="cb8-4"><a href="#cb8-4"></a>nyc_taxi <span class="sc">|&gt;</span></span>
 <span id="cb8-5"><a href="#cb8-5"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
 <span id="cb8-6"><a href="#cb8-6"></a>  <span class="fu">summarise</span>(</span>
 <span id="cb8-7"><a href="#cb8-7"></a>    <span class="at">all_trips =</span> <span class="fu">n</span>(),</span>
 <span id="cb8-8"><a href="#cb8-8"></a>    <span class="at">shared_trips =</span> <span class="fu">sum</span>(passenger_count <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb8-9"><a href="#cb8-9"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb8-10"><a href="#cb8-10"></a>  <span class="fu">mutate</span>(<span class="at">pct_shared =</span> shared_trips <span class="sc">/</span> all_trips <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">|&gt;</span></span>
-<span id="cb8-11"><a href="#cb8-11"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb8-12"><a href="#cb8-12"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   user  system elapsed 
- 17.661   1.404   2.625 </code></pre>
+<span id="cb8-11"><a href="#cb8-11"></a>  <span class="fu">collect</span>()</span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
+<blockquote>
+<p>6.077 sec elapsed</p>
+</blockquote>
 </section>
 <section id="your-turn" class="slide level2">
 <h2>Your Turn</h2>
 <ol type="1">
-<li><p>Calculate total number of rides for each month in 2019</p></li>
-<li><p>About how long did this query of 1.15 billion rows take?</p></li>
+<li><p>Calculate the longest trip distance for every month in 2019</p></li>
+<li><p>How long did this query take to run?</p></li>
 </ol>
 <p>➡️ <a href="1_hello_arrow-exercises.html">Hello Arrow Exercises Page</a></p>
 </section>
@@ -612,8 +616,6 @@
 <li>Module 3: Larger-than-memory data manipulation with Arrow—Part II</li>
 <li>Module 4: In-memory workflows in R with Arrow</li>
 </ul>
-<p><br></p>
-<p>We will also talk about Arrow data types, file formats, controlling schemas &amp; more fun stuff along the way!</p>
 
 
 <img src="images/logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
