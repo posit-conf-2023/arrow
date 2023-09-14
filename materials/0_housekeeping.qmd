@@ -19,8 +19,8 @@ editor: source
 
 ### WiFi `r fontawesome::fa("wifi")`
 
--   Username: `tbd`
--   Password: `tbd`
+-   Username: **Posit Conf 2023**
+-   Password: **conf2023**
 
 <br>
 
@@ -35,18 +35,20 @@ editor: source
 
 ### Gender Neutral Bathrooms `r fontawesome::fa("person-half-dress")`
 
--   insert location
+-   Among the Grand Suite Bathrooms
 
 ### Specialty Rooms `r fontawesome::fa("volume-low")`
 
--   Quiet room <location>
--   Lactation room <location>
+-   Meditation/Prayer Rooms (Grand Suite 2A & 2B)
+-   Lactation Room (Grand Suite 1)
+
+### Red Lanyards `r fontawesome::fa("equals")``r fontawesome::fa("equals")` **NO** `r fontawesome::fa("camera")`
 
 ## Code of Conduct
 
 <br>
 
-### `r fontawesome::fa("link")` [posit.co/code-of-conduct/](https://posit.co/conference-archive/code-of-conduct/)
+### `r fontawesome::fa("link")` [posit.co/code-of-conduct/](https://posit.co/code-of-conduct/)
 
 -   Contact any posit::conf staff member, identifiable by their staff t-shirt shirt, or visit the conference general information desk.
 -   Send a message to conf\@posit.com; event organizers will respond promptly.
@@ -88,8 +90,9 @@ editor: source
 
 ## Discord `r fontawesome::fa("discord")`
 
--   Main digital communication for posit::conf(2023)
--   Arrow workshop channel 👀
+-   [pos.it/conf-event-portal](http://pos.it/conf-event-portal) (login)
+-   Click on "Join Discord, the virtual networking platform!"
+-   Browse Channels -> `#big-data-with-arrow`
 
 ## We Assume
 

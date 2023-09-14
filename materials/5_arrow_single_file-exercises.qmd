@@ -50,8 +50,18 @@ as_tibble(taxi_table)
 or
 
 ```{r}
+#| include: false
+opts <- options(max.print = 120)
+```
+
+```{r}
 #| label: table-to-tibble3
 as.data.frame(taxi_table)
+```
+
+```{r}
+#| include: false
+options(opts)
 ```
 :::
 :::
