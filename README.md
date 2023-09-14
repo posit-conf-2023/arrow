@@ -12,7 +12,7 @@ by Steph Hazlitt & Nic Crane
 
 :spiral_calendar: September 17th, 2023\
 :alarm_clock: 09:00 - 17:00\
-:hotel: ROOM TBD\
+:hotel: Grand Hall MN 
 :writing_hand: [pos.it/conf](http://pos.it/conf)
 
 ------------------------------------------------------------------------
