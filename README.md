@@ -8,14 +8,13 @@ by Steph Hazlitt & Nic Crane
 
 :spiral_calendar: September 17th, 2023\
 :alarm_clock: 09:00 - 17:00\
-:hotel: Grand Hall MN 
-:writing_hand: [pos.it/conf](http://pos.it/conf)
+:hotel: Grand Hall MN :writing_hand: [pos.it/conf](http://pos.it/conf)
 
 ------------------------------------------------------------------------
 
 ### Workshop Website
 
-This repository contains materials for the 1-day **Big Data in R with Arrow** workshop at Posit::conf(2023). See <https://posit-conf-2023.github.io/arrow/> for rendered workshop materials, including slides and exercises.
+This repository contains materials for the 1-day **Big Data in R with Arrow** workshop at Posit::conf(2023). See [pos.it/arrow-conf23](https://pos.it/arrow-conf23) for rendered workshop materials, including slides and exercises.
 
 ### Workshop Overview
 
