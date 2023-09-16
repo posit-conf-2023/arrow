@@ -56,17 +56,17 @@ Which file formats do you use most often?
 - 3️⃣ Parquet (.parquet)
 - 4️⃣ Something else
 
-## Formats
+<!-- ## Formats -->
 
-![](images/big-data-formats-luminousman.png){.absolute top="0" left="250"}
+<!-- ![](images/big-data-formats-luminousman.png){.absolute top="0" left="250"} -->
 
-::: {style="font-size: 60%; margin-top: 550px;"}
-<https://luminousmen.com/post/big-data-file-formats>
-:::
+<!-- ::: {style="font-size: 60%; margin-top: 550px;"} -->
+<!-- <https://luminousmen.com/post/big-data-file-formats> -->
+<!-- ::: -->
 
-::: notes
-There are lots of big data/columnar formats (not all supported by Arrow we are only covering Parquet and CSV --- CSV is still a big player in the file format world, so we will learn how to work with CSVs with Arrow
-:::
+<!-- ::: notes -->
+<!-- There are lots of big data/columnar formats (not all supported by Arrow we are only covering Parquet and CSV --- CSV is still a big player in the file format world, so we will learn how to work with CSVs with Arrow -->
+<!-- ::: -->
 
 ## Arrow & File Formats
 
@@ -221,6 +221,7 @@ seattle_csv
 seattle_csv |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
+  arrange(CheckoutYear) |> 
   collect()
 ```
 
@@ -228,10 +229,11 @@ seattle_csv |>
 
 ```{r}
 #| label: seattle-dplyr-timed
-#| code-line-numbers: "5"
+#| code-line-numbers: "6"
 seattle_csv |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
+  arrange(CheckoutYear) |> 
   collect() |>
   system.time()
 ```
@@ -390,6 +392,7 @@ open_dataset(seattle_parquet_part,
              format = "parquet") |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
+  arrange(CheckoutYear) |> 
   collect() |>
   system.time()
 ```
