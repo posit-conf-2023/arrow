@@ -17,8 +17,7 @@ library(dplyr)
 
 ```{r}
 #| label: open-dataset-seattle-csv
-seattle_csv <- open_dataset(
-  sources = here::here("data/seattle-library-checkouts.csv"),
+seattle_csv <- open_dataset(here::here("data/seattle-library-checkouts.csv"),
   format = "csv"
 )
 ```
@@ -38,8 +37,7 @@ seattle_csv <- open_dataset(
 ```{r}
 #| label: seattle-csv-schema-1
 #| cache: true
-seattle_csv <- open_dataset(
-  sources = here::here("data/seattle-library-checkouts.csv"),
+seattle_csv <- open_dataset(here::here("data/seattle-library-checkouts.csv"),
   format = "csv",
   skip = 1,
   schema(
@@ -63,8 +61,7 @@ or
 
 ```{r}
 #| label: seattle-csv-schema-2
-seattle_csv <- open_dataset(
-  sources = here::here("data/seattle-library-checkouts.csv"),
+seattle_csv <- open_dataset(here::here("data/seattle-library-checkouts.csv"),
   format = "csv",
   skip = 1,
   schema(
