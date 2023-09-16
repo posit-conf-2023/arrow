@@ -447,12 +447,10 @@
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(arrow)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a>seattle_csv <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(</span>
-<span id="cb1-5"><a href="#cb1-5"></a>  <span class="at">sources =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/seattle-library-checkouts.csv"</span>), </span>
-<span id="cb1-6"><a href="#cb1-6"></a>  <span class="at">format =</span> <span class="st">"csv"</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a>seattle_csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4"></a>seattle_csv <span class="ot">&lt;-</span> <span class="fu">open_dataset</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/seattle-library-checkouts.csv"</span>),</span>
+<span id="cb1-5"><a href="#cb1-5"></a>               <span class="at">format =</span> <span class="st">"csv"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>seattle_csv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>FileSystemDataset with 1 csv file
 UsageClass: string
@@ -496,14 +494,6 @@ PublicationYear: string</code></pre>
 </div>
 </div>
 </section>
-<section id="parsing-the-metadata" class="slide level2">
-<h2>Parsing the Metadata</h2>
-<p><br></p>
-<p>Arrow scans 👀 a few thousand rows of the file(s) to impute or “guess” the data types</p>
-<div style="font-size: 80%; margin-top: 200px;">
-<p>📚 arrow vs readr blog post: <a href="https://thisisnic.github.io/2022/11/21/type-inference-in-readr-and-arrow/" class="uri">https://thisisnic.github.io/2022/11/21/type-inference-in-readr-and-arrow/</a></p>
-</div>
-</section>
 <section id="arrow-data-types" class="slide level2">
 <h2>Arrow Data Types</h2>
 <p>Arrow has a rich data type system, including direct analogs of many R data types</p>
@@ -514,6 +504,14 @@ PublicationYear: string</code></pre>
 </ul>
 <p><br></p>
 <p><a href="https://arrow.apache.org/docs/r/articles/data_types.html" class="uri">https://arrow.apache.org/docs/r/articles/data_types.html</a></p>
+</section>
+<section id="parsing-the-metadata" class="slide level2">
+<h2>Parsing the Metadata</h2>
+<p><br></p>
+<p>Arrow scans 👀 a few thousand rows of the file(s) to impute or “guess” the data types</p>
+<div style="font-size: 80%; margin-top: 200px;">
+<p>📚 arrow vs readr blog post: <a href="https://thisisnic.github.io/2022/11/21/type-inference-in-readr-and-arrow/" class="uri">https://thisisnic.github.io/2022/11/21/type-inference-in-readr-and-arrow/</a></p>
+</div>
 </section>
 <section id="parsers-are-not-always-right" class="slide level2">
 <h2>Parsers Are Not Always Right</h2>
@@ -673,7 +671,7 @@ PublicationYear: string</code></pre>
 <span id="cb14-6"><a href="#cb14-6"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
- 10.871   1.236  10.593 </code></pre>
+ 10.851   1.275  10.578 </code></pre>
 </div>
 </div>
 <p>42 million rows – not bad, but could be faster….</p>
@@ -759,7 +757,7 @@ PublicationYear: string</code></pre>
 <span id="cb19-7"><a href="#cb19-7"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  2.251   0.464   0.611 </code></pre>
+  1.998   0.407   0.622 </code></pre>
 </div>
 </div>
 <p>42 million rows – much better! But could be <em>even</em> faster….</p>
@@ -886,7 +884,7 @@ PublicationYear: string</code></pre>
 <span id="cb24-9"><a href="#cb24-9"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.921   0.417   0.387 </code></pre>
+  1.906   0.388   0.454 </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -930,7 +928,7 @@ PublicationYear: string</code></pre>
 <span id="cb26-10"><a href="#cb26-10"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
- 12.084   1.265  11.515 </code></pre>
+ 12.174   1.289  11.685 </code></pre>
 </div>
 </div>
 </section>
@@ -949,7 +947,7 @@ PublicationYear: string</code></pre>
 <span id="cb28-8"><a href="#cb28-8"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.285   0.042   0.077 </code></pre>
+  0.284   0.047   0.078 </code></pre>
 </div>
 </div>
 </section>
