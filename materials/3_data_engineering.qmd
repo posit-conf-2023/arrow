@@ -56,17 +56,17 @@ Which file formats do you use most often?
 - 3️⃣ Parquet (.parquet)
 - 4️⃣ Something else
 
-## Formats
+<!-- ## Formats -->
 
-![](images/big-data-formats-luminousman.png){.absolute top="0" left="250"}
+<!-- ![](images/big-data-formats-luminousman.png){.absolute top="0" left="250"} -->
 
-::: {style="font-size: 60%; margin-top: 550px;"}
-<https://luminousmen.com/post/big-data-file-formats>
-:::
+<!-- ::: {style="font-size: 60%; margin-top: 550px;"} -->
+<!-- <https://luminousmen.com/post/big-data-file-formats> -->
+<!-- ::: -->
 
-::: notes
-There are lots of big data/columnar formats (not all supported by Arrow we are only covering Parquet and CSV --- CSV is still a big player in the file format world, so we will learn how to work with CSVs with Arrow
-:::
+<!-- ::: notes -->
+<!-- There are lots of big data/columnar formats (not all supported by Arrow we are only covering Parquet and CSV --- CSV is still a big player in the file format world, so we will learn how to work with CSVs with Arrow -->
+<!-- ::: -->
 
 ## Arrow & File Formats
 
@@ -221,6 +221,7 @@ seattle_csv
 seattle_csv |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
+  arrange(CheckoutYear) |> 
   collect()
 ```
 
@@ -228,10 +229,11 @@ seattle_csv |>
 
 ```{r}
 #| label: seattle-dplyr-timed
-#| code-line-numbers: "5"
+#| code-line-numbers: "6"
 seattle_csv |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
+  arrange(CheckoutYear) |> 
   collect() |>
   system.time()
 ```
@@ -390,6 +392,7 @@ open_dataset(seattle_parquet_part,
              format = "parquet") |>
   group_by(CheckoutYear) |>
   summarise(sum(Checkouts)) |>
+  arrange(CheckoutYear) |> 
   collect() |>
   system.time()
 ```
@@ -402,7 +405,7 @@ open_dataset(seattle_parquet_part,
 
 1.  Let's write the Seattle Checkout CSV data to a multi-file dataset just one more time! This time, write the data partitioned by `CheckoutType` as Parquet files.
 
-2.  Now compare the compute time between our Parquet data partitioned by `CheckoutYear` and our Parquet data partitioned by `ChekcoutType` with a query of the total number of checkouts in September of 2019. Did you find a difference in compute time?
+2.  Now compare the compute time between our Parquet data partitioned by `CheckoutYear` and our Parquet data partitioned by `CheckoutType` with a query of the total number of checkouts in September of 2019. Did you find a difference in compute time?
 
 ➡️ [Data Storage Engineering Exercises Page](3_data_engineering-exercises.html)
 
