@@ -405,7 +405,7 @@ open_dataset(seattle_parquet_part,
 
 1.  Let's write the Seattle Checkout CSV data to a multi-file dataset just one more time! This time, write the data partitioned by `CheckoutType` as Parquet files.
 
-2.  Now compare the compute time between our Parquet data partitioned by `CheckoutYear` and our Parquet data partitioned by `ChekcoutType` with a query of the total number of checkouts in September of 2019. Did you find a difference in compute time?
+2.  Now compare the compute time between our Parquet data partitioned by `CheckoutYear` and our Parquet data partitioned by `CheckoutType` with a query of the total number of checkouts in September of 2019. Did you find a difference in compute time?
 
 ➡️ [Data Storage Engineering Exercises Page](3_data_engineering-exercises.html)
 
