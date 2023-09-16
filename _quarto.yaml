@@ -9,6 +9,9 @@ website:
     background: dark
     logo: "materials/images/logo.png"
     right:
+      - icon: cloud-fill
+        href: https://posit.cloud/spaces/397258
+        text: Posit Cloud
       - icon: file-certificate
         href: license-web.qmd
       - icon: github
