@@ -71,6 +71,12 @@ unzip(
 
 ![](images/posit-cloud.png){.absolute left="200" width="600"}
 
+## Posit Cloud ☁️
+
+ - Once you have joined you can come and go
+ 
+![](images/pc-navbar.png){.absolute width="800"}
+
 ## Larger-Than-Memory Data
 
 <br>
