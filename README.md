@@ -1,7 +1,3 @@
----
-editor: source
----
-
 # Big Data in R with Arrow
 
 **posit::conf 2023**
