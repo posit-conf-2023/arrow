@@ -421,26 +421,14 @@
 <li>3️⃣ Parquet (.parquet)</li>
 <li>4️⃣ Something else</li>
 </ul>
-</section>
-<section id="formats" class="slide level2">
-<h2>Formats</h2>
-<p><img data-src="images/big-data-formats-luminousman.png" class="absolute" style="top: 0px; left: 250px; "></p>
-<div style="font-size: 60%; margin-top: 550px;">
-<p><a href="https://luminousmen.com/post/big-data-file-formats" class="uri">https://luminousmen.com/post/big-data-file-formats</a></p>
-</div>
-<aside class="notes">
-<p>There are lots of big data/columnar formats (not all supported by Arrow we are only covering Parquet and CSV — CSV is still a big player in the file format world, so we will learn how to work with CSVs with Arrow</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<!-- ## Formats -->
+<!-- ![](images/big-data-formats-luminousman.png){.absolute top="0" left="250"} -->
+<!-- ::: {style="font-size: 60%; margin-top: 550px;"} -->
+<!-- <https://luminousmen.com/post/big-data-file-formats> -->
+<!-- ::: -->
+<!-- ::: notes -->
+<!-- There are lots of big data/columnar formats (not all supported by Arrow we are only covering Parquet and CSV --- CSV is still a big player in the file format world, so we will learn how to work with CSVs with Arrow -->
+<!-- ::: -->
 </section>
 <section id="arrow-file-formats" class="slide level2">
 <h2>Arrow &amp; File Formats</h2>
@@ -647,43 +635,45 @@ PublicationYear: string</code></pre>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>seattle_csv <span class="sc">|&gt;</span></span>
 <span id="cb12-2"><a href="#cb12-2"></a>  <span class="fu">group_by</span>(CheckoutYear) <span class="sc">|&gt;</span></span>
 <span id="cb12-3"><a href="#cb12-3"></a>  <span class="fu">summarise</span>(<span class="fu">sum</span>(Checkouts)) <span class="sc">|&gt;</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">arrange</span>(CheckoutYear) <span class="sc">|&gt;</span> </span>
+<span id="cb12-5"><a href="#cb12-5"></a>  <span class="fu">collect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 18 × 2
    CheckoutYear `sum(Checkouts)`
           &lt;int&gt;            &lt;int&gt;
- 1         2016          9021051
- 2         2022          7001989
- 3         2017          9231648
- 4         2018          9149176
- 5         2019          9199083
- 6         2020          6053717
- 7         2021          7361031
- 8         2005          3798685
- 9         2006          6599318
-10         2007          7126627
-11         2008          8438486
-12         2009          9135167
-13         2010          8608966
-14         2011          8321732
-15         2012          8163046
-16         2013          9057096
-17         2014          9136081
-18         2015          9084179</code></pre>
+ 1         2005          3798685
+ 2         2006          6599318
+ 3         2007          7126627
+ 4         2008          8438486
+ 5         2009          9135167
+ 6         2010          8608966
+ 7         2011          8321732
+ 8         2012          8163046
+ 9         2013          9057096
+10         2014          9136081
+11         2015          9084179
+12         2016          9021051
+13         2017          9231648
+14         2018          9149176
+15         2019          9199083
+16         2020          6053717
+17         2021          7361031
+18         2022          7001989</code></pre>
 </div>
 </div>
 </section>
 <section id="gb-csv-file-arrow-dplyr-1" class="slide level2">
 <h2>9GB CSV file + arrow + dplyr</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14" data-code-line-numbers="5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>seattle_csv <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb14" data-code-line-numbers="6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>seattle_csv <span class="sc">|&gt;</span></span>
 <span id="cb14-2"><a href="#cb14-2"></a>  <span class="fu">group_by</span>(CheckoutYear) <span class="sc">|&gt;</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a>  <span class="fu">summarise</span>(<span class="fu">sum</span>(Checkouts)) <span class="sc">|&gt;</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-4"><a href="#cb14-4"></a>  <span class="fu">arrange</span>(CheckoutYear) <span class="sc">|&gt;</span> </span>
+<span id="cb14-5"><a href="#cb14-5"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
- 10.981   1.239  10.695 </code></pre>
+ 10.871   1.236  10.593 </code></pre>
 </div>
 </div>
 <p>42 million rows – not bad, but could be faster….</p>
@@ -769,7 +759,7 @@ PublicationYear: string</code></pre>
 <span id="cb19-7"><a href="#cb19-7"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  2.252   0.481   0.620 </code></pre>
+  2.251   0.464   0.611 </code></pre>
 </div>
 </div>
 <p>42 million rows – much better! But could be <em>even</em> faster….</p>
@@ -891,11 +881,12 @@ PublicationYear: string</code></pre>
 <span id="cb24-4"><a href="#cb24-4"></a>             <span class="at">format =</span> <span class="st">"parquet"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb24-5"><a href="#cb24-5"></a>  <span class="fu">group_by</span>(CheckoutYear) <span class="sc">|&gt;</span></span>
 <span id="cb24-6"><a href="#cb24-6"></a>  <span class="fu">summarise</span>(<span class="fu">sum</span>(Checkouts)) <span class="sc">|&gt;</span></span>
-<span id="cb24-7"><a href="#cb24-7"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="cb24-8"><a href="#cb24-8"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-7"><a href="#cb24-7"></a>  <span class="fu">arrange</span>(CheckoutYear) <span class="sc">|&gt;</span> </span>
+<span id="cb24-8"><a href="#cb24-8"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb24-9"><a href="#cb24-9"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  1.933   0.402   0.396 </code></pre>
+  1.921   0.417   0.387 </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -905,7 +896,7 @@ PublicationYear: string</code></pre>
 <h2>Your Turn</h2>
 <ol type="1">
 <li><p>Let’s write the Seattle Checkout CSV data to a multi-file dataset just one more time! This time, write the data partitioned by <code>CheckoutType</code> as Parquet files.</p></li>
-<li><p>Now compare the compute time between our Parquet data partitioned by <code>CheckoutYear</code> and our Parquet data partitioned by <code>ChekcoutType</code> with a query of the total number of checkouts in September of 2019. Did you find a difference in compute time?</p></li>
+<li><p>Now compare the compute time between our Parquet data partitioned by <code>CheckoutYear</code> and our Parquet data partitioned by <code>CheckoutType</code> with a query of the total number of checkouts in September of 2019. Did you find a difference in compute time?</p></li>
 </ol>
 <p>➡️ <a href="3_data_engineering-exercises.html">Data Storage Engineering Exercises Page</a></p>
 </section>
@@ -939,7 +930,7 @@ PublicationYear: string</code></pre>
 <span id="cb26-10"><a href="#cb26-10"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
- 12.292   1.289  11.697 </code></pre>
+ 12.084   1.265  11.515 </code></pre>
 </div>
 </div>
 </section>
@@ -958,7 +949,7 @@ PublicationYear: string</code></pre>
 <span id="cb28-8"><a href="#cb28-8"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.278   0.039   0.076 </code></pre>
+  0.285   0.042   0.077 </code></pre>
 </div>
 </div>
 </section>
