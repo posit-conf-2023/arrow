@@ -80,7 +80,7 @@ editor: source
 
 <br>
 
-[GREEN]{style="color:green;"} sticky note: I am OK / I am done
+[TEAL]{style="color:teal;"} sticky note: I am OK / I am done
 
 [PINK]{style="color:pink;"} sticky note: I need support / I am working
 
