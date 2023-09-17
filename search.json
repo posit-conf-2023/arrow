@@ -900,7 +900,7 @@
     "href": "materials/1_hello_arrow.html#poll-arrow",
     "title": "Big Data in R with Arrow",
     "section": "Poll: Arrow",
-    "text": "Poll: Arrow\n\nHave you used or experimented with Arrow before today?\n\n1️⃣ No yet\n2️⃣ Not yet, but I have read about it!\n3️⃣ A little\n4️⃣ A lot"
+    "text": "Poll: Arrow\n\nHave you used or experimented with Arrow before today?\nVote using emojis at on the discord channel! \n1️⃣ Not yet\n2️⃣ Not yet, but I have read about it!\n3️⃣ A little\n4️⃣ A lot"
   },
   {
     "objectID": "materials/1_hello_arrow.html#hello-arrow-demo",
@@ -970,7 +970,7 @@
     "href": "materials/1_hello_arrow.html#nyc-taxi-dataset-a-dplyr-pipeline",
     "title": "Big Data in R with Arrow",
     "section": "NYC Taxi Dataset: A dplyr pipeline",
-    "text": "NYC Taxi Dataset: A dplyr pipeline\n\nlibrary(dplyr)\n\nnyc_taxi |&gt;\n  group_by(year) |&gt;\n  summarise(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect()\n\n# A tibble: 10 × 4\n    year all_trips shared_trips pct_shared\n   &lt;int&gt;     &lt;int&gt;        &lt;int&gt;      &lt;dbl&gt;\n 1  2012 178544324     53313752       29.9\n 2  2013 173179759     51215013       29.6\n 3  2014 165114361     48816505       29.6\n 4  2015 146112989     43081091       29.5\n 5  2016 131165043     38163870       29.1\n 6  2017 113495512     32296166       28.5\n 7  2018 102797401     28796633       28.0\n 8  2019  84393604     23515989       27.9\n 9  2020  24647055      5837960       23.7\n10  2021  30902618      7221844       23.4"
+    "text": "NYC Taxi Dataset: A dplyr pipeline\n\nlibrary(dplyr)\n\nnyc_taxi |&gt;\n  group_by(year) |&gt;\n  summarise(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect()\n\n# A tibble: 10 × 4\n    year all_trips shared_trips pct_shared\n   &lt;int&gt;     &lt;int&gt;        &lt;int&gt;      &lt;dbl&gt;\n 1  2012 178544324     53313752       29.9\n 2  2013 173179759     51215013       29.6\n 3  2014 165114361     48816505       29.6\n 4  2015 146112989     43081091       29.5\n 5  2016 131165043     38163870       29.1\n 6  2018 102797401     28796633       28.0\n 7  2019  84393604     23515989       27.9\n 8  2020  24647055      5837960       23.7\n 9  2021  30902618      7221844       23.4\n10  2017 113495512     32296166       28.5"
   },
   {
     "objectID": "materials/1_hello_arrow.html#nyc-taxi-dataset-a-dplyr-pipeline-1",
@@ -1071,11 +1071,11 @@
     "text": "Meet Your Teaching Team \n\nCo-Instructors\n\nNic Crane\nSteph Hazlitt\n\nTeaching Assistants\n\nIan Lyttle\nJonathan Keane"
   },
   {
-    "objectID": "materials/0_housekeeping.html#meet-eachother",
-    "href": "materials/0_housekeeping.html#meet-eachother",
+    "objectID": "materials/0_housekeeping.html#meet-each-other",
+    "href": "materials/0_housekeeping.html#meet-each-other",
     "title": "Big Data in R with Arrow",
-    "section": "Meet Eachother ",
-    "text": "Meet Eachother \n\n\nWhen did you use R for the first time?\nWhat is your favorite R package?\nWhich package hex sticker would you like to find the most during posit::conf(2023)?"
+    "section": "Meet Each Other ",
+    "text": "Meet Each Other \n\n\nWhen did you use R for the first time?\nWhat is your favorite R package?\nWhich package hex sticker would you like to find the most during posit::conf(2023)?"
   },
   {
     "objectID": "materials/0_housekeeping.html#getting-help-today",
