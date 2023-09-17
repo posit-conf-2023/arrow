@@ -16,13 +16,17 @@ editor: source
 
 <br>
 
-Have you used or experimented with Arrow before today?
+**Have you used or experimented with Arrow before today?**
 
-- 1️⃣ No yet
-- 2️⃣ Not yet, but I have read about it!
-- 3️⃣ A little
-- 4️⃣ A lot
+Vote using emojis at on the [discord channel](https://discord.com/channels/1128098730587992226/1138874490848292974)! <br> 
 
+1️⃣ Not yet
+
+2️⃣ Not yet, but I have read about it!
+
+3️⃣ A little
+
+4️⃣ A lot
 
 ## Hello Arrow<br>Demo
 
@@ -66,15 +70,15 @@ unzip(
 
 ## Posit Cloud ☁️
 
- - Join the cloud workspace via URL in the workshop Discord channel 
- - You will need to create a (free) Posit Cloud account
+-   Join the cloud workspace via URL in the workshop Discord channel
+-   You will need to create a (free) Posit Cloud account
 
 ![](images/posit-cloud.png){.absolute left="200" width="600"}
 
 ## Posit Cloud ☁️
 
- - Once you have joined you can come and go
- 
+-   Once you have joined you can come and go
+
 ![](images/pc-navbar.png){.absolute width="800"}
 
 ## Larger-Than-Memory Data
