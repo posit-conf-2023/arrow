@@ -68,7 +68,7 @@ editor: source
 -   Ian Lyttle
 -   Jonathan Keane
 
-## Meet Eachother `r fontawesome::fa("handshake")`
+## Meet Each Other `r fontawesome::fa("handshake")`
 
 <br>
 
