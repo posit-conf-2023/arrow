@@ -18,7 +18,9 @@ editor: source
 
 **Have you used or experimented with Arrow before today?**
 
-Vote using emojis at on the [discord channel](https://discord.com/channels/1128098730587992226/1138874490848292974)! <br> 1️⃣ Not yet
+Vote using emojis at on the [discord channel](https://discord.com/channels/1128098730587992226/1138874490848292974)! <br> 
+
+1️⃣ Not yet
 
 2️⃣ Not yet, but I have read about it!
 
