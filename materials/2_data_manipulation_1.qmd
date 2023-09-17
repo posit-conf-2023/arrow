@@ -318,7 +318,7 @@ This code requires arrow 13.0.0 or above to run, due to a bugfix in this version
 
 ## Morning vs afternoon with namespacing
 
-```{r, `code-line-numbers`="2"}
+```{r, `code-line-numbers`="3"}
 #| label: namespacing
 
 nyc_taxi |>
@@ -331,7 +331,7 @@ nyc_taxi |>
 
 ## Morning vs afternoon - without namespacing
 
-```{r, `code-line-numbers`="4"}
+```{r, `code-line-numbers`="5"}
 #| label: no-namespacing
 
 library(lubridate)
