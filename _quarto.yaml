@@ -37,11 +37,11 @@ website:
         - text: "Data Engineering with Arrow"
           href: materials/3_data_engineering.qmd
           target: "_blank"
-        - text: "Manipulating Data with Arrow (Part II)"
-          href: materials/4_data_manipulation_2.qmd
-          target: "_blank"
         - text: "Arrow In-Memory Workflows"
           href: materials/5_arrow_single_file.qmd
+          target: "_blank"
+        - text: "Manipulating Data with Arrow (Part II)"
+          href: materials/4_data_manipulation_2.qmd
           target: "_blank"
         - text: "Wrapping Up: Arrow & R Together"
           href: materials/6_wrapping_up.qmd
@@ -60,10 +60,11 @@ website:
           href: materials/2_data_manipulation_1-exercises.qmd
         - text: "Data Engineering Exercises"
           href: materials/3_data_engineering-exercises.qmd
-        - text: "Data Manipulation Part II Exercises"
-          href: materials/4_data_manipulation_2-exercises.qmd
         - text: "Arrow In-Memory Workflow Exercises"
           href: materials/5_arrow_single_file-exercises.qmd
+        - text: "Data Manipulation Part II Exercises"
+          href: materials/4_data_manipulation_2-exercises.qmd
+
 
 format:
   html:
