@@ -273,14 +273,14 @@ nyc_taxi |>
   collect()
 ```
 
-## Schema for the `nyc_taxi` table
+## Schema for the `nyc_taxi` Dataset
 
 ```{r}
 #| label: get-schema
 schema(nyc_taxi)
 ```
 
-## Schema for the `nyc_taxi_zones` table
+## Schema for the `nyc_taxi_zones` Table
 
 ```{r}
 #| label: schema-2
