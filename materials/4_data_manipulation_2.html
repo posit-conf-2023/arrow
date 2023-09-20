@@ -567,12 +567,12 @@ Call collect() first to pull data into R.</code></pre>
 <pre><code># A tibble: 6 × 3
   pickup_datetime     dropoff_datetime    duration_minutes
   &lt;dttm&gt;              &lt;dttm&gt;                         &lt;int&gt;
-1 2012-10-07 18:19:00 2012-10-07 18:29:00               10
-2 2012-10-07 18:19:00 2012-10-07 18:33:00               14
-3 2012-10-07 18:19:00 2012-10-07 18:35:00               16
-4 2012-10-07 18:19:00 2012-10-07 18:35:00               16
-5 2012-10-07 18:19:00 2012-10-07 18:42:00               23
-6 2012-10-07 18:19:00 2012-10-07 18:43:00               24</code></pre>
+1 2012-11-02 19:47:00 2012-11-02 20:16:00               29
+2 2012-11-02 19:47:07 2012-11-02 19:53:32                6
+3 2012-11-02 19:47:13 2012-11-02 19:53:31                6
+4 2012-11-02 19:47:35 2012-11-02 19:52:40                5
+5 2012-11-02 19:47:51 2012-11-02 20:00:19               12
+6 2012-11-02 19:48:00 2012-11-02 19:51:00                3</code></pre>
 </div>
 </div>
 </section>
@@ -621,9 +621,9 @@ Call collect() first to pull data into R.</code></pre>
 <pre><code># A tibble: 3 × 3
   vendor_name full_name                    pickup_datetime    
   &lt;chr&gt;       &lt;chr&gt;                        &lt;dttm&gt;             
-1 CMT         Creative Mobile Technologies 2012-01-10 23:55:50
-2 CMT         Creative Mobile Technologies 2012-01-11 19:18:25
-3 CMT         Creative Mobile Technologies 2012-01-11 19:19:19</code></pre>
+1 CMT         Creative Mobile Technologies 2012-01-20 04:32:03
+2 CMT         Creative Mobile Technologies 2012-01-20 04:33:16
+3 CMT         Creative Mobile Technologies 2012-01-20 04:32:38</code></pre>
 </div>
 </div>
 </section>
@@ -667,8 +667,8 @@ Call collect() first to pull data into R.</code></pre>
 </div>
 </div>
 </section>
-<section id="schema-for-the-nyc_taxi-table" class="slide level2">
-<h2>Schema for the <code>nyc_taxi</code> table</h2>
+<section id="schema-for-the-nyc_taxi-dataset" class="slide level2">
+<h2>Schema for the <code>nyc_taxi</code> Dataset</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">schema</span>(nyc_taxi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -701,7 +701,7 @@ month: int32</code></pre>
 </div>
 </section>
 <section id="schema-for-the-nyc_taxi_zones-table" class="slide level2">
-<h2>Schema for the <code>nyc_taxi_zones</code> table</h2>
+<h2>Schema for the <code>nyc_taxi_zones</code> Table</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>nyc_taxi_zones_arrow <span class="ot">&lt;-</span> <span class="fu">arrow_table</span>(nyc_taxi_zones)</span>
 <span id="cb19-2"><a href="#cb19-2"></a><span class="fu">schema</span>(nyc_taxi_zones_arrow)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -773,7 +773,7 @@ borough: string</code></pre>
 <span id="cb25-9"><a href="#cb25-9"></a>  <span class="fu">collect</span>()</span>
 <span id="cb25-10"><a href="#cb25-10"></a><span class="fu">toc</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>151.228 sec elapsed</code></pre>
+<pre><code>108.192 sec elapsed</code></pre>
 </div>
 </div>
 <p><br></p>

@@ -148,12 +148,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Data Engineering with Arrow</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../materials/4_data_manipulation_2.html" rel="" target="_blank">
- <span class="dropdown-text">Manipulating Data with Arrow (Part II)</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../materials/5_arrow_single_file.html" rel="" target="_blank">
  <span class="dropdown-text">Arrow In-Memory Workflows</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../materials/4_data_manipulation_2.html" rel="" target="_blank">
+ <span class="dropdown-text">Manipulating Data with Arrow (Part II)</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../materials/6_wrapping_up.html" rel="" target="_blank">
@@ -187,12 +187,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Data Engineering Exercises</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../materials/4_data_manipulation_2-exercises.html" rel="" target="">
- <span class="dropdown-text">Data Manipulation Part II Exercises</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="../materials/5_arrow_single_file-exercises.html" rel="" target="">
  <span class="dropdown-text">Arrow In-Memory Workflow Exercises</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../materials/4_data_manipulation_2-exercises.html" rel="" target="">
+ <span class="dropdown-text">Data Manipulation Part II Exercises</span></a>
   </li>  
     </ul>
   </li>
@@ -450,7 +450,7 @@ Parquet
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  2.235   0.475   0.625 </code></pre>
+  2.238   0.452   0.696 </code></pre>
 </div>
 </div>
 <p>A <em>much</em> faster compute time for the query when the on-disk data is stored in the Parquet format.</p>
@@ -505,26 +505,24 @@ Partitioning
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">open_dataset</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/seattle-library-checkouts-type"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(CheckoutYear <span class="sc">==</span> <span class="dv">2019</span>, CheckoutMonth <span class="sc">==</span> <span class="dv">9</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(CheckoutYear) <span class="sc">|&gt;</span> </span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">TotalCheckouts =</span> <span class="fu">sum</span>(Checkouts)) <span class="sc">|&gt;</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">TotalCheckouts =</span> <span class="fu">sum</span>(Checkouts)) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.890   0.088   0.326 </code></pre>
+  0.907   0.087   0.333 </code></pre>
 </div>
 </div>
 <p>Total number of Checkouts in September of 2019 using partitioned Parquet data by <code>CheckoutYear</code> and <code>CheckoutMonth</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">open_dataset</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/seattle-library-checkouts"</span>)) <span class="sc">|&gt;</span> </span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(CheckoutYear <span class="sc">==</span> <span class="dv">2019</span>, CheckoutMonth <span class="sc">==</span> <span class="dv">9</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(CheckoutYear) <span class="sc">|&gt;</span> </span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">TotalCheckouts =</span> <span class="fu">sum</span>(Checkouts)) <span class="sc">|&gt;</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">TotalCheckouts =</span> <span class="fu">sum</span>(Checkouts)) <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system.time</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.046   0.006   0.036 </code></pre>
+  0.039   0.006   0.032 </code></pre>
 </div>
 </div>
 <p>Faster compute time because the <code>filter()</code> call is based on the partitions.</p>
