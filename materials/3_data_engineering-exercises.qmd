@@ -208,7 +208,6 @@ Total number of Checkouts in September of 2019 using partitioned Parquet data by
 #| label: seattle-partitioned-other-dplyr
 open_dataset(here::here("data/seattle-library-checkouts-type")) |> 
   filter(CheckoutYear == 2019, CheckoutMonth == 9) |> 
-  group_by(CheckoutYear) |> 
   summarise(TotalCheckouts = sum(Checkouts)) |>
   collect() |> 
   system.time()
@@ -220,7 +219,6 @@ Total number of Checkouts in September of 2019 using partitioned Parquet data by
 #| label: seattle-partitioned-partitioned-filter-dplyr
 open_dataset(here::here("data/seattle-library-checkouts")) |> 
   filter(CheckoutYear == 2019, CheckoutMonth == 9) |> 
-  group_by(CheckoutYear) |> 
   summarise(TotalCheckouts = sum(Checkouts)) |>
   collect() |> 
   system.time()
