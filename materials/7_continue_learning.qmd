@@ -1,5 +1,5 @@
 ---
-footer: "[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)"
+footer: "[🔗 pos.it/arrow-conf23](https://pos.it/arrow-conf23)"
 logo: "images/logo.png"
 execute:
   echo: true

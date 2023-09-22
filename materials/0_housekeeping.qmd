@@ -2,7 +2,7 @@
 title: "Big Data in R with Arrow"
 subtitle: "posit::conf(2023) 1-day workshop"
 author: "Nic Crane + Steph Hazlitt"
-footer: "[🔗 posit.io/arrow](https://posit-conf-2023.github.io/arrow)"
+footer: "[🔗 pos.it/arrow-conf23](https://pos.it/arrow-conf23)"
 logo: "images/logo.png"
 execute:
   echo: true
