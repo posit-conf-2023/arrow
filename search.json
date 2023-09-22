@@ -74,7 +74,7 @@
     "href": "materials/7_continue_learning.html#community",
     "title": "Big Data in R with Arrow",
     "section": "Community",
-    "text": "Community\nhttps://arrow.apache.org/community/\n\n\nalso Stack Overflow, Posit Community\n\n\n\n\n🔗 posit.io/arrow"
+    "text": "Community\nhttps://arrow.apache.org/community/\n\n\nalso Stack Overflow, Posit Community\n\n\n\n\n🔗 pos.it/arrow-conf23"
   },
   {
     "objectID": "materials/5_arrow_single_file.html#arrow",
@@ -102,7 +102,7 @@
     "href": "materials/5_arrow_single_file.html#read-a-parquet-file-tibble",
     "title": "Big Data in R with Arrow",
     "section": "Read a Parquet File (tibble)",
-    "text": "Read a Parquet File (tibble)\n\nlibrary(arrow)\n\nparquet_file &lt;- here::here(\"data/nyc-taxi/year=2019/month=9/part-0.parquet\")\n\ntaxi_df &lt;- read_parquet(parquet_file)\ntaxi_df\n\n# A tibble: 6,567,396 × 22\n   vendor_name pickup_datetime     dropoff_datetime    passenger_count\n   &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;\n 1 CMT         2019-08-31 18:09:30 2019-08-31 18:15:42               1\n 2 CMT         2019-08-31 18:26:30 2019-08-31 18:44:31               1\n 3 CMT         2019-08-31 18:39:35 2019-08-31 19:15:55               2\n 4 VTS         2019-08-31 18:12:26 2019-08-31 18:15:17               4\n 5 VTS         2019-08-31 18:43:16 2019-08-31 18:53:50               1\n 6 VTS         2019-08-31 18:26:13 2019-08-31 18:45:35               1\n 7 CMT         2019-08-31 18:34:52 2019-08-31 18:42:03               1\n 8 CMT         2019-08-31 18:50:02 2019-08-31 18:58:16               1\n 9 CMT         2019-08-31 18:08:02 2019-08-31 18:14:44               0\n10 VTS         2019-08-31 18:11:38 2019-08-31 18:26:47               1\n# ℹ 6,567,386 more rows\n# ℹ 18 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,\n#   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,\n#   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,\n#   fare_amount &lt;dbl&gt;, extra &lt;dbl&gt;, mta_tax &lt;dbl&gt;, tip_amount &lt;dbl&gt;,\n#   tolls_amount &lt;dbl&gt;, total_amount &lt;dbl&gt;, improvement_surcharge &lt;dbl&gt;,\n#   congestion_surcharge &lt;dbl&gt;, pickup_location_id &lt;int&gt;, …"
+    "text": "Read a Parquet File (tibble)\n\nlibrary(arrow)\n\nparquet_file &lt;- here::here(\"data/nyc-taxi/year=2019/month=9/part-0.parquet\")\n\ntaxi_df &lt;- read_parquet(parquet_file)\ntaxi_df\n\n# A tibble: 6,567,396 × 22\n   vendor_name pickup_datetime     dropoff_datetime    passenger_count\n   &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;\n 1 CMT         2019-08-31 20:09:30 2019-08-31 20:15:42               1\n 2 CMT         2019-08-31 20:26:30 2019-08-31 20:44:31               1\n 3 CMT         2019-08-31 20:39:35 2019-08-31 21:15:55               2\n 4 VTS         2019-08-31 20:12:26 2019-08-31 20:15:17               4\n 5 VTS         2019-08-31 20:43:16 2019-08-31 20:53:50               1\n 6 VTS         2019-08-31 20:26:13 2019-08-31 20:45:35               1\n 7 CMT         2019-08-31 20:34:52 2019-08-31 20:42:03               1\n 8 CMT         2019-08-31 20:50:02 2019-08-31 20:58:16               1\n 9 CMT         2019-08-31 20:08:02 2019-08-31 20:14:44               0\n10 VTS         2019-08-31 20:11:38 2019-08-31 20:26:47               1\n# ℹ 6,567,386 more rows\n# ℹ 18 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,\n#   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,\n#   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,\n#   fare_amount &lt;dbl&gt;, extra &lt;dbl&gt;, mta_tax &lt;dbl&gt;, tip_amount &lt;dbl&gt;,\n#   tolls_amount &lt;dbl&gt;, total_amount &lt;dbl&gt;, improvement_surcharge &lt;dbl&gt;,\n#   congestion_surcharge &lt;dbl&gt;, pickup_location_id &lt;int&gt;, …"
   },
   {
     "objectID": "materials/5_arrow_single_file.html#read-a-parquet-file-table",
@@ -144,14 +144,14 @@
     "href": "materials/5_arrow_single_file.html#arrow-for-efficient-in-memory-processing",
     "title": "Big Data in R with Arrow",
     "section": "Arrow for Efficient In-Memory Processing",
-    "text": "Arrow for Efficient In-Memory Processing\n\nparquet_file |&gt;\n  read_parquet() |&gt;\n  nrow()\n\n[1] 6567396\n\n\n\n\nparquet_file |&gt;\n  read_parquet() |&gt;\n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.627   0.246   0.614"
+    "text": "Arrow for Efficient In-Memory Processing\n\nparquet_file |&gt;\n  read_parquet() |&gt;\n  nrow()\n\n[1] 6567396\n\n\n\n\nparquet_file |&gt;\n  read_parquet() |&gt;\n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.549   0.258   0.554"
   },
   {
     "objectID": "materials/5_arrow_single_file.html#arrow-for-efficient-in-memory-processing-1",
     "href": "materials/5_arrow_single_file.html#arrow-for-efficient-in-memory-processing-1",
     "title": "Big Data in R with Arrow",
     "section": "Arrow for Efficient In-Memory Processing",
-    "text": "Arrow for Efficient In-Memory Processing\n\nparquet_file |&gt;\n  read_parquet(as_data_frame = FALSE) |&gt;\n  nrow()\n\n[1] 6567396\n\n\n\n\nparquet_file |&gt;\n  read_parquet(as_data_frame = FALSE) |&gt;\n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.418   0.189   0.262"
+    "text": "Arrow for Efficient In-Memory Processing\n\nparquet_file |&gt;\n  read_parquet(as_data_frame = FALSE) |&gt;\n  nrow()\n\n[1] 6567396\n\n\n\n\nparquet_file |&gt;\n  read_parquet(as_data_frame = FALSE) |&gt;\n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.439   0.198   0.259"
   },
   {
     "objectID": "materials/5_arrow_single_file.html#read-a-parquet-file-selectively",
@@ -165,7 +165,7 @@
     "href": "materials/5_arrow_single_file.html#selective-reads-are-faster",
     "title": "Big Data in R with Arrow",
     "section": "Selective Reads Are Faster",
-    "text": "Selective Reads Are Faster\n\nparquet_file |&gt;\n  read_parquet(\n    col_select = c(\"vendor_name\", \"passenger_count\"),\n    as_data_frame = FALSE\n  ) |&gt; \n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  0.280   0.012   0.144"
+    "text": "Selective Reads Are Faster\n\nparquet_file |&gt;\n  read_parquet(\n    col_select = c(\"vendor_name\", \"passenger_count\"),\n    as_data_frame = FALSE\n  ) |&gt; \n  group_by(vendor_name) |&gt;\n  summarise(all_trips = n(),\n            shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  0.276   0.012   0.144"
   },
   {
     "objectID": "materials/5_arrow_single_file.html#arrow-table-or-dataset",
@@ -179,7 +179,7 @@
     "href": "materials/5_arrow_single_file.html#arrow-for-improving-those-sluggish-worklows",
     "title": "Big Data in R with Arrow",
     "section": "Arrow for Improving Those Sluggish Worklows",
-    "text": "Arrow for Improving Those Sluggish Worklows\n\na “drop-in” for many dplyr workflows (Arrow Table or Dataset)\nworks when your tabular data get too big for your RAM (Arrow Dataset)\nprovides tools for re-engineering data storage for better performance (arrow::write_dataset())\n\n\nLot’s of ways to speed up sluggish workflows e.g. writing more performant tidyverse code, use other data frame libraries like data.table or polars, use duckDB or other databases, Spark + splarklyr … However, Arrow offers some attractive features for tackling this challenge, especially for dplyr users.\n\n\n\n\n🔗 posit.io/arrow"
+    "text": "Arrow for Improving Those Sluggish Worklows\n\na “drop-in” for many dplyr workflows (Arrow Table or Dataset)\nworks when your tabular data get too big for your RAM (Arrow Dataset)\nprovides tools for re-engineering data storage for better performance (arrow::write_dataset())\n\n\nLot’s of ways to speed up sluggish workflows e.g. writing more performant tidyverse code, use other data frame libraries like data.table or polars, use duckDB or other databases, Spark + splarklyr … However, Arrow offers some attractive features for tackling this challenge, especially for dplyr users.\n\n\n\n\n🔗 pos.it/arrow-conf23"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#what-if-a-function-binding-doesnt-exist---revisited",
@@ -270,7 +270,7 @@
     "href": "materials/4_data_manipulation_2.html#joining-a-reference-table",
     "title": "Big Data in R with Arrow",
     "section": "Joining a reference table",
-    "text": "Joining a reference table\n\nvendors &lt;- tibble::tibble(\n  code = c(\"VTS\", \"CMT\", \"DDS\"),\n  full_name = c(\n    \"Verifone Transportation Systems\",\n    \"Creative Mobile Technologies\",\n    \"Digital Dispatch Systems\"\n  )\n)\n\nnyc_taxi |&gt;\n  left_join(vendors, by = c(\"vendor_name\" = \"code\")) |&gt;\n  select(vendor_name, full_name, pickup_datetime) |&gt;\n  head(3) |&gt;\n  collect()\n\n# A tibble: 3 × 3\n  vendor_name full_name                    pickup_datetime    \n  &lt;chr&gt;       &lt;chr&gt;                        &lt;dttm&gt;             \n1 CMT         Creative Mobile Technologies 2012-01-20 04:32:03\n2 CMT         Creative Mobile Technologies 2012-01-20 04:33:16\n3 CMT         Creative Mobile Technologies 2012-01-20 04:32:38"
+    "text": "Joining a reference table\n\nvendors &lt;- tibble::tibble(\n  code = c(\"VTS\", \"CMT\", \"DDS\"),\n  full_name = c(\n    \"Verifone Transportation Systems\",\n    \"Creative Mobile Technologies\",\n    \"Digital Dispatch Systems\"\n  )\n)\n\nnyc_taxi |&gt;\n  left_join(vendors, by = c(\"vendor_name\" = \"code\")) |&gt;\n  select(vendor_name, full_name, pickup_datetime) |&gt;\n  head(3) |&gt;\n  collect()\n\n# A tibble: 3 × 3\n  vendor_name full_name                    pickup_datetime    \n  &lt;chr&gt;       &lt;chr&gt;                        &lt;dttm&gt;             \n1 CMT         Creative Mobile Technologies 2012-01-20 08:09:36\n2 CMT         Creative Mobile Technologies 2012-01-20 08:54:10\n3 CMT         Creative Mobile Technologies 2012-01-20 02:08:01"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#traps-for-the-unwary",
@@ -326,7 +326,7 @@
     "href": "materials/4_data_manipulation_2.html#join-and-cross-tabulate",
     "title": "Big Data in R with Arrow",
     "section": "Join and cross-tabulate",
-    "text": "Join and cross-tabulate\n\nlibrary(tictoc)\n\ntic()\nborough_counts &lt;- nyc_taxi |&gt; \n  left_join(pickup) |&gt;\n  left_join(dropoff) |&gt;\n  count(pickup_borough, dropoff_borough) |&gt;\n  arrange(desc(n)) |&gt;\n  collect()\ntoc()\n\n108.192 sec elapsed\n\n\n\n2-3 minutes to join twice and cross-tabulate on non-partition variables, with 1.15 billion rows of data 🙂"
+    "text": "Join and cross-tabulate\n\nlibrary(tictoc)\n\ntic()\nborough_counts &lt;- nyc_taxi |&gt; \n  left_join(pickup) |&gt;\n  left_join(dropoff) |&gt;\n  count(pickup_borough, dropoff_borough) |&gt;\n  arrange(desc(n)) |&gt;\n  collect()\ntoc()\n\n131.403 sec elapsed\n\n\n\n2-3 minutes to join twice and cross-tabulate on non-partition variables, with 1.15 billion rows of data 🙂"
   },
   {
     "objectID": "materials/4_data_manipulation_2.html#the-results",
@@ -396,7 +396,7 @@
     "href": "materials/4_data_manipulation_2.html#summary-2",
     "title": "Big Data in R with Arrow",
     "section": "Summary",
-    "text": "Summary\n\nWindow functions in arrow can be achieved via joins or passing data to and from duckdb\n\n\n\n\n🔗 posit.io/arrow"
+    "text": "Summary\n\nWindow functions in arrow can be achieved via joins or passing data to and from duckdb\n\n\n\n\n🔗 pos.it/arrow-conf23"
   },
   {
     "objectID": "materials/3_data_engineering.html#data-engineering",
@@ -508,7 +508,7 @@
     "href": "materials/3_data_engineering.html#gb-csv-file-arrow-dplyr-1",
     "title": "Big Data in R with Arrow",
     "section": "9GB CSV file + arrow + dplyr",
-    "text": "9GB CSV file + arrow + dplyr\n\nseattle_csv |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  arrange(CheckoutYear) |&gt; \n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n 10.851   1.275  10.578 \n\n\n42 million rows – not bad, but could be faster…."
+    "text": "9GB CSV file + arrow + dplyr\n\nseattle_csv |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  arrange(CheckoutYear) |&gt; \n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n 11.218   1.291  11.001 \n\n\n42 million rows – not bad, but could be faster…."
   },
   {
     "objectID": "materials/3_data_engineering.html#file-format-apache-parquet",
@@ -564,7 +564,7 @@
     "href": "materials/3_data_engineering.html#gb-parquet-file-arrow-dplyr",
     "title": "Big Data in R with Arrow",
     "section": "4.5GB Parquet file + arrow + dplyr",
-    "text": "4.5GB Parquet file + arrow + dplyr\n\nopen_dataset(seattle_parquet, \n             format = \"parquet\") |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  arrange(CheckoutYear) |&gt; \n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.998   0.407   0.622 \n\n\n42 million rows – much better! But could be even faster…."
+    "text": "4.5GB Parquet file + arrow + dplyr\n\nopen_dataset(seattle_parquet, \n             format = \"parquet\") |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  arrange(CheckoutYear) |&gt; \n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  2.034   0.408   0.654 \n\n\n42 million rows – much better! But could be even faster…."
   },
   {
     "objectID": "materials/3_data_engineering.html#file-storage-partitioning",
@@ -606,7 +606,7 @@
     "href": "materials/3_data_engineering.html#gb-partitioned-parquet-files-arrow-dplyr",
     "title": "Big Data in R with Arrow",
     "section": "4.5GB partitioned Parquet files + arrow + dplyr",
-    "text": "4.5GB partitioned Parquet files + arrow + dplyr\n\nseattle_parquet_part &lt;- here::here(\"data/seattle-library-checkouts\")\n\nopen_dataset(seattle_parquet_part,\n             format = \"parquet\") |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  arrange(CheckoutYear) |&gt; \n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.906   0.388   0.454 \n\n\n\n42 million rows – not too shabby!"
+    "text": "4.5GB partitioned Parquet files + arrow + dplyr\n\nseattle_parquet_part &lt;- here::here(\"data/seattle-library-checkouts\")\n\nopen_dataset(seattle_parquet_part,\n             format = \"parquet\") |&gt;\n  group_by(CheckoutYear) |&gt;\n  summarise(sum(Checkouts)) |&gt;\n  arrange(CheckoutYear) |&gt; \n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n  1.928   0.405   0.391 \n\n\n\n42 million rows – not too shabby!"
   },
   {
     "objectID": "materials/3_data_engineering.html#your-turn-2",
@@ -627,14 +627,14 @@
     "href": "materials/3_data_engineering.html#performance-review-single-csv",
     "title": "Big Data in R with Arrow",
     "section": "Performance Review: Single CSV",
-    "text": "Performance Review: Single CSV\nHow long does it take to calculate the number of books checked out in each month of 2021?\n\n\nopen_dataset(\n  sources = here::here(\"data/seattle-library-checkouts.csv\"), \n  format = \"csv\"\n) |&gt; \n  filter(CheckoutYear == 2021, MaterialType == \"BOOK\") |&gt;\n  group_by(CheckoutMonth) |&gt;\n  summarize(TotalCheckouts = sum(Checkouts)) |&gt;\n  arrange(desc(CheckoutMonth)) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n 12.174   1.289  11.685"
+    "text": "Performance Review: Single CSV\nHow long does it take to calculate the number of books checked out in each month of 2021?\n\n\nopen_dataset(\n  sources = here::here(\"data/seattle-library-checkouts.csv\"), \n  format = \"csv\"\n) |&gt; \n  filter(CheckoutYear == 2021, MaterialType == \"BOOK\") |&gt;\n  group_by(CheckoutMonth) |&gt;\n  summarize(TotalCheckouts = sum(Checkouts)) |&gt;\n  arrange(desc(CheckoutMonth)) |&gt;\n  collect() |&gt;\n  system.time()\n\n   user  system elapsed \n 12.414   1.286  11.848"
   },
   {
     "objectID": "materials/3_data_engineering.html#performance-review-partitioned-parquet",
     "href": "materials/3_data_engineering.html#performance-review-partitioned-parquet",
     "title": "Big Data in R with Arrow",
     "section": "Performance Review: Partitioned Parquet",
-    "text": "Performance Review: Partitioned Parquet\nHow long does it take to calculate the number of books checked out in each month of 2021?\n\n\nopen_dataset(here::here(\"data/seattle-library-checkouts\"),\n             format = \"parquet\") |&gt; \n  filter(CheckoutYear == 2021, MaterialType == \"BOOK\") |&gt;\n  group_by(CheckoutMonth) |&gt;\n  summarize(TotalCheckouts = sum(Checkouts)) |&gt;\n  arrange(desc(CheckoutMonth)) |&gt;\n  collect() |&gt; \n  system.time()\n\n   user  system elapsed \n  0.284   0.047   0.078"
+    "text": "Performance Review: Partitioned Parquet\nHow long does it take to calculate the number of books checked out in each month of 2021?\n\n\nopen_dataset(here::here(\"data/seattle-library-checkouts\"),\n             format = \"parquet\") |&gt; \n  filter(CheckoutYear == 2021, MaterialType == \"BOOK\") |&gt;\n  group_by(CheckoutMonth) |&gt;\n  summarize(TotalCheckouts = sum(Checkouts)) |&gt;\n  arrange(desc(CheckoutMonth)) |&gt;\n  collect() |&gt; \n  system.time()\n\n   user  system elapsed \n  0.272   0.040   0.077"
   },
   {
     "objectID": "materials/3_data_engineering.html#engineering-data-tips-for-improved-storage-performance",
@@ -648,7 +648,7 @@
     "href": "materials/3_data_engineering.html#r-for-data-science-2e",
     "title": "Big Data in R with Arrow",
     "section": "R for Data Science (2e)",
-    "text": "R for Data Science (2e)\n\n\n\n\n\nChapter 23: Arrow\n\nhttps://r4ds.hadley.nz/\n\n\n\n\n\n🔗 posit.io/arrow"
+    "text": "R for Data Science (2e)\n\n\n\n\n\nChapter 23: Arrow\n\nhttps://r4ds.hadley.nz/\n\n\n\n\n\n🔗 pos.it/arrow-conf23"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#goals",
@@ -760,7 +760,7 @@
     "href": "materials/2_data_manipulation_1.html#use-head-select-filter-and-collect-to-preview-results",
     "title": "Big Data in R with Arrow",
     "section": "Use head(), select(), filter(), and collect() to preview results",
-    "text": "Use head(), select(), filter(), and collect() to preview results\n\nnyc_taxi |&gt;\n  filter(year == 2020) |&gt;\n  mutate(fare_pounds = fare_amount * 0.79) |&gt;\n  select(fare_amount, fare_pounds) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 2\n  fare_amount fare_pounds\n        &lt;dbl&gt;       &lt;dbl&gt;\n1         8          6.32\n2        17         13.4 \n3         6.5        5.14\n4         7          5.53\n5         6.5        5.14\n6        42         33.2"
+    "text": "Use head(), select(), filter(), and collect() to preview results\n\nnyc_taxi |&gt;\n  filter(year == 2020) |&gt;\n  mutate(fare_pounds = fare_amount * 0.79) |&gt;\n  select(fare_amount, fare_pounds) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 2\n  fare_amount fare_pounds\n        &lt;dbl&gt;       &lt;dbl&gt;\n1        16.5       13.0 \n2        21.5       17.0 \n3         5          3.95\n4        10.5        8.30\n5        11          8.69\n6         5.5        4.35"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#use-across-to-transform-data-in-multiple-columns",
@@ -774,7 +774,7 @@
     "href": "materials/2_data_manipulation_1.html#use-across-to-transform-data-in-multiple-columns-1",
     "title": "Big Data in R with Arrow",
     "section": "Use across() to transform data in multiple columns",
-    "text": "Use across() to transform data in multiple columns\n\ntaxis_gbp |&gt;\n  select(contains(\"amount\")) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 8\n  fare_amount tip_amount tolls_amount total_amount fare_amount_pounds\n        &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;              &lt;dbl&gt;\n1        29.7       6.04            0        36.2               23.5 \n2         9.3       0               0         9.8                7.35\n3         4.1       1.38            0         5.98               3.24\n4         4.5       1               0         6                  3.56\n5         4.5       0               0         5.5                3.56\n6         4.1       0               0         5.6                3.24\n# ℹ 3 more variables: tip_amount_pounds &lt;dbl&gt;, tolls_amount_pounds &lt;dbl&gt;,\n#   total_amount_pounds &lt;dbl&gt;"
+    "text": "Use across() to transform data in multiple columns\n\ntaxis_gbp |&gt;\n  select(contains(\"amount\")) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 8\n  fare_amount tip_amount tolls_amount total_amount fare_amount_pounds\n        &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;              &lt;dbl&gt;\n1         6.1       2               0          8.6               4.82\n2         5.3       0               0          5.8               4.19\n3         9.7       2               0         12.2               7.66\n4         8.1       0               0          8.6               6.40\n5         5.7       2               0          8.2               4.50\n6        24.5       6.37            0         31.9              19.4 \n# ℹ 3 more variables: tip_amount_pounds &lt;dbl&gt;, tolls_amount_pounds &lt;dbl&gt;,\n#   total_amount_pounds &lt;dbl&gt;"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#summary",
@@ -809,7 +809,7 @@
     "href": "materials/2_data_manipulation_1.html#or-call-collect-first",
     "title": "Big Data in R with Arrow",
     "section": "Or call collect() first",
-    "text": "Or call collect() first\n\nlong_rides_2021 |&gt;\n  collect() |&gt;\n  slice(1:3)\n\n# A tibble: 3 × 3\n  pickup_datetime      year trip_distance\n  &lt;dttm&gt;              &lt;int&gt;         &lt;dbl&gt;\n1 2021-01-03 03:01:26  2021          216.\n2 2021-01-03 05:36:52  2021          268.\n3 2021-01-06 01:27:55  2021          271."
+    "text": "Or call collect() first\n\nlong_rides_2021 |&gt;\n  collect() |&gt;\n  slice(1:3)\n\n# A tibble: 3 × 3\n  pickup_datetime      year trip_distance\n  &lt;dttm&gt;              &lt;int&gt;         &lt;dbl&gt;\n1 2021-10-02 09:04:53  2021          188.\n2 2021-11-01 06:14:03  2021          381.\n3 2021-12-01 11:48:04  2021          110."
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#tidyr-functions---pivot",
@@ -844,7 +844,7 @@
     "href": "materials/2_data_manipulation_1.html#morning-vs-afternoon-with-namespacing",
     "title": "Big Data in R with Arrow",
     "section": "Morning vs afternoon with namespacing",
-    "text": "Morning vs afternoon with namespacing\n\nnyc_taxi |&gt;\n  group_by(\n    time_of_day = ifelse(lubridate::am(pickup_datetime), \"morning\", \"afternoon\")\n  ) |&gt;\n  count() |&gt;\n  collect()\n\n# A tibble: 2 × 2\n# Groups:   time_of_day [2]\n  time_of_day         n\n  &lt;chr&gt;           &lt;int&gt;\n1 afternoon   736491676\n2 morning     413860990"
+    "text": "Morning vs afternoon with namespacing\n\nnyc_taxi |&gt;\n  group_by(\n    time_of_day = ifelse(lubridate::am(pickup_datetime), \"morning\", \"afternoon\")\n  ) |&gt;\n  count() |&gt;\n  collect()\n\n# A tibble: 2 × 2\n# Groups:   time_of_day [2]\n  time_of_day         n\n  &lt;chr&gt;           &lt;int&gt;\n1 morning     413860990\n2 afternoon   736491676"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#morning-vs-afternoon---without-namespacing",
@@ -872,7 +872,7 @@
     "href": "materials/2_data_manipulation_1.html#option-1---find-a-workaround",
     "title": "Big Data in R with Arrow",
     "section": "Option 1 - find a workaround!",
-    "text": "Option 1 - find a workaround!\n\nnyc_taxi |&gt;\n  mutate(vendor_name = ifelse(vendor_name == \"CMT\", NA, vendor_name)) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 24\n  vendor_name pickup_datetime     dropoff_datetime    passenger_count\n  &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;\n1 &lt;NA&gt;        2012-01-20 08:09:36 2012-01-20 08:42:25               1\n2 &lt;NA&gt;        2012-01-20 08:54:10 2012-01-20 09:06:55               1\n3 &lt;NA&gt;        2012-01-20 02:08:01 2012-01-20 02:11:02               1\n4 &lt;NA&gt;        2012-01-20 02:36:22 2012-01-20 02:39:44               1\n5 &lt;NA&gt;        2012-01-20 14:58:32 2012-01-20 15:03:04               1\n6 &lt;NA&gt;        2012-01-20 13:40:20 2012-01-20 13:43:43               2\n# ℹ 20 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,\n#   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,\n#   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,\n#   fare_amount &lt;dbl&gt;, extra &lt;dbl&gt;, mta_tax &lt;dbl&gt;, tip_amount &lt;dbl&gt;,\n#   tolls_amount &lt;dbl&gt;, total_amount &lt;dbl&gt;, improvement_surcharge &lt;dbl&gt;,\n#   congestion_surcharge &lt;dbl&gt;, pickup_location_id &lt;int&gt;,\n#   dropoff_location_id &lt;int&gt;, year &lt;int&gt;, month &lt;int&gt;"
+    "text": "Option 1 - find a workaround!\n\nnyc_taxi |&gt;\n  mutate(vendor_name = ifelse(vendor_name == \"CMT\", NA, vendor_name)) |&gt;\n  head() |&gt;\n  collect()\n\n# A tibble: 6 × 24\n  vendor_name pickup_datetime     dropoff_datetime    passenger_count\n  &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;\n1 &lt;NA&gt;        2012-01-20 04:32:03 2012-01-20 04:37:47               1\n2 &lt;NA&gt;        2012-01-20 04:33:16 2012-01-20 04:39:24               2\n3 &lt;NA&gt;        2012-01-20 04:32:38 2012-01-20 04:48:12               1\n4 &lt;NA&gt;        2012-01-20 04:31:23 2012-01-20 04:43:28               1\n5 &lt;NA&gt;        2012-01-20 04:32:38 2012-01-20 04:39:41               1\n6 &lt;NA&gt;        2012-01-11 21:44:00 2012-01-11 22:15:00               2\n# ℹ 20 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,\n#   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,\n#   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,\n#   fare_amount &lt;dbl&gt;, extra &lt;dbl&gt;, mta_tax &lt;dbl&gt;, tip_amount &lt;dbl&gt;,\n#   tolls_amount &lt;dbl&gt;, total_amount &lt;dbl&gt;, improvement_surcharge &lt;dbl&gt;,\n#   congestion_surcharge &lt;dbl&gt;, pickup_location_id &lt;int&gt;,\n#   dropoff_location_id &lt;int&gt;, year &lt;int&gt;, month &lt;int&gt;"
   },
   {
     "objectID": "materials/2_data_manipulation_1.html#option-2",
@@ -893,7 +893,7 @@
     "href": "materials/2_data_manipulation_1.html#summary-1",
     "title": "Big Data in R with Arrow",
     "section": "Summary",
-    "text": "Summary\n\nWorking with Arrow Datasets allow you to manipulate data which is larger-than-memory\nYou can use many dplyr functions with arrow - run ?`arrow-dplyr` to view the docs\nYou can pass data to duckdb to use functions implemented in duckdb but not arrow\n\n\n\n\n🔗 posit.io/arrow"
+    "text": "Summary\n\nWorking with Arrow Datasets allow you to manipulate data which is larger-than-memory\nYou can use many dplyr functions with arrow - run ?`arrow-dplyr` to view the docs\nYou can pass data to duckdb to use functions implemented in duckdb but not arrow\n\n\n\n\n🔗 pos.it/arrow-conf23"
   },
   {
     "objectID": "materials/1_hello_arrow.html#poll-arrow",
@@ -970,7 +970,7 @@
     "href": "materials/1_hello_arrow.html#nyc-taxi-dataset-a-dplyr-pipeline",
     "title": "Big Data in R with Arrow",
     "section": "NYC Taxi Dataset: A dplyr pipeline",
-    "text": "NYC Taxi Dataset: A dplyr pipeline\n\nlibrary(dplyr)\n\nnyc_taxi |&gt;\n  group_by(year) |&gt;\n  summarise(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect()\n\n# A tibble: 10 × 4\n    year all_trips shared_trips pct_shared\n   &lt;int&gt;     &lt;int&gt;        &lt;int&gt;      &lt;dbl&gt;\n 1  2012 178544324     53313752       29.9\n 2  2013 173179759     51215013       29.6\n 3  2014 165114361     48816505       29.6\n 4  2015 146112989     43081091       29.5\n 5  2016 131165043     38163870       29.1\n 6  2018 102797401     28796633       28.0\n 7  2019  84393604     23515989       27.9\n 8  2020  24647055      5837960       23.7\n 9  2021  30902618      7221844       23.4\n10  2017 113495512     32296166       28.5"
+    "text": "NYC Taxi Dataset: A dplyr pipeline\n\nlibrary(dplyr)\n\nnyc_taxi |&gt;\n  group_by(year) |&gt;\n  summarise(\n    all_trips = n(),\n    shared_trips = sum(passenger_count &gt; 1, na.rm = TRUE)\n  ) |&gt;\n  mutate(pct_shared = shared_trips / all_trips * 100) |&gt;\n  collect()\n\n# A tibble: 10 × 4\n    year all_trips shared_trips pct_shared\n   &lt;int&gt;     &lt;int&gt;        &lt;int&gt;      &lt;dbl&gt;\n 1  2012 178544324     53313752       29.9\n 2  2013 173179759     51215013       29.6\n 3  2014 165114361     48816505       29.6\n 4  2015 146112989     43081091       29.5\n 5  2016 131165043     38163870       29.1\n 6  2017 113495512     32296166       28.5\n 7  2018 102797401     28796633       28.0\n 8  2020  24647055      5837960       23.7\n 9  2021  30902618      7221844       23.4\n10  2019  84393604     23515989       27.9"
   },
   {
     "objectID": "materials/1_hello_arrow.html#nyc-taxi-dataset-a-dplyr-pipeline-1",
@@ -1040,7 +1040,7 @@
     "href": "materials/1_hello_arrow.html#today",
     "title": "Big Data in R with Arrow",
     "section": "Today",
-    "text": "Today\n\nModule 1: Larger-than-memory data manipulation with Arrow—Part I\nModule 2: Data engineering with Arrow\nModule 3: Larger-than-memory data manipulation with Arrow—Part II\nModule 4: In-memory workflows in R with Arrow\n\n\n\n\n🔗 posit.io/arrow"
+    "text": "Today\n\nModule 1: Larger-than-memory data manipulation with Arrow—Part I\nModule 2: Data engineering with Arrow\nModule 3: Larger-than-memory data manipulation with Arrow—Part II\nModule 4: In-memory workflows in R with Arrow\n\n\n\n\n🔗 pos.it/arrow-conf23"
   },
   {
     "objectID": "materials/0_housekeeping.html#section",
@@ -1096,7 +1096,7 @@
     "href": "materials/0_housekeeping.html#we-assume",
     "title": "Big Data in R with Arrow",
     "section": "We Assume",
-    "text": "We Assume\n\nYou know \nYou are familiar with the dplyr package for data manipulation \nYou have data in your life that is too large to fit into memory or sluggish in memory\nYou want to learn how to engineer your data storage for more performant access and analysis\n\n\n\n\n🔗 posit.io/arrow"
+    "text": "We Assume\n\nYou know \nYou are familiar with the dplyr package for data manipulation \nYou have data in your life that is too large to fit into memory or sluggish in memory\nYou want to learn how to engineer your data storage for more performant access and analysis\n\n\n\n\n🔗 pos.it/arrow-conf23"
   },
   {
     "objectID": "index.html",
@@ -1166,7 +1166,7 @@
     "href": "materials/6_wrapping_up.html#arrow-r-together-arrow",
     "title": "Big Data in R with Arrow",
     "section": "Arrow + R Together: {arrow}",
-    "text": "Arrow + R Together: {arrow}\n\narrow_r_together\n\n\n\n\n\n\n\n🔗 posit.io/arrow"
+    "text": "Arrow + R Together: {arrow}\n\narrow_r_together\n\n\n\n\n\n\n\n🔗 pos.it/arrow-conf23"
   },
   {
     "objectID": "materials/8_closing.html#feedback",
@@ -1187,6 +1187,6 @@
     "href": "materials/8_closing.html#grab-a-sticker",
     "title": "Big Data in R with Arrow",
     "section": "Grab a sticker!",
-    "text": "Grab a sticker!\n\n\n\ngrab a hex sticker before you go!\n\n\n\n\n🔗 posit.io/arrow"
+    "text": "Grab a sticker!\n\n\n\ngrab a hex sticker before you go!\n\n\n\n\n🔗 pos.it/arrow-conf23"
   }
 ]

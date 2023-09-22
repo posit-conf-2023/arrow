@@ -612,12 +612,12 @@ $pct_shared &lt;double&gt;</code></pre>
 <pre><code># A tibble: 6 × 2
   fare_amount fare_pounds
         &lt;dbl&gt;       &lt;dbl&gt;
-1         8          6.32
-2        17         13.4 
-3         6.5        5.14
-4         7          5.53
-5         6.5        5.14
-6        42         33.2 </code></pre>
+1        16.5       13.0 
+2        21.5       17.0 
+3         5          3.95
+4        10.5        8.30
+5        11          8.69
+6         5.5        4.35</code></pre>
 </div>
 </div>
 </section>
@@ -674,12 +674,12 @@ See $.data for the source Arrow object</code></pre>
 <pre><code># A tibble: 6 × 8
   fare_amount tip_amount tolls_amount total_amount fare_amount_pounds
         &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;              &lt;dbl&gt;
-1        29.7       6.04            0        36.2               23.5 
-2         9.3       0               0         9.8                7.35
-3         4.1       1.38            0         5.98               3.24
-4         4.5       1               0         6                  3.56
-5         4.5       0               0         5.5                3.56
-6         4.1       0               0         5.6                3.24
+1         6.1       2               0          8.6               4.82
+2         5.3       0               0          5.8               4.19
+3         9.7       2               0         12.2               7.66
+4         8.1       0               0          8.6               6.40
+5         5.7       2               0          8.2               4.50
+6        24.5       6.37            0         31.9              19.4 
 # ℹ 3 more variables: tip_amount_pounds &lt;dbl&gt;, tolls_amount_pounds &lt;dbl&gt;,
 #   total_amount_pounds &lt;dbl&gt;</code></pre>
 </div>
@@ -748,9 +748,9 @@ See $.data for the source Arrow object</code></pre>
 <pre><code># A tibble: 3 × 3
   pickup_datetime      year trip_distance
   &lt;dttm&gt;              &lt;int&gt;         &lt;dbl&gt;
-1 2021-01-03 03:01:26  2021          216.
-2 2021-01-03 05:36:52  2021          268.
-3 2021-01-06 01:27:55  2021          271.</code></pre>
+1 2021-10-02 09:04:53  2021          188.
+2 2021-11-01 06:14:03  2021          381.
+3 2021-12-01 11:48:04  2021          110.</code></pre>
 </div>
 </div>
 </section>
@@ -834,8 +834,8 @@ See $.data for the source Arrow object</code></pre>
 # Groups:   time_of_day [2]
   time_of_day         n
   &lt;chr&gt;           &lt;int&gt;
-1 afternoon   736491676
-2 morning     413860990</code></pre>
+1 morning     413860990
+2 afternoon   736491676</code></pre>
 </div>
 </div>
 </section>
@@ -891,12 +891,12 @@ Call collect() first to pull data into R.</code></pre>
 <pre><code># A tibble: 6 × 24
   vendor_name pickup_datetime     dropoff_datetime    passenger_count
   &lt;chr&gt;       &lt;dttm&gt;              &lt;dttm&gt;                        &lt;int&gt;
-1 &lt;NA&gt;        2012-01-20 08:09:36 2012-01-20 08:42:25               1
-2 &lt;NA&gt;        2012-01-20 08:54:10 2012-01-20 09:06:55               1
-3 &lt;NA&gt;        2012-01-20 02:08:01 2012-01-20 02:11:02               1
-4 &lt;NA&gt;        2012-01-20 02:36:22 2012-01-20 02:39:44               1
-5 &lt;NA&gt;        2012-01-20 14:58:32 2012-01-20 15:03:04               1
-6 &lt;NA&gt;        2012-01-20 13:40:20 2012-01-20 13:43:43               2
+1 &lt;NA&gt;        2012-01-20 04:32:03 2012-01-20 04:37:47               1
+2 &lt;NA&gt;        2012-01-20 04:33:16 2012-01-20 04:39:24               2
+3 &lt;NA&gt;        2012-01-20 04:32:38 2012-01-20 04:48:12               1
+4 &lt;NA&gt;        2012-01-20 04:31:23 2012-01-20 04:43:28               1
+5 &lt;NA&gt;        2012-01-20 04:32:38 2012-01-20 04:39:41               1
+6 &lt;NA&gt;        2012-01-11 21:44:00 2012-01-11 22:15:00               2
 # ℹ 20 more variables: trip_distance &lt;dbl&gt;, pickup_longitude &lt;dbl&gt;,
 #   pickup_latitude &lt;dbl&gt;, rate_code &lt;chr&gt;, store_and_fwd &lt;chr&gt;,
 #   dropoff_longitude &lt;dbl&gt;, dropoff_latitude &lt;dbl&gt;, payment_type &lt;chr&gt;,
@@ -932,7 +932,7 @@ Call collect() first to pull data into R.</code></pre>
 
 
 <img src="images/logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
-<p><a href="https://posit-conf-2023.github.io/arrow">🔗 posit.io/arrow</a></p>
+<p><a href="https://pos.it/arrow-conf23">🔗 pos.it/arrow-conf23</a></p>
 </div>
 </section></section>
     </div>
